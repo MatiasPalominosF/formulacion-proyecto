@@ -1,0 +1,49 @@
+<div class="app-content content">
+    <div class="content-wrapper">
+        <div class="content-header row mb-1">
+            <app-breadcrumb class="col-12" [breadcrumb]="breadcrumb"></app-breadcrumb>
+        </div>
+        <div class="content-body">
+            <div class="row">
+                <div class="col-sm-12" *blockUI="'basicTables'; message: 'Loading'">
+                    <div class="card">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Gestión de stock</h4>
+                            </div>
+                            <div class="row justify-content-between">
+                                <div class="col-4">
+                                    <form>
+                                        <div class="ml-2 form-group form-inline">
+                                            Buscar: <input class="form-control ml-2" type="text" />
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-4 col-sm-3 col-lg-4">
+                                    <button class="btn btn-primary btn-min-width mr-1 mb-1"><i class="la la-plus"></i>
+                                        Agregar stock</button>
+                                </div>
+                            </div>
+                            <div class="table-responsive card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">RUT</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">{{ 1 }}</th>
+                                            <td>Mark</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,212 @@
+<div class="app-content content">
+  <div class="content-wrapper">
+    <div class="content-header row mb-1">
+    </div>
+    <div class="content-body">
+      <div id="user-profile">
+        <div class="row">
+          <div class="col-12">
+            <div class="card profile-with-cover">
+              <div class="card-img-top img-fluid bg-cover height-300"
+                style="background: url('../../../assets/images/carousel/32.gif') 90%;"></div>
+              <div class="media profil-cover-details w-100">
+                <div class="media-left pl-2 pt-2">
+                  <a [routerLink]="" class="profile-image">
+                    <img *ngIf="currentUser.photoURL" src="{{currentUser.photoURL}}"
+                      class="rounded-circle img-border height-100" alt="Card image">
+                    <img *ngIf="!currentUser.photoURL" src="../../../assets/images/portrait/small/avatar-s-19.png"
+                      class="rounded-circle img-border height-100" alt="Card image">
+                  </a>
+                </div>
+                <div class="media-body pt-3 px-2">
+                  <div class="row">
+                    <div class="col">
+                      <h3 class="card-title">{{currentUser.displayName}}</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <nav class="navbar navbar-light navbar-profile align-self-end">
+                <button class="navbar-toggler d-sm-none" type="button" data-toggle="collapse" aria-expanded="false"
+                  aria-label="Toggle navigation"></button>
+                <nav class="navbar navbar-expand-lg">
+                  <ul class="navbar-nav mr-auto">
+                    <ngb-tabset type="pills" [justify]="end">
+
+                    </ngb-tabset>
+                  </ul>
+                  <br>
+                  <br>
+                </nav>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <!-- Form wizard with step validation section start -->
+        <section id="validation">
+          <div class="row justify-content-center">
+            <div class="col-10">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Formulario de edición</h4>
+                </div>
+                <div class="card-content collapse show">
+                  <div class="card-body">
+                    <div class="card-block">
+                        <aw-wizard #wizard navBarLayout="large-filled-symbols">
+                          <aw-wizard-step [stepTitle]="'Usuario'" [navigationSymbol]="{ symbol: '1'}">
+                            <form [formGroup]="stepOneForm">
+                              <div class="row">
+                                <div class='col-md-6'>
+                                  <div class="form-group">
+                                    <label class="form-control-label" for="firstname">Nombre
+                                      : </label>
+                                    <input class="form-control" type="text" formControlName="firstName"
+                                      [ngClass]="{ 'is-invalid': f.firstName.errors }" />
+                                    <small class="form-text text-muted danger" *ngIf="f.firstName.errors"
+                                      class="invalid-feedback">
+                                      <div
+                                        *ngIf="f.firstName.errors.required && (f.firstName.dirty || f.firstName.touched)">
+                                        El nombre es requerido</div>
+                                    </small>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="form-control-label" for="email">Email
+                                      :</label>
+                                    <input class="form-control" readonly type="text" formControlName="email"
+                                      [ngClass]="{ 'is-invalid': f.email.errors }" />
+                                    <small class="form-text text-muted danger" *ngIf="f.email.errors"
+                                      class="invalid-feedback">
+                                      <div *ngIf="f.email.errors.required && (f.email.dirty || f.email.touched)">
+                                        El Email es requerido</div>
+                                      <div *ngIf="f.email.errors.email && (f.email.dirty || f.email.touched)">
+                                        El Email debe ser válido</div>
+                                    </small>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="form-control-label" for="phone">Celular
+                                      :</label>
+                                    <input class="form-control" type="number" formControlName="phone"
+                                      [ngClass]="{ 'is-invalid': f.phone.errors }" />
+                                    <small class="form-text text-muted danger" *ngIf="f.phone.errors"
+                                      class="invalid-feedback">
+                                      <div *ngIf="f.phone.errors.required && (f.phone.dirty || f.phone.touched)">
+                                        El celular es requerido</div>
+                                    </small>
+                                  </div>
+                                </div>
+                                <div class='col-md-6'>
+                                  <div class="form-group">
+                                    <label class="form-control-label" for="lastname">Apellido :</label>
+                                    <input class="form-control" type="text" formControlName="lastName"
+                                      [ngClass]="{ 'is-invalid': f.lastName.errors }" />
+                                    <small class="form-text text-muted danger" *ngIf="f.lastName.errors"
+                                      class="invalid-feedback">
+                                      <div
+                                        *ngIf="f.lastName.errors.required && (f.lastName.dirty || f.lastName.touched)">
+                                        El apellido es requerido</div>
+                                    </small>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="form-control-label" for="password">Contraseña :</label>
+                                    <input class="form-control" type="password" formControlName="password" readonly />
+
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="form-control-label" for="birthDate3">Fecha
+                                      de nacimiento :</label>
+                                    <div class="input-group">
+                                      <input class="form-control" formControlName="birthDate3" placeholder="dd-mm-yyyy"
+                                        name="dp" ngbDatepicker #d4="ngbDatepicker">
+                                      <div class="input-group-append">
+                                        <div class="input-group-text" (click)="d4.toggle()">
+                                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="form-group text-center space-20">
+                                <button uiSref="address" type="button" class="btn btn-raised btn-info"
+                                  [disabled]="!stepOneForm.valid" awNextStep>
+                                  Siguiente
+                                  <span style="margin-left:10px;">
+                                    <i class="feather ft-chevron-right"></i>
+                                  </span>
+                                </button>
+                              </div>
+                            </form>
+                          </aw-wizard-step>
+                          <aw-wizard-step [stepTitle]="'Pastelería'" [navigationSymbol]="{ symbol: '2'}">
+                            <form [formGroup]="stepTwoForm">
+                              <div class="row">
+                                <div class='col-md-6'>
+                                  <div class="form-group">
+                                    <label class="form-control-label" for="cake">Nombre
+                                      pastelería :</label>
+                                    <input class="form-control" type="text" formControlName="cakeName"
+                                      [ngClass]="{ 'is-invalid': i.cakeName.errors && submitted}" />
+                                    <small class="form-text text-muted danger" *ngIf="i.cakeName.errors && submitted"
+                                      class="invalid-feedback">
+                                      <div
+                                        *ngIf="i.cakeName.errors.required && submitted && (i.cakeName.dirty || i.cakeName.touched)">
+                                        Nombre de pastelería requerido</div>
+                                    </small>
+                                  </div>
+                                </div>
+                                <div class='col-md-6'>
+                                  <div class="form-group">
+                                    <label class="form-control-label" for="email2">Giro
+                                      :</label>
+                                    <input class="form-control" type="text" formControlName="giro"
+                                      [ngClass]="{ 'is-invalid': i.giro.errors && submitted }" />
+                                    <small class="form-text text-muted danger" *ngIf="i.giro.errors && submitted"
+                                      class="invalid-feedback">
+                                      <div
+                                        *ngIf="i.giro.errors.required && submitted && (i.giro.dirty || i.giro.touched)">
+                                        El giro es requerido</div>
+                                    </small>
+                                  </div>
+                                </div>
+                                <div class='col-md-12'>
+                                  <div class="form-group">
+                                    <label class="form-control-label" for="address">Dirección pastelería :</label>
+                                    <textarea class="form-control" type="text" formControlName="address"
+                                      [ngClass]="{ 'is-invalid': i.address.errors && submitted }" rows="3"></textarea>
+                                    <small class="form-text text-muted danger" *ngIf="i.address.errors && submitted"
+                                      class="invalid-feedback">
+                                      <div
+                                        *ngIf="i.address.errors.required && submitted && (i.address.dirty || i.address.touched)">
+                                        La dirección es requerida</div>
+                                    </small>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="form-group text-center space-20">
+                                <button uiSref="personal" type="button" class="btn btn-raised btn-secondary mr-1"
+                                  awPreviousStep>
+                                  <span style="margin-right:10px;">
+                                    <i class="feather ft-chevron-left"></i>
+                                  </span> Anterior</button>
+                                <button uiSref="address" (click)="onSaveUser()" [disabled]="!stepTwoForm.valid" type="submit"
+                                  class="btn btn-outline-info">
+                                  <i class="fa fa-refresh fa-spin" *ngIf="submitted"></i>
+                                  <i class="feather ft-user" *ngIf="!submitted"></i>
+                                  Actualizar
+                                </button>
+                              </div>
+                            </form>
+                          </aw-wizard-step>
+                        </aw-wizard>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
