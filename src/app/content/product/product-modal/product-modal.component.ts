@@ -110,7 +110,7 @@ export class ProductModalComponent implements OnInit {
     if (!isNaN(bruto)) {
       this.productInfo.get("bruto").setValue(bruto);
     } else {
-      this.productInfo.get("bruto").setValue(0);
+      this.productInfo.get("bruto").setValue("");
     }
   }
 
@@ -133,7 +133,7 @@ export class ProductModalComponent implements OnInit {
       var total = Math.round(this.productInfo.get("bruto").value * e);
       this.productInfo.get("total").setValue(total);
     } else {
-      this.productInfo.get("total").setValue(0);
+      this.productInfo.get("total").setValue("");
     }
 
   }
