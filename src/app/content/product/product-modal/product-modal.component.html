@@ -7,7 +7,7 @@
     </button>
 </div>
 <div class="modal-body">
-    <form [formGroup]="productInfo" (ngSubmit)="onProjectInfoSubmit()">
+    <form [formGroup]="productInfo" (ngSubmit)="onProductInfoSubmit()">
         <div class="form-body">
             <h4 class="form-section"><i class="la la-eye"></i> Acerca del producto</h4>
             <div class="row">
@@ -28,7 +28,13 @@
                         <label for="measure">Unidad de medida *</label>
                         <select id="measure" class="form-control border-primary" formControlName="measure"
                             [ngClass]="{ 'is-invalid': submitted && f.measure.errors }">
-                            <option *ngFor="let range of budget" [value]="range">{{range}}</option>
+                            <option disabled selected>Selecciona una opción</option>
+                            <option value="kg">Kilogramos</option>
+                            <option value="g">Gramos</option>
+                            <option value="lt">Litros</option>
+                            <option value="cc">Centímetros cúbicos</option>
+                            <option value="ml">Mililitros</option>
+                            <option value="un">Unidad</option>
                         </select>
                         <small class="form-text text-muted danger" *ngIf="submitted && f.measure.errors"
                             class="invalid-feedback">
@@ -43,8 +49,9 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="neto">Neto *</label>
-                        <input formControlName="neto" type="text" id="neto" class="form-control border-primary"
-                            placeholder="Precio neto producto" [ngClass]="{ 'is-invalid': submitted && f.neto.errors }">
+                        <input (ngModelChange)="modelChanged1($event)" formControlName="neto" type="text" id="neto"
+                            class="form-control border-primary" placeholder="Precio neto producto"
+                            [ngClass]="{ 'is-invalid': submitted && f.neto.errors }">
                         <small class="form-text text-muted danger" *ngIf="submitted && f.neto.errors"
                             class="invalid-feedback">
                             <div *ngIf=" f.neto.errors.required">
@@ -55,7 +62,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="iva">IVA</label>
-                        <input formControlName="iva" type="text" id="iva" class="form-control border-primary"
+                        <input readonly formControlName="iva" type="text" id="iva" class="form-control border-primary"
                             placeholder="IVA del producto" [ngClass]="{ 'is-invalid': submitted && f.iva.errors }">
                         <small class="form-text text-muted danger" *ngIf="submitted && f.iva.errors"
                             class="invalid-feedback">
@@ -66,21 +73,10 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="margen">Margen de ganacia</label>
-                        <input formControlName="margen" type="text" id="margen" class="form-control border-primary"
-                            placeholder="Margen de ganacia" [ngClass]="{ 'is-invalid': submitted && f.margen.errors }">
-                        <small class="form-text text-muted danger" *ngIf="submitted && f.margen.errors"
-                            class="invalid-feedback">
-                            <div *ngIf=" f.margen.errors.required">
-                                El margen de ganacia es requerido.</div>
-                        </small>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
                         <label for="bruto">Bruto</label>
-                        <input formControlName="bruto" type="text" id="bruto" class="form-control border-primary"
-                            placeholder="Precio bruto" [ngClass]="{ 'is-invalid': submitted && f.bruto.errors }">
+                        <input readonly formControlName="bruto" type="text" id="bruto"
+                            class="form-control border-primary" placeholder="Precio bruto"
+                            [ngClass]="{ 'is-invalid': submitted && f.bruto.errors }">
                         <small class="form-text text-muted danger" *ngIf="submitted && f.bruto.errors"
                             class="invalid-feedback">
                             <div *ngIf=" f.bruto.errors.required">
@@ -90,9 +86,23 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label for="margen">Margen de ganacia</label>
+                        <input (change)="somethingChanged2($event.target.value)" formControlName="margen" type="text"
+                            id="margen" class="form-control border-primary" placeholder="Margen de ganacia"
+                            [ngClass]="{ 'is-invalid': submitted && f.margen.errors }">
+                        <small class="form-text text-muted danger" *ngIf="submitted && f.margen.errors"
+                            class="invalid-feedback">
+                            <div *ngIf=" f.margen.errors.required">
+                                El margen de ganacia es requerido.</div>
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
                         <label for="total">Precio venta</label>
-                        <input formControlName="total" type="text" id="total" class="form-control border-primary"
-                            placeholder="Precio venta" [ngClass]="{ 'is-invalid': submitted && f.total.errors }">
+                        <input (change)="somethingChanged($event.target.value)" formControlName="total" type="text"
+                            id="total" class="form-control border-primary" placeholder="Precio venta"
+                            [ngClass]="{ 'is-invalid': submitted && f.total.errors }">
                         <small class="form-text text-muted danger" *ngIf="submitted && f.total.errors"
                             class="invalid-feedback">
                             <div *ngIf=" f.total.errors.required">
@@ -129,29 +139,77 @@
                     <div class="form-group">
                         <label>¿Es materia prima?</label>
                         <div class="input-group">
-                            <div class="d-inline-block custom-control custom-radio mr-1">
-                                <input type="radio" class="custom-control-input" value="yes" id="yes"
-                                    formControlName="ismaterial">
-                                <label class="custom-control-label" for="yes">Sí</label>
-                            </div>
                             <div class="d-inline-block custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" selected value="no" id="no"
-                                    formControlName="ismaterial">
-                                <label class="custom-control-label" for="no">No</label>
+                                <input type="radio" name="ismaterial" class="custom-control-input" value="yes"
+                                    id="ismaterialradio1" formControlName="ismaterial"
+                                    [ngClass]="{ 'is-invalid': submitted && f.ismaterial.errors }">
+                                <label class="custom-control-label" for="ismaterialradio1">Sí</label>
+                            </div>
+                            <div class="d-inline-block custom-control custom-radio ml-1">
+                                <input type="radio" name="ismaterial" class="custom-control-input" checked value="no"
+                                    id="ismaterialradio2" formControlName="ismaterial"
+                                    [ngClass]="{ 'is-invalid': submitted && f.ismaterial.errors }">
+                                <label class="custom-control-label" for="ismaterialradio2">No</label>
+                            </div>
+                        </div>
+                        <small class="form-text text-muted danger" *ngIf="submitted && f.ismaterial.errors"
+                            class="invalid-feedback">
+                            <div *ngIf=" f.ismaterial.errors.required">
+                                La materia prima es requerido.</div>
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row justify-content-center">
+                        <div class="form-group">
+                            <label>¿Añadir ingredientes?</label>
+                            <div class="input-group">
+                                <div>
+                                    <div class="custom-control custom-radio">
+                                        <input (change)="showcontent($event.target.value)" value="yes" type="radio"
+                                            class="custom-control-input" name="customRadio" id="customRadio1">
+                                        <label class="custom-control-label" for="customRadio1">Sí</label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="ml-1 custom-control custom-radio">
+                                        <input (change)="showcontent($event.target.value)" value="no" type="radio"
+                                            class="custom-control-input" name="customRadio" id="customRadio2" checked>
+                                        <label class="custom-control-label" for="customRadio2">No</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="form-group col-12 mb-2 contact-repeater">
-                    <div class="" formArrayName="arrayIngredients">
-                        <div class="" *ngFor="let userForm of userFormGroup.controls; let i = index;">
-                            <div [formGroupName]="i" class="">
-                                <div class="input-group mb-1">
-                                    <select name="ingredients" class="form-control" formControlName="ingredients">
-                                        <option *ngFor="let interest of hobby" [value]="interest">{{interest}}</option>
-                                    </select>
-                                    <button class="btn btn-danger" type="button" (click)="removePhone(i)"><i
-                                            class="feather ft-x"></i></button>
+                <div class="col-md-12 mb-2" id="showaddingredients" style="display: none;"
+                    formArrayName="arrayIngredients">
+                    <div class="" *ngFor="let userForm of userFormGroup.controls; let i = index;">
+                        <div [formGroupName]="i" class="">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="measure">Producto *</label>
+                                        <div class="input-group mb-1">
+                                            <select name="ingredients" class="form-control"
+                                                formControlName="ingredients">
+                                                <option disabled selected>Selecciona una opción</option>
+                                                <option *ngFor="let interest of hobby" [value]="interest">{{interest}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="measure">Cantidad *</label>
+                                        <div class="input-group mb-1">
+                                            <input type="text" formControlName="quantity" class="form-control"
+                                                id="quantity" placeholder="Ingrese cantidad">
+                                            <button class="btn btn-danger" type="button" (click)="removePhone(i)"><i
+                                                    class="feather ft-x"></i></button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -160,7 +218,6 @@
                         <i class="feather ft-plus"></i> Agregar receta
                     </button>
                 </div>
-
             </div>
         </div>
         <div class="modal-footer">

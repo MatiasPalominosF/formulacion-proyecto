@@ -110,6 +110,7 @@ export class ProductListComponent implements OnInit {
 
   onAddProduct() {
     const modalRef = this.modalService.open(ProductModalComponent, { windowClass: 'animated fadeInDown', scrollable: true });
+    modalRef.componentInstance.opc = false;
     modalRef.result.then((result) => {
       console.log("resultado del modal: ", result);
       /*if (result) {
