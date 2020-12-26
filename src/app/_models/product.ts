@@ -9,5 +9,5 @@ export interface ProductInterface {
     margen?: string;
     minimun?: string;
     ismaterial?: boolean;
-    ingredients?: {};
+    ingredients?: [];
 }
