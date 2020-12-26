@@ -170,8 +170,8 @@
                     <div class="row justify-content-center">
                         <div class="form-group">
                             <label>¿Añadir ingredientes?</label>
-                            <div *ngIf="this.productService.selectedProduct.ingredients">
-                                <div *ngIf="this.productService.selectedProduct.ingredients.length>0; else elseBlock">
+                            <div *ngIf="this.productService.selectedProduct.ingredients; else elseBlock">
+                                <div *ngIf="this.productService.selectedProduct.ingredients.length>0">
                                     <div class="input-group">
                                         <div>
                                             <div class="custom-control custom-radio">
@@ -191,27 +191,26 @@
                                         </div>
                                     </div>
                                 </div>
-                                <ng-template #elseBlock>
-                                    <div class="input-group">
-                                        <div>
-                                            <div class="custom-control custom-radio">
-                                                <input (change)="showcontent($event.target.value)" value="yes"
-                                                    type="radio" class="custom-control-input" name="customRadio"
-                                                    id="customRadio1">
-                                                <label class="custom-control-label" for="customRadio1">Sí</label>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="ml-1 custom-control custom-radio">
-                                                <input (change)="showcontent($event.target.value)" value="no"
-                                                    type="radio" class="custom-control-input" name="customRadio"
-                                                    id="customRadio2" checked>
-                                                <label class="custom-control-label" for="customRadio2">No</label>
-                                            </div>
+                            </div>
+                            <ng-template #elseBlock>
+                                <div class="input-group">
+                                    <div>
+                                        <div class="custom-control custom-radio">
+                                            <input (change)="showcontent($event.target.value)" value="yes" type="radio"
+                                                class="custom-control-input" name="customRadio" id="customRadio1">
+                                            <label class="custom-control-label" for="customRadio1">Sí</label>
                                         </div>
                                     </div>
-                                </ng-template>
-                            </div>
+                                    <div>
+                                        <div class="ml-1 custom-control custom-radio">
+                                            <input (change)="showcontent($event.target.value)" value="no" type="radio"
+                                                class="custom-control-input" name="customRadio" id="customRadio2"
+                                                checked>
+                                            <label class="custom-control-label" for="customRadio2">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
                         </div>
                     </div>
                 </div>
