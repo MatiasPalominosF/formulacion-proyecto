@@ -13,6 +13,7 @@ export class ProductService {
   private workerCollection: AngularFirestoreCollection<ProductInterface>;
   private products: Observable<ProductInterface[]>;
   private productDoc: AngularFirestoreDocument<ProductInterface>;
+  public selectedProduct: ProductInterface = {};
   constructor(
     public afs: AngularFirestore
   ) {
@@ -52,8 +53,9 @@ export class ProductService {
     this.afs.collection('product').doc(`${idBoss}`).collection('productInfo').add(producto);
   }
 
-  updateProduct(producto: ProductInterface, idBoss: string) {
-    let idProduct = producto.id;
+  updateProduct(producto: ProductInterface, idProduct: string, idBoss: string) {
+    //console.log(producto);
+    console.log("IDPRODUCT:", idProduct);
     this.productDoc = this.afs.collection('product').doc(`${idBoss}`).collection<ProductInterface>('productInfo').doc(`${idProduct}`);
     this.productDoc.update(producto);
   }

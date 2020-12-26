@@ -28,7 +28,8 @@
                                     </form>
                                 </div>
                                 <div class="col-4 col-sm-3 col-lg-4">
-                                    <button (click)="onAddProduct()" class="btn btn-primary btn-min-width mr-1 mb-1"><i class="la la-plus"></i>
+                                    <button (click)="onAddProduct()" class="btn btn-primary btn-min-width mr-1 mb-1"><i
+                                            class="la la-plus"></i>
                                         Agregar producto</button>
                                 </div>
                             </div>
@@ -40,8 +41,8 @@
                                             <th scope="col">Nombre</th>
                                             <th scope="col">Ganancia (%)</th>
                                             <th scope="col">Precio venta ($)</th>
-                                            <th scope="col">Stock (cantidad)</th>
-                                            <th scope="col">Stock crítico (cantidad)</th>
+                                            <th scope="col">Stock</th>
+                                            <th scope="col">Stock crítico</th>
                                             <th scope="col">Acciones</th>
                                         </tr>
                                     </thead>
@@ -69,7 +70,8 @@
                                                 </ngb-highlight>
                                             </td>
                                             <td>
-                                                <button class="btn btn-xs btn-social-icon mr-1 mb-1 btn-instagram"><span
+                                                <button (click)="onUpdateProduct(element)"
+                                                    class="btn btn-xs btn-social-icon mr-1 mb-1 btn-instagram"><span
                                                         class="la la-pencil"></span></button>
                                                 <button (click)="onDeleteProduct(element.id)"
                                                     class="btn btn-xs btn-social-icon mr-1 mb-1 btn-pinterest"><span

@@ -27,7 +27,7 @@ export class ProductModalComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
-    private productService: ProductService,
+    public productService: ProductService,
     @Inject(DOCUMENT) document
   ) { }
 
@@ -181,13 +181,13 @@ export class ProductModalComponent implements OnInit {
       this.activeModal.close(true);
     } else {
       // Se edita un usuario.
-      this.productService.updateProduct(this.fValue, this.currentUser.uid);
+      this.productService.updateProduct(this.fValue, this.productService.selectedProduct.id, this.currentUser.uid);
       this.passEntry.emit(false);
       this.activeModal.close(false);
     }
-
     this.productInfo.reset();
-
   }
+
+
 
 }

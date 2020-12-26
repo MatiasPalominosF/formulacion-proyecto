@@ -95,7 +95,7 @@ export class ProductListComponent implements OnInit {
 
   }
 
-  
+
   getFullInfoProduct() {
     this.loading = true;
     this.productService.getFullInfoProduct(this.currentUser.uid).subscribe(product => {
@@ -110,6 +110,7 @@ export class ProductListComponent implements OnInit {
   }
 
   onAddProduct() {
+    this.productService.selectedProduct = Object.assign({}, {});
     const modalRef = this.modalService.open(ProductModalComponent, { windowClass: 'animated fadeInDown', scrollable: true });
     modalRef.componentInstance.opc = false;
     modalRef.result.then((result) => {
@@ -134,6 +135,21 @@ export class ProductListComponent implements OnInit {
     } else {
       return `with: ${reason}`;
     }
+  }
+
+  onUpdateProduct(product: ProductInterface) {
+    console.log("PRODUCT: ", product);
+    this.productService.selectedProduct = Object.assign({}, product);
+    const modalRef = this.modalService.open(ProductModalComponent, { windowClass: 'animated fadeInDown' });
+    modalRef.componentInstance.opc = true;
+    modalRef.result.then((result) => {
+      if (!result) {
+        this.notifyService.showSuccess("Editar", "¡El producto se editó correctamente!");
+      }
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      console.log(this.closeResult);
+    });
   }
 
   onDeleteProduct(idProduct: string): void {
