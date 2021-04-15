@@ -51,6 +51,7 @@ export class ProductModalComponent implements OnInit {
     this.ingredientList = this.productInfo.get('ingredients') as FormArray;
     console.log("opción:", this.opc);
     this.getIngredients();
+    this.prueba();
   }
   get userFormGroup() {
     return this.productInfo.get('ingredients') as FormArray;
@@ -65,12 +66,20 @@ export class ProductModalComponent implements OnInit {
   }
 
   getIngredients() {
-    this.productService.getMaterial2(this.currentUser.uid).subscribe(datos => {
+    this.productService.getMaterial(this.currentUser.uid).subscribe(datos => {
       console.log("Ahora viene esto:", datos);
       this.ingredientes = datos;
     });
   }
 
+  prueba() {
+    this.productService.getMaterialById(this.currentUser.uid, this.productService.selectedProduct.id).subscribe(
+      datos => {
+        console.log("PRODUTO DATOS: ", datos);
+      }
+    );
+
+  }
   createIngredients(): FormGroup {
     return this.formBuilder.group({
       idIngredients: [''],
