@@ -73,7 +73,7 @@ export class ProductModalComponent implements OnInit {
   }
 
   prueba() {
-    this.productService.getMaterialById(this.currentUser.uid, this.productService.selectedProduct.id).subscribe(
+    this.productService.getProductById(this.currentUser.uid, this.productService.selectedProduct.id).subscribe(
       datos => {
         console.log("PRODUTO DATOS: ", datos);
       }

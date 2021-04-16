@@ -45,7 +45,7 @@ export class ProductService {
       }));
   }
 
-  getMaterialById(uidBoss: string, idProduct: string) {
+  getProductById(uidBoss: string, idProduct: string) {
     this.productDoc = this.afs.doc<ProductInterface>(`product/${uidBoss}/productInfo/${idProduct}`);
     return this.product = this.productDoc.snapshotChanges().pipe(map(action => {
       if (action.payload.exists === false) {
