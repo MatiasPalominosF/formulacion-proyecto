@@ -30,12 +30,13 @@
                         <select id="measure" class="form-control border-primary" formControlName="measure"
                             [ngClass]="{ 'is-invalid': submitted && f.measure.errors }">
                             <option disabled selected>Selecciona una opción</option>
-                            <option value="kg">Kilogramos</option>
+                            <option *ngFor='let measure of measures' [value]="measure.id"> {{measure.name}}</option>
+                            <!--option value="kg">Kilogramos</option>
                             <option value="g">Gramos</option>
                             <option value="lt">Litros</option>
                             <option value="cc">Centímetros cúbicos</option>
                             <option value="ml">Mililitros</option>
-                            <option value="un">Unidad</option>
+                            <option value="un">Unidad</option-->
                         </select>
                         <small class="form-text text-muted danger" *ngIf="submitted && f.measure.errors"
                             class="invalid-feedback">

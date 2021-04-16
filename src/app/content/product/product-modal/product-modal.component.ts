@@ -20,6 +20,14 @@ export class ProductModalComponent implements OnInit {
   submitted = false;
   public ingredientList: FormArray;
   ingredientes: ProductInterface[];
+  measures = [
+    { name: "Kilogramos", id: 1 },
+    { name: "Gramos", id: 2 },
+    { name: "Litros", id: 3 },
+    { name: "Centimetros cúbicos", id: 4 },
+    { name: "Mililitros", id: 5 },
+    { name: "Unidad", id: 6 }
+  ]
   budget = ['less than 5000$', '5000$ - 10000$', '10000$ - 20000$', 'more than 20000$'];
   hobby = ['design', 'development', 'illustration', 'branding', 'video'];
   private currentUser: any;
