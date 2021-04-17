@@ -6,6 +6,7 @@ export interface ProductInterface {
     neto?: string;
     iva?: string;
     bruto?: string;
+    measure?: string;
     margen?: string;
     minimun?: string;
     ismaterial?: boolean;

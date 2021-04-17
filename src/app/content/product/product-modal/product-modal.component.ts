@@ -20,6 +20,7 @@ export class ProductModalComponent implements OnInit {
   submitted = false;
   public ingredientList: FormArray;
   ingredientes: ProductInterface[];
+  measureName;
   measures = [
     { name: "Kilogramos", id: 1 },
     { name: "Gramos", id: 2 },
@@ -64,7 +65,9 @@ export class ProductModalComponent implements OnInit {
     this.ingredientList = this.productInfo.get('ingredients') as FormArray;
     console.log("opción:", this.opc);
     this.getIngredients();
+    this.setMeaure(1);
     this.setValueInIngredients();
+    this.cargarDatos();
     /*console.log("this.productService.selectedProduct.ismaterial", this.productService.selectedProduct.ismaterial);
     if (this.productService.selectedProduct.ismaterial != undefined) {
       console.log("ACA!");
@@ -83,9 +86,74 @@ export class ProductModalComponent implements OnInit {
     return this.productInfo.value;
   }
 
+  cargarDatos() {
+    console.log("this.productService.selectedProduct", this.productService.selectedProduct);
+    if (this.productService.selectedProduct != undefined && this.productService.selectedProduct != null && this.productService.selectedProduct != "") {
+      console.log("ENTRO AL SIII");
+      console.log("this.productService.selectedProduct.ismaterial", this.productService.selectedProduct.ismaterial);
+      //SE VERIFICA SI ES MATERIA PRIMA O NO EN EL PRIMER IF Y EL ELSE.
+      if (this.productService.selectedProduct.ismaterial) {
+
+        this.productInfo.patchValue({
+          ismaterial: "yes"
+        })
+      }
+      else {
+        console.log("ENTRO AL ELSE");
+        this.productInfo.patchValue({
+          ismaterial: "no"
+        })
+      }
+      console.log("this.productService.selectedProduct.measure", this.productService.selectedProduct.measure);
+      this.productInfo.patchValue({
+        measure: this.productService.selectedProduct.measure
+      })
+
+      this.setMeaure(2);
+
+    }
+    else {
+      console.log("ENTRO AL NOOOO");
+      this.productInfo.patchValue({
+        ismaterial: "no"
+      })
+    }
+  }
+
+  setMeaure(opc: any) {
+
+    if (opc == 1) {
+
+    } else {
+      console.log("this.productService.selectedProduct.measure", this.productService.selectedProduct.measure);
+      switch (this.productService.selectedProduct.measure) {
+        case "1":
+          this.measureName = "Kg"
+          break;
+        case "2":
+          this.measureName = "Gr"
+          break;
+        case "3":
+          this.measureName = "L"
+          break;
+        case "4":
+          this.measureName = "Cc"
+          break;
+        case "5":
+          this.measureName = "Ml"
+          break;
+        case "6":
+          this.measureName = "Un"
+          break;
+        default:
+          console.log("Error!");
+      }
+    }
+
+  }
+
   setValueInIngredients() {
     var any;
-    console.log("this.productService.selectedProduct.ingredients", this.productService.selectedProduct.ingredients);
     if (this.productService.selectedProduct.ingredients != undefined && this.productService.selectedProduct.ingredients.length > 0 && this.productService.selectedProduct.ingredients != null) {
       document.getElementById("showaddingredients").style.display = "block";
       this.productService.selectedProduct.ingredients.forEach(element => {
@@ -201,10 +269,6 @@ export class ProductModalComponent implements OnInit {
   onProductInfoSubmit() {
     this.submitted = true;
 
-
-    console.log(this.fValue);
-    console.log(this.productInfo.get('ingredients'));
-
     if (this.productInfo.invalid) {
       return;
     }
@@ -216,7 +280,6 @@ export class ProductModalComponent implements OnInit {
     console.log("Value aceptado:", this.fValue);
 
     if (!this.opc) {
-
       this.fValue.ingredients.forEach(element => {
         element.quantity = element.quantity * this.fValue.stock;
       });
