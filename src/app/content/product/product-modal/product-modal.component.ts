@@ -28,6 +28,10 @@ export class ProductModalComponent implements OnInit {
     { name: "Mililitros", id: 5 },
     { name: "Unidad", id: 6 }
   ]
+  options = [
+    { id: "yes", value: true },
+    { id: "no", value: false }
+  ]
   budget = ['less than 5000$', '5000$ - 10000$', '10000$ - 20000$', 'more than 20000$'];
   hobby = ['design', 'development', 'illustration', 'branding', 'video'];
   private currentUser: any;
@@ -42,6 +46,7 @@ export class ProductModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.productInfo = this.formBuilder.group({
+      haveIngredient: false,
       name: ['', Validators.required],
       stock: ['', Validators.required],
       neto: ['', Validators.required],
@@ -59,6 +64,11 @@ export class ProductModalComponent implements OnInit {
     this.ingredientList = this.productInfo.get('ingredients') as FormArray;
     console.log("opción:", this.opc);
     this.getIngredients();
+    this.setValueInIngredients();
+    /*console.log("this.productService.selectedProduct.ismaterial", this.productService.selectedProduct.ismaterial);
+    if (this.productService.selectedProduct.ismaterial != undefined) {
+      console.log("ACA!");
+    }*/
     this.prueba();
   }
   get userFormGroup() {
@@ -71,6 +81,25 @@ export class ProductModalComponent implements OnInit {
 
   get fValue() {
     return this.productInfo.value;
+  }
+
+  setValueInIngredients() {
+    var any;
+    console.log("this.productService.selectedProduct.ingredients", this.productService.selectedProduct.ingredients);
+    if (this.productService.selectedProduct.ingredients != undefined && this.productService.selectedProduct.ingredients.length > 0 && this.productService.selectedProduct.ingredients != null) {
+      document.getElementById("showaddingredients").style.display = "block";
+      this.productService.selectedProduct.ingredients.forEach(element => {
+        any = element;
+        console.log(any.idIngredients);
+        console.log(any.quantity);
+        this.ingredientList.push(this.formBuilder.group({
+          idIngredients: any.idIngredients,
+          quantity: any.quantity
+        }))
+
+      });
+    }
+
   }
 
   getIngredients() {
@@ -86,13 +115,6 @@ export class ProductModalComponent implements OnInit {
         console.log("PRODUTO DATOS: ", datos);
       }
     );
-
-  }
-  createIngredients(): FormGroup {
-    return this.formBuilder.group({
-      idIngredients: [''],
-      quantity: ['']
-    });
   }
 
   setIvaBruto(value) {
@@ -155,6 +177,13 @@ export class ProductModalComponent implements OnInit {
     }
   }
 
+  createIngredients(): FormGroup {
+    return this.formBuilder.group({
+      idIngredients: [''],
+      quantity: ['']
+    });
+  }
+
   addPhone() {
     this.ingredientList.push(this.createIngredients());
   }
@@ -198,6 +227,7 @@ export class ProductModalComponent implements OnInit {
       this.activeModal.close(true);
     } else {
       // Se edita un usuario.
+      console.log("SE PRESIONA EDITAR...");
       this.productService.updateProduct(this.fValue, this.productService.selectedProduct.id, this.currentUser.uid);
       this.passEntry.emit(false);
       this.activeModal.close(false);
