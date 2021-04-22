@@ -399,6 +399,7 @@
                         name="idIngredients"
                         class="form-control"
                         formControlName="idIngredients"
+                        (ngModelChange)="onChangeObj($event)"
                       >
                         <option disabled selected>Selecciona una opción</option>
                         <option
@@ -413,7 +414,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="measure">Cantidad *</label>
+                    <label for="quantity">Cantidad *</label>
                     <div class="input-group mb-1">
                       <div class="input-group">
                         <input
@@ -425,9 +426,15 @@
                           aria-describedby="basic-addon2"
                         />
                         <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">{{
+                          <input
+                            class="input-group-text"
+                            formControlName="measure2"
+                            [value]="measureName"
+                          />
+                          <!--span class="input-group-text" id="basic-addon2" 
+                            [(ngModel)]="measureName">{{
                             measureName
-                          }}</span>
+                          }}</span-->
                         </div>
                         <button
                           class="btn btn-danger"

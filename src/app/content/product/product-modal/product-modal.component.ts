@@ -65,7 +65,7 @@ export class ProductModalComponent implements OnInit {
     this.ingredientList = this.productInfo.get('ingredients') as FormArray;
     console.log("opción:", this.opc);
     this.getIngredients();
-    this.setMeaure(1);
+    //this.setMeaure(1);
     this.setValueInIngredients();
     this.cargarDatos();
     /*console.log("this.productService.selectedProduct.ismaterial", this.productService.selectedProduct.ismaterial);
@@ -109,7 +109,7 @@ export class ProductModalComponent implements OnInit {
         measure: this.productService.selectedProduct.measure
       })
 
-      this.setMeaure(2);
+      //this.setMeaure(2);
 
     }
     else {
@@ -158,11 +158,13 @@ export class ProductModalComponent implements OnInit {
       document.getElementById("showaddingredients").style.display = "block";
       this.productService.selectedProduct.ingredients.forEach(element => {
         any = element;
-        console.log(any.idIngredients);
-        console.log(any.quantity);
+        console.log("any.idIngredients", any.idIngredients);
+        console.log("any.quantity", any.quantity);
+        console.log("any.measure", any.measure2);
         this.ingredientList.push(this.formBuilder.group({
           idIngredients: any.idIngredients,
-          quantity: any.quantity
+          quantity: any.quantity,
+          measure2: any.measure2,
         }))
 
       });
@@ -199,6 +201,40 @@ export class ProductModalComponent implements OnInit {
     } else {
       this.productInfo.get("bruto").setValue("");
     }
+  }
+
+  onChangeObj(value: any) {
+    console.log("que:", value);
+    this.productService.getProductById(this.currentUser.uid, value).subscribe(producto => {
+      var arrayControl = this.userFormGroup;
+
+
+      switch (producto.measure) {
+        case "1":
+          this.measureName = "Kg"
+          break;
+        case "2":
+          this.measureName = "Gr"
+          break;
+        case "3":
+          this.measureName = "L"
+          break;
+        case "4":
+          this.measureName = "Cc"
+          break;
+        case "5":
+          this.measureName = "Ml"
+          break;
+        case "6":
+          this.measureName = "Un"
+          break;
+        default:
+          console.log("Sin datos!");
+      }
+
+
+      console.log("aaa", arrayControl.value)
+    });
   }
 
   setTotal(e) {
@@ -248,7 +284,8 @@ export class ProductModalComponent implements OnInit {
   createIngredients(): FormGroup {
     return this.formBuilder.group({
       idIngredients: [''],
-      quantity: ['']
+      quantity: [''],
+      measure2: [''],
     });
   }
 
