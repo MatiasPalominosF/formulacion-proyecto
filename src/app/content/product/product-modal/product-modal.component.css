@@ -1,40 +1,91 @@
-.right-checkbox input[type='checkbox'], .right-checkbox .custom-control-indicator, .right-checkbox input[type='radio'], .right-radio input[type='checkbox'], .right-radio .custom-control-indicator, .right-radio input[type='radio'] {
-    left: auto;
-    top: auto;
-    position: absolute;
+.right-checkbox input[type="checkbox"],
+.right-checkbox .custom-control-indicator,
+.right-checkbox input[type="radio"],
+.right-radio input[type="checkbox"],
+.right-radio .custom-control-indicator,
+.right-radio input[type="radio"] {
+  left: auto;
+  top: auto;
+  position: absolute;
 }
 
-.right-checkbox input[type='checkbox'], .right-checkbox .custom-control-label::before, .right-checkbox .custom-control-label::after, .right-checkbox input[type='radio'], .right-radio input[type='checkbox'], .right-radio .custom-control-label::before, .right-radio .custom-control-label::after, .right-radio input[type='radio'] {
-    left: auto;
-    right: 2%;
+.right-checkbox input[type="checkbox"],
+.right-checkbox .custom-control-label::before,
+.right-checkbox .custom-control-label::after,
+.right-checkbox input[type="radio"],
+.right-radio input[type="checkbox"],
+.right-radio .custom-control-label::before,
+.right-radio .custom-control-label::after,
+.right-radio input[type="radio"] {
+  left: auto;
+  right: 2%;
 }
 
 .radio.right-radio label {
-    padding-left: 0;
+  padding-left: 0;
 }
 
 /* iCheck */
 
-.skin [class*='icheckbox_'], .skin [class*='iradio_'], .icheck_square [class*='icheckbox_'], .icheck_square [class*='iradio_'] {
-    margin-right: 0.6rem;
+.skin [class*="icheckbox_"],
+.skin [class*="iradio_"],
+.icheck_square [class*="icheckbox_"],
+.icheck_square [class*="iradio_"] {
+  margin-right: 0.6rem;
 }
 
-.skin [class*='icheckbox_line'], .skin [class*='iradio_line'] {
-    margin-bottom: 0.6rem;
+.skin [class*="icheckbox_line"],
+.skin [class*="iradio_line"] {
+  margin-bottom: 0.6rem;
 }
 
-.state[class*='icheckbox_']:hover, .state[class*='iradio_']:hover {
-    cursor: default;
+.state[class*="icheckbox_"]:hover,
+.state[class*="iradio_"]:hover {
+  cursor: default;
 }
 
 /* Image Checkbox selected*/
 
-input[type='checkbox']:checked+img.img-thumbnail {
-    background-color: #666EE8;
-    color: #999966;
-    border-color: #666EE8;
+input[type="checkbox"]:checked + img.img-thumbnail {
+  background-color: #666ee8;
+  color: #999966;
+  border-color: #666ee8;
 }
 
 :host ::ng-deep .block-ui-wrapper {
-    background: rgba(255, 249, 249, 0.5) !important;
+  background: rgba(255, 249, 249, 0.5) !important;
+}
+
+.btn {
+  border-radius: 0rem !important;
+}
+.buttons-border-dropdown {
+  border-right: none !important;
+}
+.input-group > .form-control {
+  height: 40px;
+}
+:host ::ng-deep .dropdown .dropdown-menu {
+  margin: -0.1rem -3.7rem 0 !important;
+}
+:host ::ng-deep .custom-checkbox {
+  margin-bottom: 3px;
+  margin-left: 5px;
+}
+:host ::ng-deep .custom-control {
+  margin-bottom: 3px;
+  min-height: auto;
+  margin-left: 5px;
+}
+:host ::ng-deep .switch.switch-small small {
+  width: 18px;
+  height: 18px;
+  margin-right: 1px;
+  margin-top: 1px;
+}
+:host ::ng-deep .input-group-prepend {
+  height: 40px;
+}
+:host ::ng-deep .input-group-height {
+  height: 50px !important;
 }

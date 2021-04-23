@@ -138,7 +138,6 @@ export class ProductListComponent implements OnInit {
   }
 
   onUpdateProduct(product: ProductInterface) {
-    console.log("PRODUCT: ", product);
     this.productService.selectedProduct = Object.assign({}, product);
     const modalRef = this.modalService.open(ProductModalComponent, { windowClass: 'animated fadeInDown' });
     modalRef.componentInstance.opc = true;

@@ -46,7 +46,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let element of employeeSearch | async; index as i">
+                                    <tr *ngFor="let element of employeeSearch | async | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; index as i">
                                         <th scope="row">{{ i + 1 }}</th>
                                         <td>
                                             <ngb-highlight [result]="element.id" [term]="filter.value">

@@ -13,6 +13,7 @@ export class ProductService {
   private workerCollection: AngularFirestoreCollection<ProductInterface>;
   private products: Observable<ProductInterface[]>;
   private productDoc: AngularFirestoreDocument<ProductInterface>;
+  private product: Observable<ProductInterface>;
   public selectedProduct: ProductInterface = {};
   constructor(
     public afs: AngularFirestore
@@ -34,10 +35,6 @@ export class ProductService {
   }
 
   getMaterial(uidBoss: string) {
-    return firebase.firestore().collection('product').doc(`${uidBoss}`).collection('productInfo').where('ismaterial', '==', true);
-  }
-
-  getMaterial2(uidBoss: string) {
     return this.products = this.afs.collection('product').doc(`${uidBoss}`).collection<ProductInterface>('productInfo', ref => ref.where('ismaterial', '==', true)).snapshotChanges()
       .pipe(map(changes => {
         return changes.map(action => {
@@ -48,9 +45,25 @@ export class ProductService {
       }));
   }
 
+  getProductById(uidBoss: string, idProduct: string) {
+    this.productDoc = this.afs.doc<ProductInterface>(`product/${uidBoss}/productInfo/${idProduct}`);
+    return this.product = this.productDoc.snapshotChanges().pipe(map(action => {
+      if (action.payload.exists === false) {
+        return null;
+      } else {
+        const data = action.payload.data() as ProductInterface;
+        data.id = action.payload.id;
+        return data;
+      }
+    }));
+  }
+
   addProduct(producto: ProductInterface, idBoss: string): void {
-    console.log("Producto en service: ", producto);
-    this.afs.collection('product').doc(`${idBoss}`).collection('productInfo').add(producto);
+    var tempId = this.afs.createId();
+    producto.id = tempId;
+    console.log("Producto en service: ", producto.id);
+    this.afs.collection('product').doc(`${idBoss}`).collection('productInfo').doc(tempId).set(producto); //SE SETEA CON UN ID ESPECÍFICO
+    //this.afs.collection('product').doc(`${idBoss}`).collection('productInfo').add(producto); //SE SETEA CON UN ID ALEATORIO QUE DA FIREBASE
   }
 
   updateProduct(producto: ProductInterface, idProduct: string, idBoss: string) {
