@@ -11,31 +11,92 @@
       <app-breadcrumb class="col-12" [breadcrumb]="breadcrumb"></app-breadcrumb>
     </div>
     <div class="content-body">
-      <section id="horizontal-form-layouts">
-        <div class="row">
-          <div class="col-md-12" *blockUI="'productsInfo'; message: 'Loading'">
+      <section class="left-right-offset" id="left-right-offset">
+        <div class="row" matchHeight="card">
+          <div
+            class="col-xl-8 col-lg-12"
+            *blockUI="'productsInfo'; message: 'Loading'"
+          >
             <m-card
               [options]="options"
               (reloadFunction)="reloadProductsInfo($event)"
             >
               <ng-container mCardHeaderTitle> Búsqueda productos </ng-container>
-              <ng-container mCardBody>                
+              <ng-container mCardBody>
+                <div class="table-responsive card-body">
+                  <form>
+                    <div class="form-group form-inline">
+                      Buscar: <input class="form-control ml-2" type="text" />
+                    </div>
+                  </form>
+                  <table mdbTable responsive="true" class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th *ngFor="let head of headElements" scope="col">
+                          {{ head }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr mdbTableCol *ngFor="let el of elements">
+                        <th scope="row">{{ el.id }}</th>
+                        <td>{{ el.first }}</td>
+                        <td>{{ el.last }}</td>
+                        <td>{{ el.handle }}</td>
+                        <td>
+                          <button
+                            (click)="test()"
+                            class="btn btn-xs btn-social-icon mr-1 mb-1 btn-instagram"
+                          >
+                            <span class="la la-pencil"></span>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-container>
+            </m-card>
+          </div>
+          <div
+            class="col-xl-4 col-lg-12"
+            *blockUI="'productsSale'; message: 'Loading'"
+          >
+            <m-card
+              [options]="options"
+              (reloadFunction)="reloadSelectProductInfo($event)"
+            >
+              <ng-container mCardHeaderTitle> Lista de productos </ng-container>
+              <ng-container mCardBody>
+                <div class="table-responsive card-body">
+                  <table mdbTable responsive="true" class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th *ngFor="let head of headElements2" scope="col">
+                          {{ head }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr mdbTableCol *ngFor="let el of elements2">
+                        <td scope="row">{{ el.first }}</td>
+                        <td>{{ el.last }}</td>
+                        <td>
+                          <button
+                            (click)="test()"
+                            class="btn btn-xs btn-social-icon mr-1 mb-1 btn-pinterest"
+                          >
+                            <span class="la la-trash"></span>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </ng-container>
             </m-card>
           </div>
         </div>
-        <div class="row">
-            <div class="col-md-12" *blockUI="'productsSale'; message: 'Loading'">
-              <m-card
-                [options]="options"
-                (reloadFunction)="reloadSelectProductInfo($event)"
-              >
-                <ng-container mCardHeaderTitle> Producto seleccionado </ng-container>
-                <ng-container mCardBody>                
-                </ng-container>
-              </m-card>
-            </div>
-          </div>
       </section>
     </div>
   </div>

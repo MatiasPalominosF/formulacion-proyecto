@@ -13,8 +13,24 @@ export class SaleListComponent implements OnInit {
   public breadcrumb: any;
   public loading = false;
 
+  elements: any = [
+    { id: 1, first: 'Mark', last: 'Otto', handle: '@mdo' },
+    { id: 2, first: 'Jacob', last: 'Thornton', handle: '@fat' },
+    { id: 3, first: 'Larry', last: 'the Bird', handle: '@twitter' },
+  ];
+
+  headElements = ['#', 'Producto', 'Precio venta ($)', 'Stock', 'Acciones'];
+
+  elements2: any = [
+    { id: 1, first: 'Mark', last: 'Otto' },
+    { id: 2, first: 'Jacob', last: 'Thornton' },
+    { id: 3, first: 'Larry', last: 'the Bird' },
+  ];
+
+  headElements2 = ['Producto', 'Cantidad', 'Acciones'];
+
   options = {
-    close: true,
+    close: false,
     expand: true,
     minimize: true,
     reload: true
@@ -40,7 +56,13 @@ export class SaleListComponent implements OnInit {
     };
   }
 
-  
+  test() {
+    this.blockUIProductsInfo.start('Loading..');
+
+    setTimeout(() => {
+      this.blockUIProductsInfo.stop();
+    }, 2500);
+  }
 
   reloadProductsInfo() {
     this.blockUIProductsInfo.start('Loading..');
@@ -58,6 +80,6 @@ export class SaleListComponent implements OnInit {
     }, 2500);
   }
 
-  
+
 
 }
