@@ -1,0 +1,42 @@
+<div class="app-content content">
+  <div class="loader-wrapper" *ngIf="loading">
+    <div class="loader-container">
+      <div class="ball-rotate loader-danger">
+        <div></div>
+      </div>
+    </div>
+  </div>
+  <div class="content-wrapper">
+    <div class="content-header row mb-1">
+      <app-breadcrumb class="col-12" [breadcrumb]="breadcrumb"></app-breadcrumb>
+    </div>
+    <div class="content-body">
+      <section id="horizontal-form-layouts">
+        <div class="row">
+          <div class="col-md-12" *blockUI="'productsInfo'; message: 'Loading'">
+            <m-card
+              [options]="options"
+              (reloadFunction)="reloadProductsInfo($event)"
+            >
+              <ng-container mCardHeaderTitle> Búsqueda productos </ng-container>
+              <ng-container mCardBody>                
+              </ng-container>
+            </m-card>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" *blockUI="'productsSale'; message: 'Loading'">
+              <m-card
+                [options]="options"
+                (reloadFunction)="reloadSelectProductInfo($event)"
+              >
+                <ng-container mCardHeaderTitle> Producto seleccionado </ng-container>
+                <ng-container mCardBody>                
+                </ng-container>
+              </m-card>
+            </div>
+          </div>
+      </section>
+    </div>
+  </div>
+</div>

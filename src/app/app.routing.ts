@@ -146,6 +146,10 @@ const appRoutes: Routes = [
         canActivate: [AuthGuard]
       },
       {
+        path: 'sale', loadChildren: () => import('../app/content/sale/sale.module').then(m => m.SaleModule),
+        canActivate: [AuthGuard]
+      },
+      {
         path: 'gallery', loadChildren: () => import('../app/content/pages/gallery/gallery.module').then(m => m.GalleryModule)
         , canActivate: [AuthGuard]
       },
