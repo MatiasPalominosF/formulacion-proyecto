@@ -1,6 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { Component, OnInit, PipeTransform } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { ProductService } from 'src/app/_api/product/product.service';
+import { ProductInterface } from 'src/app/_models/product';
 @Component({
   selector: 'app-sale-list',
   templateUrl: './sale-list.component.html',
@@ -10,14 +15,19 @@ export class SaleListComponent implements OnInit {
 
   @BlockUI('productsInfo') blockUIProductsInfo: NgBlockUI;
   @BlockUI('productsSale') blockUIProductsSale: NgBlockUI;
+
   public breadcrumb: any;
   public loading = false;
+  public currentUser: any;
+  public collectionSize: any;
+  public pipe: any;
+  public productSortable: any;
+  public page = 1;
+  public pageSize = 4;
 
-  elements: any = [
-    { id: 1, first: 'Mark', last: 'Otto', handle: '@mdo' },
-    { id: 2, first: 'Jacob', last: 'Thornton', handle: '@fat' },
-    { id: 3, first: 'Larry', last: 'the Bird', handle: '@twitter' },
-  ];
+  public productSearch: Observable<ProductInterface[]>;
+  public filter = new FormControl('');
+  private PRODUCT: ProductInterface[];
 
   headElements = ['#', 'Producto', 'Precio venta ($)', 'Stock', 'Acciones'];
 
@@ -36,7 +46,7 @@ export class SaleListComponent implements OnInit {
     reload: true
   };
 
-  constructor() { }
+  constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
     this.breadcrumb = {
@@ -54,6 +64,52 @@ export class SaleListComponent implements OnInit {
         }
       ]
     };
+
+    this.getUserLogged();
+    this.getAllProducts();
+  }
+
+  getAllProducts() {
+    this.blockUIProductsInfo.start('Loading..');
+    this.productService.getFullInfoProduct(this.currentUser.uid).subscribe(product => {
+      this.PRODUCT = product;
+      this.collectionSize = this.PRODUCT.length;
+      this.searchData(this.pipe);
+      this.productSortable = this.PRODUCT;
+      this.blockUIProductsInfo.stop();
+    });
+  }
+
+  /**
+  *
+  * '@param' pipe
+  */
+  searchData(pipe: DecimalPipe) {
+    console.log("this.productSearch ", this.productSearch);
+    this.productSearch = this.filter.valueChanges.pipe(
+      startWith(''),
+      map(text => this.search(text, pipe))
+    );
+  }
+
+  /**
+   * Search table
+   * '@param' text
+   * '@param' pipe
+   */
+  search(text: string, pipe: PipeTransform) {
+    return this.PRODUCT.filter(response => {
+      const term = text.toLowerCase();
+      return response.name.toLowerCase().includes(term)
+        || response.total.toLowerCase().includes(term)
+        || response.stock.toLowerCase().includes(term)
+    });
+  }
+
+  getUserLogged(): void {
+    if (localStorage.getItem('currentUser')) {
+      this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    }
   }
 
   test() {
