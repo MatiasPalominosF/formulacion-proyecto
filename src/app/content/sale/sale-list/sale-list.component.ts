@@ -1,11 +1,24 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, OnInit, PipeTransform } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ProductService } from 'src/app/_api/product/product.service';
 import { ProductInterface } from 'src/app/_models/product';
+
+export interface Product {
+  id?: string;
+  name?: string;
+  total?: string;
+  stock?: string;
+  quantity?: number;
+  totalPrice?: number;
+  measure?: string;
+  ingredients?: [];
+}
+
+
 @Component({
   selector: 'app-sale-list',
   templateUrl: './sale-list.component.html',
@@ -24,10 +37,14 @@ export class SaleListComponent implements OnInit {
   public productSortable: any;
   public page = 1;
   public pageSize = 4;
+  public precioTotal = 0;
 
   public productSearch: Observable<ProductInterface[]>;
   public filter = new FormControl('');
   private PRODUCT: ProductInterface[];
+  public productList: Array<Product> = [];
+  private selectedProduct: Product;
+  public productInfo: FormGroup;
 
   headElements = ['#', 'Producto', 'Precio venta ($)', 'Stock', 'Acciones'];
 
@@ -37,7 +54,7 @@ export class SaleListComponent implements OnInit {
     { id: 3, first: 'Larry', last: 'the Bird' },
   ];
 
-  headElements2 = ['Producto', 'Cantidad', 'Acciones'];
+  headElements2 = ['Producto', 'Cantidad', 'Precio', 'Acciones'];
 
   options = {
     close: false,
@@ -46,7 +63,17 @@ export class SaleListComponent implements OnInit {
     reload: true
   };
 
-  constructor(private productService: ProductService) { }
+  constructor(
+    private productService: ProductService,
+    private formBuilder: FormBuilder,) {
+
+    this.productInfo = this.formBuilder.group({
+      name: ['', Validators.required],
+      quantity: ['', Validators.required],
+      total: ['', Validators.required]
+    });
+
+  }
 
   ngOnInit(): void {
     this.breadcrumb = {
@@ -117,12 +144,43 @@ export class SaleListComponent implements OnInit {
     }
   }
 
-  test() {
-    this.blockUIProductsInfo.start('Loading..');
 
-    setTimeout(() => {
-      this.blockUIProductsInfo.stop();
-    }, 2500);
+  clearForm() {
+    this.productInfo.controls['name'].setValue("");
+    this.productInfo.controls['quantity'].setValue("");
+    this.productInfo.controls['total'].setValue("");
+
+  }
+  previewAddProduct(product: ProductInterface) {
+    this.clearForm();
+    //console.log("PRODUCTO SELECCIONADO:", product);
+    this.productInfo.controls['name'].patchValue(product.name);
+    this.productInfo.controls['total'].patchValue(product.total);
+    this.selectedProduct = product;
+
+  }
+
+  addPreview() {
+    console.log("ya", this.fValue);
+    console.log("ya22", this.selectedProduct);
+    this.selectedProduct.quantity = parseInt(this.fValue.quantity);
+    var total = parseInt(this.fValue.total);
+    var quantity = parseInt(this.fValue.quantity)
+    this.selectedProduct.totalPrice = total * quantity;
+
+    console.log("this.selectedProduct.totalPrice", this.selectedProduct.totalPrice);
+    this.productList.push(this.selectedProduct);
+    this.clearForm();
+
+  }
+
+  get fValue() {
+    return this.productInfo.value;
+  }
+
+  onRemove(value: any) {
+    console.log("posición a borrar");
+    this.productList.splice(value, 1);
   }
 
   reloadProductsInfo() {

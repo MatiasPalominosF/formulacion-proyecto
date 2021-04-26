@@ -82,7 +82,7 @@
                             </td>
                             <td>
                               <button
-                                (click)="test()"
+                                (click)="previewAddProduct(element)"
                                 class="btn btn-xs btn-social-icon btn-instagram"
                               >
                                 <span class="la la-cart-plus"></span>
@@ -112,47 +112,56 @@
                     </div>
                   </div>
                 </div>
-                <label>Producto </label>
-                <div class="row">
-                  <div class="col-md-3 m-auto">
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Nombre producto"
-                        readonly
-                      />
+                <form [formGroup]="productInfo">
+                  <div class="row">
+                    <div class="col-md-3 m-auto">
+                      <label>Producto </label>
+                      <div class="form-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Nombre producto"
+                          formControlName="name"
+                          readonly
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-3 m-auto">
+                      <label>Cantidad </label>
+                      <div class="form-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Cantidad"
+                          formControlName="quantity"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-3 m-auto">
+                      <label>Precio venta </label>
+                      <div class="form-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Precio venta"
+                          formControlName="total"
+                          readonly
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <label></label>
+                      <div class="form-group">
+                        <button
+                          (click)="addPreview()"
+                          class="btn btn-primary btn-min-width mr-1 mb-1"
+                        >
+                          <i class="la la-plus"></i> Agregar producto
+                        </button>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-md-3 m-auto">
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Cantidad"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-md-3 m-auto">
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Precio venta"
-                        readonly
-                      />
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <button
-                        class="btn btn-primary btn-min-width mr-1 mb-1"
-                      >
-                        <i class="la la-plus"></i> Agregar producto
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                </form>
               </ng-container>
             </m-card>
           </div>
@@ -166,30 +175,58 @@
             >
               <ng-container mCardHeaderTitle> Lista de productos </ng-container>
               <ng-container mCardBody>
-                <div class="table-responsive card-body">
-                  <table mdbTable responsive="true" class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th *ngFor="let head of headElements2" scope="col">
-                          {{ head }}
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr mdbTableCol *ngFor="let el of elements2">
-                        <td scope="row">{{ el.first }}</td>
-                        <td>{{ el.last }}</td>
-                        <td>
-                          <button
-                            (click)="test()"
-                            class="btn btn-xs btn-social-icon mr-1 mb-1 btn-pinterest"
+                <div class="row">
+                  <div class="col">
+                    <div class="table-responsive card-body">
+                      <table
+                        mdbTable
+                        responsive="true"
+                        class="table table-striped"
+                      >
+                        <thead>
+                          <tr>
+                            <th *ngFor="let head of headElements2" scope="col">
+                              {{ head }}
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr
+                            mdbTableCol
+                            *ngFor="let el of productList; index as i"
                           >
-                            <span class="la la-trash"></span>
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                            <td scope="row">{{ el.name }}</td>
+                            <td>{{ el.quantity }}</td>
+                            <td>{{ el.totalPrice }}</td>
+                            <td>
+                              <button
+                                (click)="onRemove(i)"
+                                class="btn btn-xs btn-social-icon mr-1 mb-1 btn-pinterest"
+                              >
+                                <span class="la la-trash"></span>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <label class="col-md-4 text-right"
+                          ><b>Total:</b>
+                        </label>
+                        <div class="col-md-8">
+                          <span class="input-group-text" id="basic-addon2"
+                            >{{precioTotal}}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </ng-container>
             </m-card>
