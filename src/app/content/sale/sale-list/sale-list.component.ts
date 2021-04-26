@@ -80,6 +80,11 @@ export class SaleListComponent implements OnInit {
     });
   }
 
+
+  refresh() {
+    this.getAllProducts();
+  }
+
   /**
   *
   * '@param' pipe
@@ -121,11 +126,7 @@ export class SaleListComponent implements OnInit {
   }
 
   reloadProductsInfo() {
-    this.blockUIProductsInfo.start('Loading..');
-
-    setTimeout(() => {
-      this.blockUIProductsInfo.stop();
-    }, 2500);
+    this.refresh();
   }
 
   reloadSelectProductInfo() {
