@@ -170,7 +170,10 @@ export class SaleListComponent implements OnInit {
 
   addPreview() {
     console.log("this.selectedProduct", this.selectedProduct);
-    if (this.selectedProduct) {
+    if (this.selectedProduct != undefined) {
+      if (this.productInfo.invalid) {
+        return ;
+      }
       this.selectedProduct.quantity = parseInt(this.fValue.quantity);
       var total = parseInt(this.fValue.total);
       var quantity = parseInt(this.fValue.quantity)
@@ -179,13 +182,17 @@ export class SaleListComponent implements OnInit {
       this.productList.push(this.selectedProduct);
       this.sumTotal(this.productList[this.productList.length - 1]);
       this.clearForm();
+    } else {
+      this.notifyService.showWarning("Aviso", "¡Debe seleccionar un producto!");
     }
-    this.notifyService.showWarning("Aviso", "¡Debe seleccionar un producto!");
-
   }
 
   sumTotal(product: Product) {
     this.precioTotal += product.totalPrice;
+    this.productInfo2.controls['precioTotal'].setValue(this.precioTotal);
+  }
+  restTotal(product: Product) {
+    this.precioTotal -= product.totalPrice;
     this.productInfo2.controls['precioTotal'].setValue(this.precioTotal);
   }
 
@@ -194,6 +201,7 @@ export class SaleListComponent implements OnInit {
   }
 
   onRemove(value: any) {
+    this.restTotal(this.productList[value])
     this.productList.splice(value, 1);
   }
 

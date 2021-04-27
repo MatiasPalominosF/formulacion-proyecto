@@ -130,11 +130,20 @@
                       <label>Cantidad </label>
                       <div class="form-group">
                         <input
+                          id="quantity"
                           type="text"
                           class="form-control"
                           placeholder="Cantidad"
                           formControlName="quantity"
-                        />
+                        /><small
+                          class="form-text text-muted danger"
+                          *ngIf="submitted && f.quantity.errors"
+                          class="invalid-feedback"
+                        >
+                          <div *ngIf="f.quantity.errors.required">
+                            La cantidad del producto es requerida.
+                          </div>
+                        </small>
                       </div>
                     </div>
                     <div class="col-md-3 m-auto">
@@ -215,12 +224,12 @@
                 <form [formGroup]="productInfo2">
                   <div class="form-group">
                     <div class="row">
-                      <div class="col-md-6">
+                      <div class="col-md-9">
                         <div class="row">
                           <label class="col-md-4 text-right"
                             ><b>Total:</b>
                           </label>
-                          <div class="col-md-8">
+                          <div class="col-md-5">
                             <input
                               type="text"
                               class="form-control"
