@@ -116,7 +116,7 @@
                   <div class="row">
                     <div class="col-md-3 m-auto">
                       <label>Producto </label>
-                      <div class="form-group">
+                      <div class="input-group">
                         <input
                           type="text"
                           class="form-control"
@@ -128,14 +128,23 @@
                     </div>
                     <div class="col-md-3 m-auto">
                       <label>Cantidad </label>
-                      <div class="form-group">
+                      <div class="input-group">
                         <input
                           id="quantity"
                           type="text"
                           class="form-control"
                           placeholder="Cantidad"
                           formControlName="quantity"
-                        /><small
+                          [ngClass]="{
+                            'is-invalid': submitted && f.quantity.errors
+                          }"
+                        />
+                        <div class="input-group-append">
+                          <span class="input-group-text" id="basic-addon2"
+                            >{{unidad}}</span
+                          >
+                        </div>
+                        <small
                           class="form-text text-muted danger"
                           *ngIf="submitted && f.quantity.errors"
                           class="invalid-feedback"
@@ -145,10 +154,30 @@
                           </div>
                         </small>
                       </div>
+                      <!--div class="form-group">
+                        <input
+                          id="quantity"
+                          type="text"
+                          class="form-control"
+                          placeholder="Cantidad"
+                          formControlName="quantity"
+                          [ngClass]="{
+                            'is-invalid': submitted && f.quantity.errors
+                          }"
+                        /><small
+                          class="form-text text-muted danger"
+                          *ngIf="submitted && f.quantity.errors"
+                          class="invalid-feedback"
+                        >
+                          <div *ngIf="f.quantity.errors.required">
+                            La cantidad del producto es requerida.
+                          </div>
+                        </small>
+                      </div-->
                     </div>
                     <div class="col-md-3 m-auto">
                       <label>Precio venta </label>
-                      <div class="form-group">
+                      <div class="input-group">
                         <input
                           type="text"
                           class="form-control"
@@ -160,7 +189,7 @@
                     </div>
                     <div class="col-md-3">
                       <label></label>
-                      <div class="form-group">
+                      <div class="input-group">
                         <button
                           (click)="addPreview()"
                           class="btn btn-primary btn-min-width mr-1 mb-1"
@@ -224,18 +253,30 @@
                 <form [formGroup]="productInfo2">
                   <div class="form-group">
                     <div class="row">
-                      <div class="col-md-9">
+                      <div class="col-md-6">
                         <div class="row">
                           <label class="col-md-4 text-right"
                             ><b>Total:</b>
                           </label>
-                          <div class="col-md-5">
+                          <div class="col-md-8">
                             <input
                               type="text"
                               class="form-control"
                               formControlName="precioTotal"
                               readonly
                             />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-md-8">
+                            <button
+                              (click)="test()"
+                              class="btn btn-primary btn-min-width mr-1 mb-1"
+                            >
+                              <i class="la la-mouse-pointer"></i> Pagar
+                            </button>
                           </div>
                         </div>
                       </div>

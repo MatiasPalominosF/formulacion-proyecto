@@ -32,6 +32,7 @@ export class SaleListComponent implements OnInit {
 
   public breadcrumb: any;
   public loading = false;
+  public submitted = false;
   public currentUser: any;
   public collectionSize: any;
   public pipe: any;
@@ -39,6 +40,7 @@ export class SaleListComponent implements OnInit {
   public page = 1;
   public pageSize = 4;
   public precioTotal = 0;
+  public unidad: string;
 
   public productSearch: Observable<ProductInterface[]>;
   public filter = new FormControl('');
@@ -164,15 +166,44 @@ export class SaleListComponent implements OnInit {
     //console.log("PRODUCTO SELECCIONADO:", product);
     this.productInfo.controls['name'].patchValue(product.name);
     this.productInfo.controls['total'].patchValue(product.total);
+    
+    this.setMeasure(product);
     this.selectedProduct = product;
 
+  }
+
+  setMeasure(product: ProductInterface){
+    switch (product.measure) {
+      case "1":
+        this.unidad = "Kg";
+        break;
+      case "2":
+        this.unidad = "Gr";
+        break;
+      case "3":
+        this.unidad = "Lt";
+        break;
+      case "4":
+        this.unidad = "Cc";
+        break;
+      case "5":
+        this.unidad = "Ml";
+        break;
+      case "6":
+        this.unidad = "Un";
+        break;
+    
+      default:
+        break;
+    }
   }
 
   addPreview() {
     console.log("this.selectedProduct", this.selectedProduct);
     if (this.selectedProduct != undefined) {
+      this.submitted = true;
       if (this.productInfo.invalid) {
-        return ;
+        return;
       }
       this.selectedProduct.quantity = parseInt(this.fValue.quantity);
       var total = parseInt(this.fValue.total);
@@ -182,6 +213,9 @@ export class SaleListComponent implements OnInit {
       this.productList.push(this.selectedProduct);
       this.sumTotal(this.productList[this.productList.length - 1]);
       this.clearForm();
+      this.selectedProduct = undefined;
+      this.unidad = "";
+      this.submitted = false;
     } else {
       this.notifyService.showWarning("Aviso", "¡Debe seleccionar un producto!");
     }
@@ -194,6 +228,10 @@ export class SaleListComponent implements OnInit {
   restTotal(product: Product) {
     this.precioTotal -= product.totalPrice;
     this.productInfo2.controls['precioTotal'].setValue(this.precioTotal);
+  }
+
+  get f() {
+    return this.productInfo.controls;
   }
 
   get fValue() {
@@ -209,6 +247,9 @@ export class SaleListComponent implements OnInit {
     this.refresh();
   }
 
+  test() {
+
+  }
   reloadSelectProductInfo() {
     this.blockUIProductsSale.start('Loading..');
 
