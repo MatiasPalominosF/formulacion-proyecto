@@ -64,12 +64,13 @@ export const MenuSettingsConfig: MenuConfig = {
       { section: 'PRINCIPAL', icon: 'la-ellipsis-h' },
       {
         title: 'Ventas',
-        icon: 'la-cart-plus'
+        icon: 'la-cart-plus',
+        page: '/sale/sale-list'
       },
-      {
+      /*{
         title: 'Preventas',
         icon: 'la-cart-arrow-down'
-      },
+      },*/
       { section: 'INVENTARIO', icon: 'la-ellipsis-h' },
 
       {
@@ -148,7 +149,8 @@ export const MenuSettingsConfig: MenuConfig = {
       { section: 'PRINCIPAL', icon: 'la-ellipsis-h' },
       {
         title: 'Ventas',
-        icon: 'la-cart-plus'
+        icon: 'la-cart-plus',
+        page: '/sale/sale-list'
       },
       /*{
         title: 'Preventas',

@@ -19,7 +19,7 @@ import { ProductModalComponent } from './product-modal/product-modal.component';
 
 
 @NgModule({
-  declarations: [ProductListComponent, ProductModalComponent, ProductModalComponent],
+  declarations: [ProductListComponent, ProductModalComponent],
   imports: [
     ConfirmationDialogModule,
     CommonModule,

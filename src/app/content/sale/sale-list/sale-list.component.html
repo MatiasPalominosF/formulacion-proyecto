@@ -1,0 +1,273 @@
+<div class="app-content content">
+  <div class="loader-wrapper" *ngIf="loading">
+    <div class="loader-container">
+      <div class="ball-rotate loader-danger">
+        <div></div>
+      </div>
+    </div>
+  </div>
+  <div class="content-wrapper">
+    <div class="content-header row mb-1">
+      <app-breadcrumb class="col-12" [breadcrumb]="breadcrumb"></app-breadcrumb>
+    </div>
+    <div class="content-body">
+      <section class="left-right-offset" id="left-right-offset">
+        <div class="row" matchHeight="card">
+          <div
+            class="col-md-12 col-xl-8 col-lg-12"
+            *blockUI="'productsInfo'; message: 'Loading'"
+          >
+            <m-card
+              [options]="options"
+              (reloadFunction)="reloadProductsInfo($event)"
+            >
+              <ng-container mCardHeaderTitle>
+                Búsqueda de productos
+              </ng-container>
+              <ng-container mCardBody>
+                <div class="row">
+                  <div class="col">
+                    <form>
+                      <div class="form-group form-inline">
+                        Buscar:
+                        <input
+                          class="form-control ml-2"
+                          type="text"
+                          [formControl]="filter"
+                        />
+                      </div>
+                    </form>
+                    <div class="table-responsive card-body">
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th *ngFor="let head of headElements" scope="col">
+                              {{ head }}
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr
+                            mdbTableCol
+                            *ngFor="
+                              let element of productSearch
+                                | async
+                                | slice
+                                  : (page - 1) * pageSize
+                                  : (page - 1) * pageSize + pageSize;
+                              index as i
+                            "
+                          >
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>
+                              <ngb-highlight
+                                [result]="element.name"
+                                [term]="filter.value"
+                              >
+                              </ngb-highlight>
+                            </td>
+                            <td>
+                              <ngb-highlight
+                                [result]="element.total"
+                                [term]="filter.value"
+                              >
+                              </ngb-highlight>
+                            </td>
+                            <td>
+                              <ngb-highlight
+                                [result]="element.stock"
+                                [term]="filter.value"
+                              >
+                              </ngb-highlight>
+                            </td>
+                            <td>
+                              <button
+                                (click)="previewAddProduct(element)"
+                                class="btn btn-xs btn-social-icon btn-instagram"
+                              >
+                                <span class="la la-cart-plus"></span>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div class="d-flex justify-content-between p-2">
+                        <ngb-pagination
+                          [collectionSize]="collectionSize"
+                          [(page)]="page"
+                          [pageSize]="pageSize"
+                        >
+                        </ngb-pagination>
+
+                        <select
+                          class="custom-select"
+                          style="width: auto"
+                          [(ngModel)]="pageSize"
+                        >
+                          <option [ngValue]="2">2 ítems por página</option>
+                          <option [ngValue]="4">4 ítems por página</option>
+                          <option [ngValue]="6">6 ítems por página</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <form [formGroup]="productInfo">
+                  <div class="row">
+                    <div class="col-md-3 m-auto">
+                      <label>Producto </label>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Nombre producto"
+                          formControlName="name"
+                          readonly
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-3 m-auto">
+                      <label>Cantidad </label>
+                      <div class="input-group">
+                        <input
+                          id="quantity"
+                          type="text"
+                          class="form-control"
+                          placeholder="Cantidad"
+                          formControlName="quantity"
+                          [ngClass]="{
+                            'is-invalid': submitted && f.quantity.errors
+                          }"
+                        />
+                        <div class="input-group-append">
+                          <span class="input-group-text" id="basic-addon2"
+                            >{{unidad}}</span
+                          >
+                        </div>
+                        <small
+                          class="form-text text-muted danger"
+                          *ngIf="submitted && f.quantity.errors"
+                          class="invalid-feedback"
+                        >
+                          <div *ngIf="f.quantity.errors.required">
+                            La cantidad del producto es requerida.
+                          </div>
+                        </small>
+                      </div>
+                    </div>
+                    <div class="col-md-3 m-auto">
+                      <label>Precio venta </label>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Precio venta"
+                          formControlName="total"
+                          readonly
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <label></label>
+                      <div class="input-group">
+                        <button
+                          (click)="addPreview()"
+                          class="btn btn-primary btn-min-width mr-1 mb-1"
+                        >
+                          <i class="la la-plus"></i> Agregar producto
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </ng-container>
+            </m-card>
+          </div>
+          <div
+            class="col-xl-4 col-lg-12"
+            *blockUI="'productsSale'; message: 'Loading'"
+          >
+            <m-card
+              [options]="options"
+              (reloadFunction)="reloadSelectProductInfo($event)"
+            >
+              <ng-container mCardHeaderTitle> Lista de productos </ng-container>
+              <ng-container mCardBody>
+                <div class="row">
+                  <div class="col">
+                    <div class="table-responsive card-body">
+                      <table
+                        mdbTable
+                        responsive="true"
+                        class="table table-striped"
+                      >
+                        <thead>
+                          <tr>
+                            <th *ngFor="let head of headElements2" scope="col">
+                              {{ head }}
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr
+                            mdbTableCol
+                            *ngFor="let el of productList; index as i"
+                          >
+                            <td scope="row">{{ el.name }}</td>
+                            <td>{{ el.quantity }}</td>
+                            <td>{{ el.totalPrice }}</td>
+                            <td>
+                              <button
+                                (click)="onRemove(i)"
+                                class="btn btn-xs btn-social-icon mr-1 mb-1 btn-pinterest"
+                              >
+                                <span class="la la-trash"></span>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <form [formGroup]="productInfo2">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="row">
+                          <label class="col-md-6 text-right"
+                            ><b>Total:</b>
+                          </label>
+                          <div class="col-md-5">
+                            <input
+                              type="text"
+                              class="form-control"
+                              formControlName="precioTotal"
+                              readonly
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-md-8">
+                            <button
+                              (click)="test()"
+                              class="btn btn-primary btn-min-width mr-1 mb-1"
+                            >
+                              <i class="la la-mouse-pointer"></i> Pagar
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </ng-container>
+            </m-card>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
