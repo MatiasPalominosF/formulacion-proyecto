@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ProductService } from 'src/app/_api/product/product.service';
 import { ProductInterface } from 'src/app/_models/product';
+import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
 import { NotificationService } from 'src/app/_services/notificacion.service';
 
 export interface Product {
@@ -74,7 +75,8 @@ export class SaleListComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private formBuilder: FormBuilder,
-    private notifyService: NotificationService) {
+    private notifyService: NotificationService,
+    private confirmationDialogService: ConfirmationDialogService,) {
 
     this.productInfo = this.formBuilder.group({
       name: ['', Validators.required],
@@ -251,8 +253,18 @@ export class SaleListComponent implements OnInit {
   }
 
   onRemove(value: any) {
-    this.restTotal(this.productList[value])
-    this.productList.splice(value, 1);
+    this.confirmationDialogService.confirm('Confirmación', '¿Estás seguro de eliminar el producto?')
+      .then(confirmed => {
+        if (!confirmed) {
+        } else {
+          this.restTotal(this.productList[value])
+          this.productList.splice(value, 1);
+          this.notifyService.showSuccess("Eliminar", "¡El producto se eliminó correctamente!");
+        }
+      }).catch(() => {
+        console.log("Not ok");
+      });
+
   }
 
   reloadProductsInfo() {
