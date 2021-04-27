@@ -62,7 +62,7 @@ export class SaleListComponent implements OnInit {
     { id: 3, first: 'Larry', last: 'the Bird' },
   ];
 
-  headElements2 = ['Producto', 'Cantidad', 'Precio', 'Acciones'];
+  headElements2 = ['Producto', 'Cantidad', 'Precio total ($)', 'Acciones'];
 
   options = {
     close: false,
