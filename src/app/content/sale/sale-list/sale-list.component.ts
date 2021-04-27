@@ -15,6 +15,10 @@ export interface Product {
   stock?: string;
   quantity?: number;
   totalPrice?: number;
+  sellTotal?: number;
+  cancellation?: boolean;
+  change?: number;
+  paid?: number;
   measure?: string;
   ingredients?: [];
 }
@@ -166,13 +170,13 @@ export class SaleListComponent implements OnInit {
     //console.log("PRODUCTO SELECCIONADO:", product);
     this.productInfo.controls['name'].patchValue(product.name);
     this.productInfo.controls['total'].patchValue(product.total);
-    
+
     this.setMeasure(product);
     this.selectedProduct = product;
 
   }
 
-  setMeasure(product: ProductInterface){
+  setMeasure(product: ProductInterface) {
     switch (product.measure) {
       case "1":
         this.unidad = "Kg";
@@ -192,7 +196,7 @@ export class SaleListComponent implements OnInit {
       case "6":
         this.unidad = "Un";
         break;
-    
+
       default:
         break;
     }
@@ -206,6 +210,7 @@ export class SaleListComponent implements OnInit {
         return;
       }
       this.selectedProduct.quantity = parseInt(this.fValue.quantity);
+      this.selectedProduct.cancellation = false;
       var total = parseInt(this.fValue.total);
       var quantity = parseInt(this.fValue.quantity)
       this.selectedProduct.totalPrice = total * quantity;
@@ -233,9 +238,16 @@ export class SaleListComponent implements OnInit {
   get f() {
     return this.productInfo.controls;
   }
+  get g() {
+    return this.productInfo2.controls;
+  }
 
   get fValue() {
     return this.productInfo.value;
+  }
+
+  get gValue() {
+    return this.productInfo2.value;
   }
 
   onRemove(value: any) {
@@ -248,6 +260,13 @@ export class SaleListComponent implements OnInit {
   }
 
   test() {
+    console.log("this.productList.length", this.productList.length);
+    console.log("this.gValue", this.gValue);
+
+
+    this.productList.forEach(element => {
+      console.log("element desde el test", element);
+    });
 
   }
   reloadSelectProductInfo() {
