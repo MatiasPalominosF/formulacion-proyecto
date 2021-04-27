@@ -212,22 +212,27 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="row">
-                        <label class="col-md-4 text-right"
-                          ><b>Total:</b>
-                        </label>
-                        <div class="col-md-8">
-                          <span class="input-group-text" id="basic-addon2"
-                            >{{precioTotal}}</span
-                          >
+                <form [formGroup]="productInfo2">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="row">
+                          <label class="col-md-4 text-right"
+                            ><b>Total:</b>
+                          </label>
+                          <div class="col-md-8">
+                            <input
+                              type="text"
+                              class="form-control"
+                              formControlName="precioTotal"
+                              readonly
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </form>
               </ng-container>
             </m-card>
           </div>

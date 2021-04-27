@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ProductService } from 'src/app/_api/product/product.service';
 import { ProductInterface } from 'src/app/_models/product';
+import { NotificationService } from 'src/app/_services/notificacion.service';
 
 export interface Product {
   id?: string;
@@ -45,6 +46,7 @@ export class SaleListComponent implements OnInit {
   public productList: Array<Product> = [];
   private selectedProduct: Product;
   public productInfo: FormGroup;
+  public productInfo2: FormGroup;
 
   headElements = ['#', 'Producto', 'Precio venta ($)', 'Stock', 'Acciones'];
 
@@ -65,12 +67,16 @@ export class SaleListComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private formBuilder: FormBuilder,) {
+    private formBuilder: FormBuilder,
+    private notifyService: NotificationService) {
 
     this.productInfo = this.formBuilder.group({
       name: ['', Validators.required],
       quantity: ['', Validators.required],
       total: ['', Validators.required]
+    });
+    this.productInfo2 = this.formBuilder.group({
+      precioTotal: ['']
     });
 
   }
@@ -92,6 +98,7 @@ export class SaleListComponent implements OnInit {
       ]
     };
 
+    console.log("Esto tiene al iniciar: " + this.productList.length);
     this.getUserLogged();
     this.getAllProducts();
   }
@@ -151,6 +158,7 @@ export class SaleListComponent implements OnInit {
     this.productInfo.controls['total'].setValue("");
 
   }
+
   previewAddProduct(product: ProductInterface) {
     this.clearForm();
     //console.log("PRODUCTO SELECCIONADO:", product);
@@ -161,17 +169,24 @@ export class SaleListComponent implements OnInit {
   }
 
   addPreview() {
-    console.log("ya", this.fValue);
-    console.log("ya22", this.selectedProduct);
-    this.selectedProduct.quantity = parseInt(this.fValue.quantity);
-    var total = parseInt(this.fValue.total);
-    var quantity = parseInt(this.fValue.quantity)
-    this.selectedProduct.totalPrice = total * quantity;
+    console.log("this.selectedProduct", this.selectedProduct);
+    if (this.selectedProduct) {
+      this.selectedProduct.quantity = parseInt(this.fValue.quantity);
+      var total = parseInt(this.fValue.total);
+      var quantity = parseInt(this.fValue.quantity)
+      this.selectedProduct.totalPrice = total * quantity;
 
-    console.log("this.selectedProduct.totalPrice", this.selectedProduct.totalPrice);
-    this.productList.push(this.selectedProduct);
-    this.clearForm();
+      this.productList.push(this.selectedProduct);
+      this.sumTotal(this.productList[this.productList.length - 1]);
+      this.clearForm();
+    }
+    this.notifyService.showWarning("Aviso", "¡Debe seleccionar un producto!");
 
+  }
+
+  sumTotal(product: Product) {
+    this.precioTotal += product.totalPrice;
+    this.productInfo2.controls['precioTotal'].setValue(this.precioTotal);
   }
 
   get fValue() {
@@ -179,7 +194,6 @@ export class SaleListComponent implements OnInit {
   }
 
   onRemove(value: any) {
-    console.log("posición a borrar");
     this.productList.splice(value, 1);
   }
 
@@ -194,7 +208,5 @@ export class SaleListComponent implements OnInit {
       this.blockUIProductsSale.stop();
     }, 2500);
   }
-
-
 
 }
