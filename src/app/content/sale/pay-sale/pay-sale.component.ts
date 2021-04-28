@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-pay-sale',
@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PaySaleComponent implements OnInit {
 
+  @Input() public saldoTotal: number;
+
   constructor() { }
 
   ngOnInit(): void {
+    console.log("this.saldoTotal", this.saldoTotal);
   }
 
 }

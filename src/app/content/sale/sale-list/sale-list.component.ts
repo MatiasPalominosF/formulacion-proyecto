@@ -1,28 +1,18 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, OnInit, PipeTransform } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ProductService } from 'src/app/_api/product/product.service';
 import { ProductInterface } from 'src/app/_models/product';
+import { Product } from 'src/app/_models/product2';
 import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
 import { NotificationService } from 'src/app/_services/notificacion.service';
+import { PaySaleComponent } from '../pay-sale/pay-sale.component';
 
-export interface Product {
-  id?: string;
-  name?: string;
-  total?: string;
-  stock?: string;
-  quantity?: number;
-  totalPrice?: number;
-  sellTotal?: number;
-  cancellation?: boolean;
-  change?: number;
-  paid?: number;
-  measure?: string;
-  ingredients?: [];
-}
+
 
 
 @Component({
@@ -46,6 +36,7 @@ export class SaleListComponent implements OnInit {
   public pageSize = 4;
   public precioTotal = 0;
   public unidad: string;
+  private closeResult = '';
 
   public productSearch: Observable<ProductInterface[]>;
   public filter = new FormControl('');
@@ -76,7 +67,8 @@ export class SaleListComponent implements OnInit {
     private productService: ProductService,
     private formBuilder: FormBuilder,
     private notifyService: NotificationService,
-    private confirmationDialogService: ConfirmationDialogService,) {
+    private confirmationDialogService: ConfirmationDialogService,
+    private modalService: NgbModal) {
 
     this.productInfo = this.formBuilder.group({
       name: ['', Validators.required],
@@ -275,12 +267,30 @@ export class SaleListComponent implements OnInit {
     console.log("this.productList.length", this.productList.length);
     console.log("this.gValue", this.gValue);
 
-
-    this.productList.forEach(element => {
-      console.log("element desde el test", element);
+    this.productService.productListSelected = this.productList;
+    const modalRef = this.modalService.open(PaySaleComponent, { windowClass: 'animated fadeInDown' });
+    modalRef.componentInstance.saldoTotal = this.gValue.precioTotal;
+    modalRef.result.then((result) => {
+      if (!result) {
+        this.notifyService.showSuccess("Editar", "¡El producto se editó correctamente!");
+      }
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      console.log(this.closeResult);
     });
 
   }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
   reloadSelectProductInfo() {
     this.blockUIProductsSale.start('Loading..');
 

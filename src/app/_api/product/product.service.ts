@@ -4,6 +4,7 @@ import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection 
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import * as firebase from 'firebase/app';
+import { Product } from 'src/app/_models/product2';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class ProductService {
   private productDoc: AngularFirestoreDocument<ProductInterface>;
   private product: Observable<ProductInterface>;
   public selectedProduct: ProductInterface = {};
+  public productListSelected: Array<Product> = [];
   constructor(
     public afs: AngularFirestore
   ) {
