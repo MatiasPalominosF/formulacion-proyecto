@@ -289,8 +289,6 @@ export class SaleListComponent implements OnInit {
     this.gValue['precioTotal'].patchValue(this.precioTotal);
     while (this.productList.length > 0)
       this.productList.pop();
-
-    console.log("this.productList,", this.productList);
   }
 
   private getDismissReason(reason: any): string {
