@@ -69,7 +69,6 @@ export class SaleListComponent implements OnInit {
     private notifyService: NotificationService,
     private confirmationDialogService: ConfirmationDialogService,
     private modalService: NgbModal) {
-
     this.productInfo = this.formBuilder.group({
       name: ['', Validators.required],
       quantity: ['', Validators.required],
@@ -275,6 +274,7 @@ export class SaleListComponent implements OnInit {
       console.log("result:", result);
       if (result) {
         this.emptyListProducts();
+        console.log("this.precioTotal", this.precioTotal);
         this.notifyService.showSuccess("Pagar", "¡Se ha realizado el pago correctamente!");
       }
     }, (reason) => {
@@ -285,6 +285,8 @@ export class SaleListComponent implements OnInit {
   }
 
   emptyListProducts() {
+    this.precioTotal = 0;
+    this.gValue['precioTotal'].patchValue(this.precioTotal);
     while (this.productList.length > 0)
       this.productList.pop();
 

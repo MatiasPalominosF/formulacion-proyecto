@@ -64,7 +64,7 @@ export class PaySaleComponent implements OnInit {
 
     this.updateStock(this.productService.productListSelected, this.currentUser.uid);
     this.addSale(this.productService.productListSelected, this.currentUser.uid);
-
+    this.saldoTotal = 0;
     this.passEntry.emit(true);
     this.activeModal.close(true);
 
