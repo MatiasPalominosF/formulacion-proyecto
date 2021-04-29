@@ -19,8 +19,7 @@ export class PaySaleComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
-    public productService: ProductService,
-    public productService2: ProductService) { }
+    public productService: ProductService) { }
 
   ngOnInit(): void {
     console.log("this.saldoTotal", this.saldoTotal);
@@ -67,20 +66,10 @@ export class PaySaleComponent implements OnInit {
       var stockRestante = this.intToString((stockFint - stockR));
 
       this.productService.updateFieldOnProduct(element.id, this.currentUser.uid, stockRestante);
+      
       this.passEntry.emit(true);
       this.activeModal.close(true);
-
-      /*this.productService.getProductById(this.currentUser.uid, element.id).subscribe(data => {
-        
-
-        
-
-      });*/
     });
-  }
-
-  actualizarStock(id, uid, stock) {
-    this.productService2.updateFieldOnProduct(id, uid, stock);
   }
 
   stringToInt(value: string): number {
