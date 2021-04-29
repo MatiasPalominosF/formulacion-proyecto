@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductService } from 'src/app/_api/product/product.service';
@@ -11,6 +11,7 @@ import { ProductService } from 'src/app/_api/product/product.service';
 export class PaySaleComponent implements OnInit {
 
   @Input() public saldoTotal: number;
+  @Output() passEntry: EventEmitter<any> = new EventEmitter();
 
   public payFormGroup: FormGroup;
   private currentUser: any;
@@ -18,7 +19,8 @@ export class PaySaleComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
-    public productService: ProductService) { }
+    public productService: ProductService,
+    public productService2: ProductService) { }
 
   ngOnInit(): void {
     console.log("this.saldoTotal", this.saldoTotal);
@@ -31,6 +33,8 @@ export class PaySaleComponent implements OnInit {
 
     this.cargarDatos();
     this.getUserLogged();
+
+    //this.productService.updateFieldOnProduct("yhfZDMsLSlOek8QYu1bE", this.currentUser.uid, "49");
   }
 
   getUserLogged(): void {
@@ -55,18 +59,28 @@ export class PaySaleComponent implements OnInit {
   onPaySubmit() {
     console.log("Valor form: ", this.fValue);
     this.productService.productListSelected.forEach(element => {
-      this.productService.getProductById(this.currentUser.uid, element.id).subscribe(data => {
-        var stockF = data.stock;
-        var stockR = element.quantity;
+      var stockF = element.stock;
+      var stockR = element.quantity;
 
-        var stockFint = this.stringToInt(stockF);
+      var stockFint = this.stringToInt(stockF);
 
-        var stockRestante = this.intToString((stockFint - stockR));
+      var stockRestante = this.intToString((stockFint - stockR));
 
+      this.productService.updateFieldOnProduct(element.id, this.currentUser.uid, stockRestante);
+      this.passEntry.emit(true);
+      this.activeModal.close(true);
 
-        console.log("Stock que queda:", stockRestante);
-      })
+      /*this.productService.getProductById(this.currentUser.uid, element.id).subscribe(data => {
+        
+
+        
+
+      });*/
     });
+  }
+
+  actualizarStock(id, uid, stock) {
+    this.productService2.updateFieldOnProduct(id, uid, stock);
   }
 
   stringToInt(value: string): number {

@@ -75,6 +75,10 @@ export class ProductService {
     this.productDoc.update(producto);
   }
 
+  updateFieldOnProduct(idProduct: string, idBoss: string, value: string) {
+    this.afs.collection('product').doc(`${idBoss}`).collection('productInfo').doc(`${idProduct}`).update({ "stock": value });
+  }
+
   deleteProduct(idProduct: string, idBoss: string): void {
     this.productDoc = this.afs.collection('product').doc(`${idBoss}`).collection<ProductInterface>('productInfo').doc(`${idProduct}`);
     this.productDoc.delete();

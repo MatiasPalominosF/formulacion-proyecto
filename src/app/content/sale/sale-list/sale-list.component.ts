@@ -101,6 +101,7 @@ export class SaleListComponent implements OnInit {
     console.log("Esto tiene al iniciar: " + this.productList.length);
     this.getUserLogged();
     this.getAllProducts();
+    this.emptyListProducts();
   }
 
   getAllProducts() {
@@ -271,14 +272,23 @@ export class SaleListComponent implements OnInit {
     const modalRef = this.modalService.open(PaySaleComponent, { windowClass: 'animated fadeInDown' });
     modalRef.componentInstance.saldoTotal = this.gValue.precioTotal;
     modalRef.result.then((result) => {
-      if (!result) {
-        this.notifyService.showSuccess("Editar", "¡El producto se editó correctamente!");
+      console.log("result:", result);
+      if (result) {
+        this.emptyListProducts();
+        this.notifyService.showSuccess("Pagar", "¡Se ha realizado el pago correctamente!");
       }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       console.log(this.closeResult);
     });
 
+  }
+
+  emptyListProducts() {
+    while (this.productList.length > 0)
+      this.productList.pop();
+
+    console.log("this.productList,", this.productList);
   }
 
   private getDismissReason(reason: any): string {
