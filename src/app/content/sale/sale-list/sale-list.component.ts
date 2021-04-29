@@ -286,7 +286,7 @@ export class SaleListComponent implements OnInit {
 
   emptyListProducts() {
     this.precioTotal = 0;
-    this.gValue['precioTotal'].patchValue(this.precioTotal);
+    this.g['precioTotal'].patchValue(this.precioTotal);
     while (this.productList.length > 0)
       this.productList.pop();
   }

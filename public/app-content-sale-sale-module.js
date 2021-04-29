@@ -666,6 +666,7 @@ var SaleListComponent = /** @class */ (function () {
             console.log("result:", result);
             if (result) {
                 _this.emptyListProducts();
+                console.log("this.precioTotal", _this.precioTotal);
                 _this.notifyService.showSuccess("Pagar", "¡Se ha realizado el pago correctamente!");
             }
         }, function (reason) {
@@ -674,9 +675,10 @@ var SaleListComponent = /** @class */ (function () {
         });
     };
     SaleListComponent.prototype.emptyListProducts = function () {
+        this.precioTotal = 0;
+        this.g['precioTotal'].patchValue(this.precioTotal);
         while (this.productList.length > 0)
             this.productList.pop();
-        console.log("this.productList,", this.productList);
     };
     SaleListComponent.prototype.getDismissReason = function (reason) {
         if (reason === _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["ModalDismissReasons"].ESC) {
@@ -818,6 +820,7 @@ var PaySaleComponent = /** @class */ (function () {
         console.log("Valor form: ", this.fValue);
         this.updateStock(this.productService.productListSelected, this.currentUser.uid);
         this.addSale(this.productService.productListSelected, this.currentUser.uid);
+        this.saldoTotal = 0;
         this.passEntry.emit(true);
         this.activeModal.close(true);
     };
