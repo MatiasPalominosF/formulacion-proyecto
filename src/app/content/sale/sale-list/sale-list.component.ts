@@ -263,7 +263,7 @@ export class SaleListComponent implements OnInit {
     this.refresh();
   }
 
-  test() {
+  onPay() {
     console.log("this.productList.length", this.productList.length);
     console.log("this.gValue", this.gValue);
 
