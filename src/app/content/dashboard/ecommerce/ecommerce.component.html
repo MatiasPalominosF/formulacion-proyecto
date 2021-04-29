@@ -7,8 +7,7 @@
     </div>
   </div>
   <div class="content-wrapper">
-    <div class="content-header row mb-1">
-    </div>
+    <div class="content-header row mb-1"></div>
     <div class="content-body">
       <!-- eCommerce statistic -->
       <div class="row">
@@ -18,15 +17,22 @@
               <div class="card-body card_padding">
                 <div class="media d-flex">
                   <div class="media-body text-left">
-                    <h3 class="info">90</h3>
+                    <h3 class="info">{{ cantSales }}</h3>
                     <h6>Productos vendidos</h6>
                   </div>
                   <div>
-                    <i class="icon-basket-loaded info font-large-2 float-right"></i>
+                    <i
+                      class="icon-basket-loaded info font-large-2 float-right"
+                    ></i>
                   </div>
                 </div>
                 <div class="mb-0 mt-1">
-                  <ngb-progressbar height="7px" width="100%" type="gradient-x-info" [value]="80"></ngb-progressbar>
+                  <ngb-progressbar
+                    height="7px"
+                    width="100%"
+                    type="gradient-x-info"
+                    [value]="cantSales"
+                  ></ngb-progressbar>
                 </div>
               </div>
             </div>
@@ -38,15 +44,22 @@
               <div class="card-body card_padding">
                 <div class="media d-flex">
                   <div class="media-body text-left">
-                    <h3 class="warning">$350.000</h3>
+                    <h3 class="warning">${{ sumSales }}</h3>
                     <h6>Ventas</h6>
                   </div>
                   <div>
-                    <i class="icon-pie-chart warning font-large-2 float-right"></i>
+                    <i
+                      class="icon-pie-chart warning font-large-2 float-right"
+                    ></i>
                   </div>
                 </div>
                 <div class="mb-0 mt-1">
-                  <ngb-progressbar height="7px" width="100%" type="gradient-x-warning" [value]="70">
+                  <ngb-progressbar
+                    height="7px"
+                    width="100%"
+                    type="gradient-x-warning"
+                    [value]="sumSales"
+                  >
                   </ngb-progressbar>
                 </div>
               </div>
@@ -60,15 +73,22 @@
               <div class="card-body card_padding">
                 <div class="media d-flex">
                   <div class="media-body text-left">
-                    <h3 class="success">{{cantWorkers}}</h3>
+                    <h3 class="success">{{ cantWorkers }}</h3>
                     <h6>Personal</h6>
                   </div>
                   <div>
-                    <i class="icon-user-follow success font-large-2 float-right"></i>
+                    <i
+                      class="icon-user-follow success font-large-2 float-right"
+                    ></i>
                   </div>
                 </div>
                 <div class="mb-0 mt-1">
-                  <ngb-progressbar height="7px" width="100%" type="gradient-x-success" [value]="cantWorkers">
+                  <ngb-progressbar
+                    height="7px"
+                    width="100%"
+                    type="gradient-x-success"
+                    [value]="cantWorkers"
+                  >
                   </ngb-progressbar>
                 </div>
               </div>
@@ -104,8 +124,13 @@
             <div class="card-header card-header-transparent py-20">
               <div class="btn-group dropdown">
                 <a [routerLink]="" ngbDropdown class="d-inline-block">
-                  <button class="btn btn_dropdown btn_set_padding btn-dropdown-toggle" id="dropdownBasic1"
-                    ngbDropdownToggle>Venta de productos</button>
+                  <button
+                    class="btn btn_dropdown btn_set_padding btn-dropdown-toggle"
+                    id="dropdownBasic1"
+                    ngbDropdownToggle
+                  >
+                    Venta de productos
+                  </button>
                   <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                     <button class="dropdown-item">Ventas</button>
                     <button class="dropdown-item">Ventas totales</button>
@@ -117,9 +142,14 @@
                 <ngb-tab title="Día">
                   <ng-template ngbTabContent>
                     <div class="areaChartLegend scoreLineShadow">
-                      <x-chartist *ngIf="lineAreaDay" [data]="lineAreaDay.data" [type]="lineAreaDay.type"
-                        [options]="lineAreaDay.options" [responsiveOptions]="lineAreaDay.responsiveOptions"
-                        [events]="lineAreaDay.events">
+                      <x-chartist
+                        *ngIf="lineAreaDay"
+                        [data]="lineAreaDay.data"
+                        [type]="lineAreaDay.type"
+                        [options]="lineAreaDay.options"
+                        [responsiveOptions]="lineAreaDay.responsiveOptions"
+                        [events]="lineAreaDay.events"
+                      >
                       </x-chartist>
                     </div>
                   </ng-template>
@@ -127,9 +157,14 @@
                 <ngb-tab title="Semana">
                   <ng-template ngbTabContent>
                     <div class="areaChartLegend scoreLineShadow">
-                      <x-chartist *ngIf="lineAreaWeek" [data]="lineAreaWeek.data" [type]="lineAreaWeek.type"
-                        [options]="lineAreaWeek.options" [responsiveOptions]="lineAreaWeek.responsiveOptions"
-                        [events]="lineAreaWeek.events">
+                      <x-chartist
+                        *ngIf="lineAreaWeek"
+                        [data]="lineAreaWeek.data"
+                        [type]="lineAreaWeek.type"
+                        [options]="lineAreaWeek.options"
+                        [responsiveOptions]="lineAreaWeek.responsiveOptions"
+                        [events]="lineAreaWeek.events"
+                      >
                       </x-chartist>
                     </div>
                   </ng-template>
@@ -137,16 +172,21 @@
                 <ngb-tab title="Mes">
                   <ng-template ngbTabContent>
                     <div class="areaChartLegend scoreLineShadow">
-                      <x-chartist *ngIf="lineAreaMonth" [data]="lineAreaMonth.data" [type]="lineAreaMonth.type"
-                        [options]="lineAreaMonth.options" [responsiveOptions]="lineAreaMonth.responsiveOptions"
-                        [events]="lineAreaMonth.events">
+                      <x-chartist
+                        *ngIf="lineAreaMonth"
+                        [data]="lineAreaMonth.data"
+                        [type]="lineAreaMonth.type"
+                        [options]="lineAreaMonth.options"
+                        [responsiveOptions]="lineAreaMonth.responsiveOptions"
+                        [events]="lineAreaMonth.events"
+                      >
                       </x-chartist>
                     </div>
                   </ng-template>
                 </ngb-tab>
               </ngb-tabset>
             </div>
-            <br>
+            <br />
           </div>
         </div>
         <!--div class="col-xl-4 col-lg-12" *blockUI="'newOrders'; message: 'Loading'">

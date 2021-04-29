@@ -1,5 +1,5 @@
-import { WorkersInterface } from './../../../_models/workers';
 import { WorkersService } from './../../../_api/workers/workers.service';
+import { SaleService } from './../../../_api/sale/sale.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as Chartist from 'chartist';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
@@ -10,6 +10,7 @@ import { PerfectScrollbarDirective, PerfectScrollbarComponent, PerfectScrollbarC
 import { ChartApiService } from '../../../_services/chart.api';
 import { TableApiService } from '../../../_services/table-api.service';
 import { Router } from '@angular/router';
+import { Product } from 'src/app/_models/product2';
 export interface Chart {
   type: ChartType;
   data: Chartist.IChartistData;
@@ -33,9 +34,11 @@ export class EcommerceComponent implements OnInit {
 
 
   private currentUser: any;
-  private workers: WorkersInterface[];
   public cantWorkers: number;
+  public cantSales: number;
+  public sumSales: number;
   public loading = false;
+  private sale: Product;
 
   currentJustify = 'end';
   loadingIndicator = true;
@@ -62,21 +65,77 @@ export class EcommerceComponent implements OnInit {
   constructor(private chartApiservice: ChartApiService,
     private tableApiservice: TableApiService,
     private route: Router,
-    private workersService: WorkersService
+    private workersService: WorkersService,
+    private saleService: SaleService
   ) {
+
     this.getUserLogged();
-    this.loading = true;
-    this.workersService.getFullInfoEmployees(this.currentUser.uid).subscribe(
-      (workers) => {
-        this.workers = workers;
-        this.getSizeWorkers();
-        this.loading = false;
-      }
-    );
+    this.getDataCards();
   }
   getTabledata() {
     this.rows = this.datatableData.rows;
   }
+
+  ngOnInit() {
+    this.chartApiservice.getEcommerceData().subscribe(Response => {
+      this.ChartistData = Response;
+      this.getlineArea();
+    });
+    this.tableApiservice.getEcommerceTableData().subscribe(Response => {
+      this.datatableData = Response;
+      this.getTabledata();
+    });
+
+  }
+
+  reloadNewOrders() {
+    this.blockUINewOrders.start('Loading..');
+    setTimeout(() => {
+      this.blockUINewOrders.stop();
+    }, 2500);
+  }
+  rotueInvoice() {
+    this.route.navigate(['/invoice/invoice-summary']);
+  }
+  reLoad() {
+    this.route.navigate(['/sale'])
+  }
+
+  getDataCards() {
+    this.loading = true;
+    this.getInfoEmployees();
+    this.getInfoSales();
+    this.loading = false;
+  }
+
+  getInfoSales() {
+    this.saleService.getFullInfoSale(this.currentUser.uid).subscribe(
+      sale => {
+        var sum = 0; 
+        sale.forEach(element => {
+          sum += element.totalPrice;
+        });
+        this.cantSales = sale.length;
+        this.sumSales = sum;
+      }
+    );
+  }
+
+  getInfoEmployees() {
+    this.workersService.getFullInfoEmployees(this.currentUser.uid).subscribe(
+      workers => {
+        const sizework = workers.length;
+        this.cantWorkers = sizework;
+      }
+    );
+  }
+
+  getUserLogged(): void {
+    if (localStorage.getItem('currentUser')) {
+      this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    }
+  }
+
   getlineArea() {
     const ChartData = this.ChartistData;
     this.lineAreaDay = {
@@ -396,53 +455,4 @@ export class EcommerceComponent implements OnInit {
     };
   }
   ///////////////////// End barchart////////////////
-  ngOnInit() {
-    this.chartApiservice.getEcommerceData().subscribe(Response => {
-      this.ChartistData = Response;
-      this.getlineArea();
-    });
-    this.tableApiservice.getEcommerceTableData().subscribe(Response => {
-      this.datatableData = Response;
-      this.getTabledata();
-    });
-
-    console.log("this.rows, ", this.rows);
-
-
-
-    console.log("workers: ", this.cantWorkers);
-
-  }
-
-  getSizeWorkers() {
-    this.cantWorkers = this.workers.length;
-  }
-  reloadNewOrders() {
-    this.blockUINewOrders.start('Loading..');
-    setTimeout(() => {
-      this.blockUINewOrders.stop();
-    }, 2500);
-  }
-  rotueInvoice() {
-    this.route.navigate(['/invoice/invoice-summary']);
-  }
-  reLoad() {
-    this.route.navigate(['/sale'])
-  }
-
-  getInfoEmployees() {
-    return this.workersService.getFullInfoEmployees(this.currentUser.uid).subscribe(
-      workers => {
-        const sizework = workers.length;
-        this.cantWorkers = sizework;
-        console.log("workers: ", this.cantWorkers);
-      }
-    );
-  }
-
-  getUserLogged(): void {
-    if (localStorage.getItem('currentUser')) {
-      this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    }
-  }
 }

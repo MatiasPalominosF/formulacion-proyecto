@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductService } from 'src/app/_api/product/product.service';
+import { SaleService } from 'src/app/_api/sale/sale.service';
+import { Product } from 'src/app/_models/product2';
 
 @Component({
   selector: 'app-pay-sale',
@@ -19,7 +21,9 @@ export class PaySaleComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
-    public productService: ProductService) { }
+    public productService: ProductService,
+    private saleService: SaleService
+  ) { }
 
   ngOnInit(): void {
     console.log("this.saldoTotal", this.saldoTotal);
@@ -57,7 +61,24 @@ export class PaySaleComponent implements OnInit {
 
   onPaySubmit() {
     console.log("Valor form: ", this.fValue);
-    this.productService.productListSelected.forEach(element => {
+
+    this.updateStock(this.productService.productListSelected, this.currentUser.uid);
+    this.addSale(this.productService.productListSelected, this.currentUser.uid);
+
+    this.passEntry.emit(true);
+    this.activeModal.close(true);
+
+
+  }
+
+  addSale(productList: Array<Product>, uidBoss: string): void {
+    productList.forEach(element => {
+      this.saleService.addSaleProduct(element, this.currentUser.uid);
+    });
+  }
+
+  updateStock(productList: Array<Product>, uidBoss: string): void {
+    productList.forEach(element => {
       var stockF = element.stock;
       var stockR = element.quantity;
 
@@ -65,10 +86,7 @@ export class PaySaleComponent implements OnInit {
 
       var stockRestante = this.intToString((stockFint - stockR));
 
-      this.productService.updateFieldOnProduct(element.id, this.currentUser.uid, stockRestante);
-      
-      this.passEntry.emit(true);
-      this.activeModal.close(true);
+      this.productService.updateFieldOnProduct(element.id, uidBoss, stockRestante);
     });
   }
 
