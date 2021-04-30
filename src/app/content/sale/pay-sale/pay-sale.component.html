@@ -1,0 +1,86 @@
+<div class="modal-header">
+  <!--h4 class="modal-title" id="modal-basic-title">Profile update</h4-->
+  <h4 class="form-section">
+    <i class="mr-2 mt-6 feather ft-shopping-cart"></i>Realizar pago
+  </h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form
+    class="form form-horizontal"
+    [formGroup]="payFormGroup"
+    (ngSubmit)="onPaySubmit()"
+  >
+    <div class="row justify-content-md-center">
+      <div class="col-md-12">
+        <div class="form-body">
+          <div class="form-group row mx-auto">
+            <label class="col-md-3 label-control" for="eventRegInput1"
+              >Monto a pagar</label
+            >
+            <div class="col-md-9">
+              <input
+                type="text"
+                id="eventInput1"
+                class="form-control"
+                placeholder="Monto a pagar"
+                formControlName="amount"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group row mx-auto">
+            <label class="col-md-3 label-control" for="eventRegInput2"
+              >Paga con</label
+            >
+            <div class="col-md-9">
+              <input
+                (keypress)="keyPress($event)"
+                (ngModelChange)="calChange($event)"
+                type="text"
+                id="eventInput2"
+                class="form-control"
+                placeholder="Paga con"
+                formControlName="paidWith"
+              />
+            </div>
+          </div>
+          <div class="form-group row mx-auto">
+            <label class="col-md-3 label-control" for="eventRegInput3"
+              >Vuelto</label
+            >
+            <div class="col-md-9">
+              <input
+                type="text"
+                id="eventInput3"
+                class="form-control"
+                placeholder="Vuelto"
+                formControlName="change"
+                readonly
+              />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            (click)="activeModal.dismiss('click cancel')"
+            type="button"
+            class="btn btn-sm grey btn-outline-secondary"
+          >
+            <i class="feather ft-x"></i> Cerrar
+          </button>
+          <button type="submit" class="btn btn-sm btn-outline-primary">
+            <i class="la la-check"></i> Aceptar
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

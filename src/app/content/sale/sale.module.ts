@@ -8,11 +8,13 @@ import { BlockUIModule } from 'ng-block-ui';
 import { BlockTemplateComponent } from 'src/app/_layout/blockui/block-template.component';
 import { CardModule } from '../partials/general/card/card.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PaySaleComponent } from './pay-sale/pay-sale.component';
+import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
 
 
 
 @NgModule({
-  declarations: [SaleListComponent],
+  declarations: [SaleListComponent, PaySaleComponent],
   imports: [
     CommonModule,
     BreadcrumbModule,
@@ -31,6 +33,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         component: SaleListComponent
       }
     ]),
-  ]
+  ], providers: [ConfirmationDialogService]
 })
 export class SaleModule { }

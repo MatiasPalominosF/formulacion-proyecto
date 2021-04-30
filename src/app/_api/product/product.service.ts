@@ -4,6 +4,7 @@ import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection 
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import * as firebase from 'firebase/app';
+import { Product } from 'src/app/_models/product2';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class ProductService {
   private productDoc: AngularFirestoreDocument<ProductInterface>;
   private product: Observable<ProductInterface>;
   public selectedProduct: ProductInterface = {};
+  public productListSelected: Array<Product> = [];
   constructor(
     public afs: AngularFirestore
   ) {
@@ -71,6 +73,10 @@ export class ProductService {
     console.log("IDPRODUCT:", idProduct);
     this.productDoc = this.afs.collection('product').doc(`${idBoss}`).collection<ProductInterface>('productInfo').doc(`${idProduct}`);
     this.productDoc.update(producto);
+  }
+
+  updateFieldOnProduct(idProduct: string, idBoss: string, value: string) {
+    this.afs.collection('product').doc(`${idBoss}`).collection('productInfo').doc(`${idProduct}`).update({ "stock": value });
   }
 
   deleteProduct(idProduct: string, idBoss: string): void {
