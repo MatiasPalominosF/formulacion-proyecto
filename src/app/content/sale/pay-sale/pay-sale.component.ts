@@ -73,7 +73,7 @@ export class PaySaleComponent implements OnInit {
 
   addSale(productList: Array<Product>, uidBoss: string): void {
     productList.forEach(element => {
-      this.saleService.addSaleProduct(element, this.currentUser.uid);
+      this.saleService.addSaleProduct(element, uidBoss);
     });
   }
 
