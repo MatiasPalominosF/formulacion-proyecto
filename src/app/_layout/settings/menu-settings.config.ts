@@ -93,7 +93,19 @@ export const MenuSettingsConfig: MenuConfig = {
       {
         title: 'Informes',
         icon: 'la-clipboard',
-        page: '/report/report-list',
+        page: 'null',
+        submenu: {
+          items: [
+            {
+               title: 'Ventas',
+               page: '/report/report-list'
+             },
+            {
+              title: 'Anulaciones',
+              page: 'null'
+            },
+          ]
+        }
       },
       {
         title: 'Anulaciones',
@@ -177,7 +189,19 @@ export const MenuSettingsConfig: MenuConfig = {
       {
         title: 'Informes',
         icon: 'la-clipboard',
-        page: '/report/report-list',
+        page: 'null',
+        submenu: {
+          items: [
+            {
+               title: 'Ventas',
+               page: '/report/report-list'
+             },
+            {
+              title: 'Anulaciones',
+              page: 'null'
+            },
+          ]
+        }
       },
       {
         title: 'Anulaciones',
