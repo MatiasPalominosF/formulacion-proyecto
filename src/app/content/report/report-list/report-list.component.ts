@@ -41,7 +41,7 @@ export class ReportListComponent implements OnInit {
     minimize: true,
     reload: true
   };
-  public headElements = ['#', 'Producto', 'Cantidad', 'Precio total', 'Fecha', 'Acciones'];
+  public headElements = ['#', 'Producto', 'Cantidad', 'Precio total', 'Fecha'];
   
   constructor(
     private saleService: SaleService,
