@@ -1,6 +1,3 @@
-:host ::ng-deep .block-ui-wrapper {
-  background: rgba(255, 249, 249, 0.5) !important;
-}
 :host ::ng-deep .btn-light:not(:disabled):not(.disabled):active {
   color: unset !important;
   background-color: unset !important;
@@ -123,4 +120,24 @@
 
 :host ::ng-deep .block-ui-wrapper {
   background: rgba(255, 249, 249, 0.5) !important;
+}
+
+.custom-day {
+  text-align: center;
+  padding: 0.185rem 0.25rem;
+  border-radius: 0.25rem;
+  display: inline-block;
+  width: 2rem;
+}
+.custom-day:hover,
+.custom-day.focused {
+  background-color: #e6e6e6;
+}
+.weekend {
+  background-color: #f0ad4e;
+  border-radius: 1rem;
+  color: white;
+}
+.hidden {
+  display: none;
 }
