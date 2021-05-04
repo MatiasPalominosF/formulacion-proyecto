@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -73,6 +74,8 @@ export class PaySaleComponent implements OnInit {
 
   addSale(productList: Array<Product>, uidBoss: string): void {
     productList.forEach(element => {
+      var dateSale = new Date();
+      element.date = dateSale;
       this.saleService.addSaleProduct(element, uidBoss);
     });
   }

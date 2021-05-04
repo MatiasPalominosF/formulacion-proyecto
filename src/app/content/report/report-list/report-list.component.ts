@@ -70,7 +70,7 @@ export class ReportListComponent implements OnInit {
   getAllSales(): void {
     this.blockUIReportTable.start('Loading..');
     this.saleService.getFullInfoSale(this.currentUser.uid).subscribe(data => {
-      
+      console.log(data);
       this.PRODUCT = data;
       this.collectionSize = this.PRODUCT.length;
       this.searchData(this.pipe);

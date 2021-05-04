@@ -69,11 +69,14 @@
                       </td>
                       <td>
                         <ngb-highlight
-                          [result]="element.totalPrice"
-                          [term]="filter.value"
+                          [result]="element.date.toDate() | date:'dd/MM/yyyy'"
+                          [term]="element.date.toDate() | date:'dd/MM/yyyy'"
                         >
                         </ngb-highlight>
                       </td>
+                      <!--th>
+                        {{element.date.toDate() | date:'yyyy/MM/dd'}}
+                      </th-->
                       <td>
                         <button
                           class="btn btn-xs btn-social-icon btn-instagram"
