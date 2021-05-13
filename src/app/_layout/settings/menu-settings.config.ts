@@ -83,17 +83,22 @@ export const MenuSettingsConfig: MenuConfig = {
         icon: 'feather ft-shopping-cart',
         page: '/contacts'
       },
-      { section: 'PERSONAL', icon: 'la-ellipsis-h' },
       {
-        title: 'Usuarios',
+        title: 'USUARIOS',
         icon: 'la-users',
-        page: '/user/user-list'
-      },
-      { section: 'CLIENTES', icon: 'la-ellipsis-h' },
-      {
-        title: 'Usuarios',
-        icon: 'la-users',
-        page: '/client/client-list'
+        page: 'null',
+        submenu: {
+          items: [
+            {
+              title: 'Personal',
+              page: '/user/user-list'
+            },
+            {
+              title: 'Clientes',
+              page: '/client/client-list'
+            },
+          ]
+        }
       },
 
       { section: 'ADMINISTRACIÓN', icon: 'la-ellipsis-h' },
@@ -186,17 +191,22 @@ export const MenuSettingsConfig: MenuConfig = {
         icon: 'feather ft-shopping-cart',
         page: '/stock/stock-list'
       },*/
-      { section: 'PERSONAL', icon: 'la-ellipsis-h' },
       {
-        title: 'Usuarios',
+        title: 'USUARIOS',
         icon: 'la-users',
-        page: '/user/user-list'
-      },
-      { section: 'CLIENTES', icon: 'la-ellipsis-h' },
-      {
-        title: 'Usuarios',
-        icon: 'la-users',
-        page: '/client/client-list'
+        page: 'null',
+        submenu: {
+          items: [
+            {
+              title: 'Personal',
+              page: '/user/user-list'
+            },
+            {
+              title: 'Clientes',
+              page: '/client/client-list'
+            },
+          ]
+        }
       },
       { section: 'ADMINISTRACIÓN', icon: 'la-ellipsis-h' },
       {
