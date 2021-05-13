@@ -123,7 +123,7 @@ export class ReportListComponent implements OnInit {
         this.dataExport.nombre = element.name;
         this.dataExport.stock = element.stock;
         this.dataExport.cantidad_vendida = element.quantity;
-        this.dataExport.fecha_venta = element.date;
+        this.dataExport.fecha_venta = element.date.toDate();
         this.dataExport.precio_total = element.totalPrice;
         this.dataExport.se_anulo = element.cancellation;
         this.dataExport.medida = element.measure;

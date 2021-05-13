@@ -4,7 +4,7 @@ export interface Product {
   total?: string;
   stock?: string;
   quantity?: number;
-  date?: Date;
+  date?: any;
   totalPrice?: number;
   sellTotal?: number;
   cancellation?: boolean;
