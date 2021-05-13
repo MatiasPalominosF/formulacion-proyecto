@@ -8,7 +8,7 @@
         <div class="col-sm-12" *blockUI="'userTable'; message: 'Loading'">
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title">Gestión de usuarios</h4>
+              <h4 class="card-title">Lista de usuarios</h4>
             </div>
             <div class="row justify-content-between">
               <div class="col-4">
@@ -134,6 +134,7 @@
                   style="width: auto"
                   [(ngModel)]="pageSize"
                 >
+                  <option [ngValue]="collectionSize">Mostrar todos los ítems</option>
                   <option [ngValue]="2">2 ítems por página</option>
                   <option [ngValue]="4">4 ítems por página</option>
                   <option [ngValue]="6">6 ítems por página</option>
