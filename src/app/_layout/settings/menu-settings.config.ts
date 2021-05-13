@@ -89,6 +89,13 @@ export const MenuSettingsConfig: MenuConfig = {
         icon: 'la-users',
         page: '/user/user-list'
       },
+      { section: 'CLIENTES', icon: 'la-ellipsis-h' },
+      {
+        title: 'Usuarios',
+        icon: 'la-users',
+        page: '/client/client-list'
+      },
+
       { section: 'ADMINISTRACIÓN', icon: 'la-ellipsis-h' },
       {
         title: 'Informes',
@@ -97,9 +104,9 @@ export const MenuSettingsConfig: MenuConfig = {
         submenu: {
           items: [
             {
-               title: 'Ventas',
-               page: '/report/report-list'
-             },
+              title: 'Ventas',
+              page: '/report/report-list'
+            },
             {
               title: 'Anulaciones',
               page: 'null'
@@ -185,6 +192,12 @@ export const MenuSettingsConfig: MenuConfig = {
         icon: 'la-users',
         page: '/user/user-list'
       },
+      { section: 'CLIENTES', icon: 'la-ellipsis-h' },
+      {
+        title: 'Usuarios',
+        icon: 'la-users',
+        page: '/client/client-list'
+      },
       { section: 'ADMINISTRACIÓN', icon: 'la-ellipsis-h' },
       {
         title: 'Informes',
@@ -193,9 +206,9 @@ export const MenuSettingsConfig: MenuConfig = {
         submenu: {
           items: [
             {
-               title: 'Ventas',
-               page: '/report/report-list'
-             },
+              title: 'Ventas',
+              page: '/report/report-list'
+            },
             {
               title: 'Anulaciones',
               page: 'null'
