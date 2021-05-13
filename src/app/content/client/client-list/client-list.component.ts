@@ -66,8 +66,12 @@ export class ClientListComponent implements OnInit {
 
   }
 
+  onAddClient(): void {
+    console.log("Se presionó");
+  }
+
   getAllClients(): void {
-    this.blockUIClientTable.start('Loading..');
+    this.blockUIClientTable.start('Cargando...');
     console.log("this.currentUser.uidCLIENTE", this.currentUser.uid);
     this.clientService.getFullInfoClient(this.currentUser.uid).subscribe(data => {
       console.log(data);
