@@ -75,6 +75,7 @@ import { TermsConditionComponent } from './login/terms-condition/terms-condition
 import { ArchwizardModule } from 'angular-archwizard';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';;
 import { ServiceWorkerModule } from '@angular/service-worker'
+;
 
 
 
@@ -106,7 +107,8 @@ import { ServiceWorkerModule } from '@angular/service-worker'
     LoadingBarRouterModule,
     BlockUIModule.forRoot({
       template: BlockTemplateComponent
-    }),
+    })
+,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   declarations: [
@@ -132,6 +134,7 @@ import { ServiceWorkerModule } from '@angular/service-worker'
     FullLayoutComponent,
     PrivacyPolicyComponent,
     TermsConditionComponent
+,
   ],
   providers: [
     AuthGuard,

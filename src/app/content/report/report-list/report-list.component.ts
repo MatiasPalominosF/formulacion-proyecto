@@ -1,7 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, OnInit, PipeTransform } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -27,10 +27,10 @@ export class ReportListComponent implements OnInit {
   public filter = new FormControl('');
   public d3: any;
   public d4: any;
-  public from: NgbDateStruct;
-  public to: NgbDateStruct;
+  public from = new Date('December 25, 1995 13:30:00');;
+  public to = new Date();
   public disabled = true;
-  public fgDate : FormGroup;
+  public fgDate: FormGroup;
 
   private PRODUCT: Product[];
   public productSearch: Observable<Product[]>;
@@ -42,7 +42,7 @@ export class ReportListComponent implements OnInit {
     reload: true
   };
   public headElements = ['#', 'Producto', 'Cantidad', 'Precio total', 'Fecha'];
-  
+
   constructor(
     private saleService: SaleService,
     private fbDate: FormBuilder,
@@ -66,8 +66,8 @@ export class ReportListComponent implements OnInit {
     };
 
     this.fgDate = this.fbDate.group({
-      from : [null, [Validators.required]],
-      to : [null, [Validators.required]]
+      from: [null, [Validators.required]],
+      to: [null, [Validators.required]]
     })
 
     this.getUserLogged();
@@ -75,8 +75,8 @@ export class ReportListComponent implements OnInit {
   }
 
 
-   // Custom Day View Starts
-   isWeekend(date: NgbDateStruct) {
+  // Custom Day View Starts
+  isWeekend(date: NgbDateStruct) {
     const d = new Date(date.year, date.month - 1, date.day);
     return d.getDay() === 0 || d.getDay() === 6;
   }
@@ -84,7 +84,7 @@ export class ReportListComponent implements OnInit {
   isDisabled(date: NgbDateStruct, current: { month: number }) {
     return date.month !== current.month;
   }
-  
+
   getUserLogged(): void {
     if (localStorage.getItem('currentUser')) {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));

@@ -8,11 +8,12 @@ import { BlockUIModule } from 'ng-block-ui';
 import { BlockTemplateComponent } from 'src/app/_layout/blockui/block-template.component';
 import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FilterDatePipe } from 'src/app/_pipe/filter-date.pipe';
 
 
 
 @NgModule({
-  declarations: [ReportListComponent],
+  declarations: [ReportListComponent, FilterDatePipe],
   imports: [
     CommonModule,
     BreadcrumbModule,
