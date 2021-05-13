@@ -1,18 +1,11 @@
 <div class="app-content content">
-  <div class="loader-wrapper" *ngIf="loading">
-    <div class="loader-container">
-      <div class="ball-rotate loader-danger">
-        <div></div>
-      </div>
-    </div>
-  </div>
   <div class="content-wrapper">
     <div class="content-header row mb-1">
       <app-breadcrumb class="col-12" [breadcrumb]="breadcrumb"></app-breadcrumb>
     </div>
     <div class="content-body">
       <div class="row">
-        <div class="col-sm-12" *blockUI="'basicTables'; message: 'Loading'">
+        <div class="col-sm-12" *blockUI="'tableProduct'; message: 'Loading'">
           <div class="card">
             <div class="card">
               <div class="card-header">

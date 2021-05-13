@@ -12,7 +12,7 @@
       <!-- eCommerce statistic -->
       <div class="row">
         <div class="col-xl-4 col-lg-6 col-12">
-          <div class="card pull-up">
+          <div class="card pull-up" *blockUI="'sellCard'; message: 'Loading'">
             <div class="card-content">
               <div class="card-body card_padding">
                 <div class="media d-flex">
@@ -39,7 +39,7 @@
           </div>
         </div>
         <div class="col-xl-4 col-lg-6 col-12">
-          <div class="card pull-up">
+          <div class="card pull-up" *blockUI="'sellCard'; message: 'Loading'">
             <div class="card-content">
               <div class="card-body card_padding">
                 <div class="media d-flex">
@@ -66,9 +66,8 @@
             </div>
           </div>
         </div>
-
         <div class="col-xl-4 col-lg-6 col-12">
-          <div class="card pull-up">
+          <div class="card pull-up" *blockUI="'userCard'; message: 'Loading'">
             <div class="card-content">
               <div class="card-body card_padding">
                 <div class="media d-flex">
