@@ -1,12 +1,23 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, OnInit, PipeTransform } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { SaleService } from 'src/app/_api/sale/sale.service';
 import { Product } from 'src/app/_models/product2';
+import { ExportExcelService } from 'src/app/_services/export-excel.service';
+
+export interface ExportData {
+  nombre?: string;
+  stock?: string;
+  cantidad_vendida?: number;
+  fecha_venta?: Date;
+  precio_total?: number;
+  se_anulo?: boolean;
+  medida?: string;
+}
 
 @Component({
   selector: 'app-report-list',
@@ -33,6 +44,8 @@ export class ReportListComponent implements OnInit {
   public fgDate: FormGroup;
 
   private PRODUCT: Product[];
+  private dataExports: Array<ExportData> = [];
+  private dataExport: ExportData = {};
   public productSearch: Observable<Product[]>;
 
   public options = {
@@ -46,6 +59,7 @@ export class ReportListComponent implements OnInit {
   constructor(
     private saleService: SaleService,
     private fbDate: FormBuilder,
+    private excelService: ExportExcelService
   ) { }
 
   ngOnInit(): void {
@@ -101,6 +115,28 @@ export class ReportListComponent implements OnInit {
       this.productSortable = this.PRODUCT;
       this.blockUIReportTable.stop();
     });
+  }
+
+  exportAsXLSX(): void {
+    if (this.productSearch != null) {
+      this.PRODUCT.forEach(element => {
+        this.dataExport.nombre = element.name;
+        this.dataExport.stock = element.stock;
+        this.dataExport.cantidad_vendida = element.quantity;
+        this.dataExport.fecha_venta = element.date;
+        this.dataExport.precio_total = element.totalPrice;
+        this.dataExport.se_anulo = element.cancellation;
+        this.dataExport.medida = element.measure;
+        console.log(this.dataExport);
+        this.dataExports.push(this.dataExport);
+        this.dataExport = {};
+      });
+
+      console.log("dataExports", this.dataExports);
+      this.excelService.exportAsExcelFile(this.dataExports, 'ventas');
+      this.dataExports = [];
+    }
+
   }
 
   /**
