@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { ProductService } from './../../../_api/product/product.service';
 import { Component, OnInit, Directive, Input, Output, EventEmitter, PipeTransform, ViewChildren, QueryList } from '@angular/core';
 import { map, startWith } from 'rxjs/operators';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 
 // Parameters for table.
@@ -49,6 +50,7 @@ export class NgbSortable {
 })
 export class ProductListComponent implements OnInit {
 
+  @BlockUI('tableProduct') blockUITableProduct: NgBlockUI;
   closeResult = '';
   public breadcrumb: any;
   public loading = false;
@@ -97,7 +99,7 @@ export class ProductListComponent implements OnInit {
 
 
   getFullInfoProduct() {
-    this.loading = true;
+    this.blockUITableProduct.start('Loading..');
     this.productService.getFullInfoProduct(this.currentUser.uid).subscribe(product => {
       console.log("DATOS:", product);
       //console.log("ESTA WEA TRAE:", Object.entries(product[0].ingredients).length === 0);
@@ -105,7 +107,7 @@ export class ProductListComponent implements OnInit {
       this.collectionSize = this.PRODUCT.length;
       this.searchData(this.pipe);
       this.productSortable = this.PRODUCT;
-      this.loading = false;
+      this.blockUITableProduct.stop();
     });
   }
 

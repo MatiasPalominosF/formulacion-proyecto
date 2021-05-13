@@ -827,7 +827,9 @@ var PaySaleComponent = /** @class */ (function () {
     PaySaleComponent.prototype.addSale = function (productList, uidBoss) {
         var _this = this;
         productList.forEach(function (element) {
-            _this.saleService.addSaleProduct(element, _this.currentUser.uid);
+            var dateSale = new Date();
+            element.date = dateSale;
+            _this.saleService.addSaleProduct(element, uidBoss);
         });
     };
     PaySaleComponent.prototype.updateStock = function (productList, uidBoss) {

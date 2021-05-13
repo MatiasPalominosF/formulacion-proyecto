@@ -4861,7 +4861,19 @@ var MenuSettingsConfig = {
             {
                 title: 'Informes',
                 icon: 'la-clipboard',
-                page: '',
+                page: 'null',
+                submenu: {
+                    items: [
+                        {
+                            title: 'Ventas',
+                            page: '/report/report-list'
+                        },
+                        {
+                            title: 'Anulaciones',
+                            page: 'null'
+                        },
+                    ]
+                }
             },
             {
                 title: 'Anulaciones',
@@ -4945,7 +4957,19 @@ var MenuSettingsConfig = {
             {
                 title: 'Informes',
                 icon: 'la-clipboard',
-                page: '',
+                page: 'null',
+                submenu: {
+                    items: [
+                        {
+                            title: 'Ventas',
+                            page: '/report/report-list'
+                        },
+                        {
+                            title: 'Anulaciones',
+                            page: 'null'
+                        },
+                    ]
+                }
             },
             {
                 title: 'Anulaciones',
@@ -5711,7 +5735,7 @@ var AppModule = /** @class */ (function () {
                     _layout_blockui_block_template_component__WEBPACK_IMPORTED_MODULE_50__["BlockTemplateComponent"],
                     _layout_full_layout_full_layout_component__WEBPACK_IMPORTED_MODULE_53__["FullLayoutComponent"],
                     _login_privacy_policy_privacy_policy_component__WEBPACK_IMPORTED_MODULE_56__["PrivacyPolicyComponent"],
-                    _login_terms_condition_terms_condition_component__WEBPACK_IMPORTED_MODULE_57__["TermsConditionComponent"]
+                    _login_terms_condition_terms_condition_component__WEBPACK_IMPORTED_MODULE_57__["TermsConditionComponent"],
                 ],
                 providers: [
                     _guards_auth_guard__WEBPACK_IMPORTED_MODULE_11__["AuthGuard"],
@@ -6041,7 +6065,7 @@ var appRoutes = [
             },
             {
                 path: 'datatablesext',
-                loadChildren: function () { return Promise.all(/*! import() | app-content-table-datatablesext-datatablesext-module */[__webpack_require__.e("default~app-content-applications-contacts-contacts-module~app-content-dashboard-dashboard-module~app~a5f9bb0a"), __webpack_require__.e("default~app-content-table-datatables-datatables-module~app-content-table-datatablesext-datatablesext-module"), __webpack_require__.e("app-content-table-datatablesext-datatablesext-module")]).then(__webpack_require__.bind(null, /*! ../app/content/table/datatablesext/datatablesext.module */ "pCGS")).then(function (m) {
+                loadChildren: function () { return Promise.all(/*! import() | app-content-table-datatablesext-datatablesext-module */[__webpack_require__.e("default~app-content-applications-contacts-contacts-module~app-content-dashboard-dashboard-module~app~a5f9bb0a"), __webpack_require__.e("default~app-content-report-report-module~app-content-table-datatablesext-datatablesext-module"), __webpack_require__.e("default~app-content-table-datatables-datatables-module~app-content-table-datatablesext-datatablesext-module"), __webpack_require__.e("app-content-table-datatablesext-datatablesext-module")]).then(__webpack_require__.bind(null, /*! ../app/content/table/datatablesext/datatablesext.module */ "pCGS")).then(function (m) {
                     return m.DatatablesextModule;
                 }); },
                 canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]]
@@ -6077,6 +6101,11 @@ var appRoutes = [
             {
                 path: 'sale',
                 loadChildren: function () { return Promise.all(/*! import() | app-content-sale-sale-module */[__webpack_require__.e("default~app-content-sale-sale-module~content-product-product-module"), __webpack_require__.e("common"), __webpack_require__.e("app-content-sale-sale-module")]).then(__webpack_require__.bind(null, /*! ../app/content/sale/sale.module */ "A97n")).then(function (m) { return m.SaleModule; }); },
+                canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]]
+            },
+            {
+                path: 'report',
+                loadChildren: function () { return Promise.all(/*! import() | app-content-report-report-module */[__webpack_require__.e("default~app-content-report-report-module~app-content-table-datatablesext-datatablesext-module"), __webpack_require__.e("common"), __webpack_require__.e("app-content-report-report-module")]).then(__webpack_require__.bind(null, /*! ../app/content/report/report.module */ "fk/G")).then(function (m) { return m.ReportModule; }); },
                 canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]]
             },
             {

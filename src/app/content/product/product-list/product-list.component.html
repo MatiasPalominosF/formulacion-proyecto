@@ -1,101 +1,138 @@
 <div class="app-content content">
-    <div class="loader-wrapper" *ngIf="loading">
-        <div class="loader-container">
-            <div class="ball-rotate loader-danger">
-                <div></div>
-            </div>
-        </div>
+  <div class="content-wrapper">
+    <div class="content-header row mb-1">
+      <app-breadcrumb class="col-12" [breadcrumb]="breadcrumb"></app-breadcrumb>
     </div>
-    <div class="content-wrapper">
-        <div class="content-header row mb-1">
-            <app-breadcrumb class="col-12" [breadcrumb]="breadcrumb"></app-breadcrumb>
-        </div>
-        <div class="content-body">
-            <div class="row">
-                <div class="col-sm-12" *blockUI="'basicTables'; message: 'Loading'">
-                    <div class="card">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Gestión de productos</h4>
-                            </div>
-                            <div class="row justify-content-between">
-                                <div class="col-4">
-                                    <form>
-                                        <div class="ml-2 form-group form-inline">
-                                            Buscar: <input class="form-control ml-2" type="text"
-                                                [formControl]="filter" />
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="col-4 col-sm-3 col-lg-4">
-                                    <button (click)="onAddProduct()" class="btn btn-primary btn-min-width mr-1 mb-1"><i
-                                            class="la la-plus"></i>
-                                        Agregar producto</button>
-                                </div>
-                            </div>
-                            <div class="table-responsive card-body">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Nombre</th>
-                                            <th scope="col">Ganancia (%)</th>
-                                            <th scope="col">Precio venta ($)</th>
-                                            <th scope="col">Stock</th>
-                                            <th scope="col">Stock crítico</th>
-                                            <th scope="col">Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let element of productSearch | async | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; index as i">
-                                            <th scope="row">{{ i + 1 }}</th>
-                                            <td>
-                                                <ngb-highlight [result]="element.name" [term]="filter.value">
-                                                </ngb-highlight>
-                                            </td>
-                                            <td>
-                                                <ngb-highlight [result]="element.margen" [term]="filter.value">
-                                                </ngb-highlight>
-                                            </td>
-                                            <td>
-                                                <ngb-highlight [result]="element.total" [term]="filter.value">
-                                                </ngb-highlight>
-                                            </td>
-                                            <td>
-                                                <ngb-highlight [result]="element.stock" [term]="filter.value">
-                                                </ngb-highlight>
-                                            </td>
-                                            <td>
-                                                <ngb-highlight [result]="element.minimun" [term]="filter.value">
-                                                </ngb-highlight>
-                                            </td>
-                                            <td>
-                                                <button (click)="onUpdateProduct(element)"
-                                                    class="btn btn-xs btn-social-icon mr-1 mb-1 btn-instagram"><span
-                                                        class="la la-pencil"></span></button>
-                                                <button (click)="onDeleteProduct(element.id)"
-                                                    class="btn btn-xs btn-social-icon mr-1 mb-1 btn-pinterest"><span
-                                                        class="la la-trash"></span></button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="d-flex justify-content-between p-2">
-                                    <ngb-pagination [collectionSize]="collectionSize" [(page)]="page"
-                                        [pageSize]="pageSize">
-                                    </ngb-pagination>
-
-                                    <select class="custom-select" style="width: auto" [(ngModel)]="pageSize">
-                                        <option [ngValue]="2">2 ítems por página</option>
-                                        <option [ngValue]="4">4 ítems por página</option>
-                                        <option [ngValue]="6">6 ítems por página</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+    <div class="content-body">
+      <div class="row">
+        <div class="col-sm-12" *blockUI="'tableProduct'; message: 'Loading'">
+          <div class="card">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Gestión de productos</h4>
+              </div>
+              <div class="row justify-content-between">
+                <div class="col-4">
+                  <form>
+                    <div class="ml-2 form-group form-inline">
+                      Buscar:
+                      <input
+                        class="form-control ml-2"
+                        type="text"
+                        [formControl]="filter"
+                      />
                     </div>
+                  </form>
                 </div>
+                <div class="col-4 col-sm-3 col-lg-4">
+                  <button
+                    (click)="onAddProduct()"
+                    class="btn btn-primary btn-min-width mr-1 mb-1"
+                  >
+                    <i class="la la-plus"></i> Agregar producto
+                  </button>
+                </div>
+              </div>
+              <div class="table-responsive card-body">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Ganancia (%)</th>
+                      <th scope="col">Precio venta ($)</th>
+                      <th scope="col">Stock</th>
+                      <th scope="col">Stock crítico</th>
+                      <th scope="col">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      *ngFor="
+                        let element of productSearch
+                          | async
+                          | slice
+                            : (page - 1) * pageSize
+                            : (page - 1) * pageSize + pageSize;
+                        index as i
+                      "
+                    >
+                      <th scope="row">{{ i + 1 }}</th>
+                      <td>
+                        <ngb-highlight
+                          [result]="element.name"
+                          [term]="filter.value"
+                        >
+                        </ngb-highlight>
+                      </td>
+                      <td>
+                        <ngb-highlight
+                          [result]="element.margen"
+                          [term]="filter.value"
+                        >
+                        </ngb-highlight>
+                      </td>
+                      <td>
+                        <ngb-highlight
+                          [result]="element.total"
+                          [term]="filter.value"
+                        >
+                        </ngb-highlight>
+                      </td>
+                      <td>
+                        <ngb-highlight
+                          [result]="element.stock"
+                          [term]="filter.value"
+                        >
+                        </ngb-highlight>
+                      </td>
+                      <td>
+                        <ngb-highlight
+                          [result]="element.minimun"
+                          [term]="filter.value"
+                        >
+                        </ngb-highlight>
+                      </td>
+                      <td>
+                        <button
+                          (click)="onUpdateProduct(element)"
+                          class="btn btn-xs btn-social-icon mr-1 mb-1 btn-instagram"
+                        >
+                          <span class="la la-pencil"></span>
+                        </button>
+                        <button
+                          (click)="onDeleteProduct(element.id)"
+                          class="btn btn-xs btn-social-icon mr-1 mb-1 btn-pinterest"
+                        >
+                          <span class="la la-trash"></span>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="d-flex justify-content-between p-2">
+                  <ngb-pagination
+                    [collectionSize]="collectionSize"
+                    [(page)]="page"
+                    [pageSize]="pageSize"
+                  >
+                  </ngb-pagination>
+
+                  <select
+                    class="custom-select"
+                    style="width: auto"
+                    [(ngModel)]="pageSize"
+                  >
+                    <option [ngValue]="2">2 ítems por página</option>
+                    <option [ngValue]="4">4 ítems por página</option>
+                    <option [ngValue]="6">6 ítems por página</option>
+                  </select>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>

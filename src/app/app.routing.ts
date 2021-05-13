@@ -150,6 +150,10 @@ const appRoutes: Routes = [
         canActivate: [AuthGuard]
       },
       {
+        path: 'report', loadChildren: () => import('../app/content/report/report.module').then(m => m.ReportModule),
+        canActivate: [AuthGuard]
+      },
+      {
         path: 'gallery', loadChildren: () => import('../app/content/pages/gallery/gallery.module').then(m => m.GalleryModule)
         , canActivate: [AuthGuard]
       },

@@ -27,6 +27,8 @@ export interface Chart {
 export class EcommerceComponent implements OnInit {
 
   @BlockUI('newOrders') blockUINewOrders: NgBlockUI;
+  @BlockUI('sellCard') blockUISellCard: NgBlockUI;
+  @BlockUI('userCard') blockUIUserCard: NgBlockUI;
   public config: PerfectScrollbarConfigInterface = { wheelPropagation: true };
 
   @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
@@ -102,30 +104,32 @@ export class EcommerceComponent implements OnInit {
   }
 
   getDataCards() {
-    this.loading = true;
     this.getInfoEmployees();
     this.getInfoSales();
-    this.loading = false;
   }
 
   getInfoSales() {
+    this.blockUISellCard.start('Loading..');
     this.saleService.getFullInfoSale(this.currentUser.uid).subscribe(
       sale => {
-        var sum = 0; 
+        var sum = 0;
         sale.forEach(element => {
           sum += element.totalPrice;
         });
         this.cantSales = sale.length;
         this.sumSales = sum;
+        this.blockUISellCard.stop();
       }
     );
   }
 
   getInfoEmployees() {
+    this.blockUIUserCard.start('Loading..');
     this.workersService.getFullInfoEmployees(this.currentUser.uid).subscribe(
       workers => {
         const sizework = workers.length;
         this.cantWorkers = sizework;
+        this.blockUIUserCard.stop();
       }
     );
   }

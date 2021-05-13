@@ -12,6 +12,7 @@ import { Component, Directive, EventEmitter, Input, OnInit, Output, ViewChildren
 import { Observable } from 'rxjs';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { worker } from 'cluster';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 
 // Parameters for table.
@@ -47,6 +48,7 @@ export class NgbSortable {
 })
 export class UserListComponent implements OnInit {
 
+  @BlockUI('userTable') blockUIUserTable: NgBlockUI;
   closeResult = '';
   public breadcrumb: any;
   public currentUser: any;
@@ -157,14 +159,14 @@ export class UserListComponent implements OnInit {
   }
 
   getInfoEmployees() {
-    this.loading = true;
+    this.blockUIUserTable.start('Loading..');
     this.workersService.getFullInfoEmployees(this.currentUser.uid).subscribe(
       workers => {
         this.PERSON = workers;
         this.collectionSize = this.PERSON.length;
         this.searchData(this.pipe);
         this.employeeSortable = this.PERSON;
-        this.loading = false;
+        this.blockUIUserTable.stop();
       }
     );
 
