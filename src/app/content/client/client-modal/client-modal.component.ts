@@ -30,10 +30,12 @@ export class ClientModalComponent implements OnInit {
       rut: ['', Validators.required],
       phone: ['', Validators.required],
       discount: [false, Validators.required],
+      address: ['', Validators.required],
       percent: ['', Validators.required],
     });
 
     this.getUserLogged();
+    this.onChargeInfoClient();
   }
 
   get f() {
@@ -44,27 +46,42 @@ export class ClientModalComponent implements OnInit {
     return this.clientInfo.value;
   }
 
+  onChargeInfoClient() {
+    if (this.opc) {
+      console.log(this.clientService.selectedClient);
+      this.f['name'].setValue(this.clientService.selectedClient.name);
+      this.f['lastname'].setValue(this.clientService.selectedClient.lastname);
+      this.f['rut'].setValue(this.clientService.selectedClient.rut);
+      this.f['phone'].setValue(this.clientService.selectedClient.phone);
+      this.f['discount'].setValue(this.clientService.selectedClient.discount);
+      this.f['address'].setValue(this.clientService.selectedClient.address);
+      this.f['percent'].setValue(this.clientService.selectedClient.percent);
+    }
+  }
+
+
   onClientInfoSubmit(): void {
     this.submitted = true;
 
     if (this.clientInfo.invalid) {
       return;
     }
+    if (parseInt(this.fValue.percent, 10) > 0) {
+      this.f['discount'].patchValue(true);
+    } else {
+      this.f['discount'].patchValue(false);
+    }
 
     if (!this.opc) {
       // Se agrega nuevo client.
-      if (parseInt(this.fValue.percent, 10) > 0) {
-        this.f['discount'].patchValue(true);
-      }
-
       this.clientService.addClient(this.fValue, this.currentUser.uid);
       this.passEntry.emit(true);
       this.activeModal.close(true);
     } else {
       // Se edita un cliente.
-      /*this.clientService.updateWorker(this.fValue, this.currentUser.uid);
+      this.clientService.updateWorker(this.fValue, this.currentUser.uid);
       this.passEntry.emit(false);
-      this.activeModal.close(false);*/
+      this.activeModal.close(false);
     }
 
     this.clientInfo.reset();

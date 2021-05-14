@@ -3,7 +3,8 @@ export interface Client {
     uid?: string;
     phone?: string;
     name?: string;
-    lastName?: string;
+    lastname?: string;
+    address?: string;
     discount?: boolean;
     percent?: string;
 }

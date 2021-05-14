@@ -55,18 +55,6 @@
                     </div>
                   </form>
                 </div>
-                <!--div class="col-md-3">
-                  <form>
-                    <div class="form-group form-inline">
-                      Buscar:
-                      <input
-                        class="form-control ml-2"
-                        type="text"
-                        [formControl]="filter"
-                      />
-                    </div>
-                  </form>
-                </div-->
               </div>
               <div class="table-responsive card-body">
                 <table class="table table-striped">
@@ -113,10 +101,41 @@
                       </td>
                       <td>
                         <ngb-highlight
+                          [result]="element.address"
+                          [term]="filter.value"
+                        >
+                        </ngb-highlight>
+                      </td>
+                      <td>
+                        <ngb-highlight
                           [result]="element.percent"
                           [term]="filter.value"
                         >
                         </ngb-highlight>
+                      </td>
+                      <td>
+                        <button
+                          (click)="onPreUpdateClient(element)"
+                          class="
+                            btn btn-xs btn-social-icon
+                            mr-1
+                            mb-1
+                            btn-instagram
+                          "
+                        >
+                          <span class="la la-pencil"></span>
+                        </button>
+                        <button
+                          (click)="onDeleteClient(element.rut)"
+                          class="
+                            btn btn-xs btn-social-icon
+                            mr-1
+                            mb-1
+                            btn-pinterest
+                          "
+                        >
+                          <span class="la la-trash"></span>
+                        </button>
                       </td>
                     </tr>
                   </tbody>

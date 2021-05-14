@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Client } from 'src/app/_models/client';
@@ -10,6 +10,7 @@ import { Client } from 'src/app/_models/client';
 export class ClientService {
 
   private clientCollection: AngularFirestoreCollection<Client>;
+  private clientDoc: AngularFirestoreDocument<Client>;
   private clients: Observable<Client[]>;
   public selectedClient: Client = {};
 
@@ -32,7 +33,18 @@ export class ClientService {
   }
 
   addClient(client: Client, idBoss: string): void {
-    let clientId = client.rut;
-    this.afs.collection('clients').doc(`${idBoss}`).collection<Client>('clientsInfo').doc(`${clientId}`).set(client);
+    let idClient = client.rut;
+    this.afs.collection('clients').doc(`${idBoss}`).collection<Client>('clientsInfo').doc(`${idClient}`).set(client);
+  }
+
+  updateWorker(client: Client, idBoss: string): void {
+    let idClient = client.rut;
+    this.clientDoc = this.afs.collection('clients').doc(`${idBoss}`).collection<Client>('clientsInfo').doc(`${idClient}`);
+    this.clientDoc.update(client);
+  }
+
+  deleteClient(idClient: string, idBoss: string): void {
+    this.clientDoc = this.afs.collection('clients').doc(`${idBoss}`).collection<Client>('clientsInfo').doc(`${idClient}`);
+    this.clientDoc.delete();
   }
 }

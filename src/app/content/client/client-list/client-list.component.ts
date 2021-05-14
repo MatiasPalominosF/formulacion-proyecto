@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ClientService } from 'src/app/_api/client/client.service';
 import { Client } from 'src/app/_models/client';
+import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
 import { NotificationService } from 'src/app/_services/notificacion.service';
 import { ClientModalComponent } from '../client-modal/client-modal.component';
 
@@ -41,13 +42,14 @@ export class ClientListComponent implements OnInit {
     reload: true
   };
 
-  public headElements = ['#', 'Rut', 'Nombre', 'Apellido', 'Descuento(%)'];
+  public headElements = ['#', 'Rut', 'Nombre', 'Apellido', 'Dirección', 'Descuento(%)', 'Acciones'];
 
 
   constructor(
     private clientService: ClientService,
     private modalService: NgbModal,
     private notifyService: NotificationService,
+    private confirmationDialogService: ConfirmationDialogService
   ) { }
 
   ngOnInit(): void {
@@ -86,6 +88,33 @@ export class ClientListComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       console.log(this.closeResult);
     });
+  }
+
+  onPreUpdateClient(client: Client): void {
+    this.clientService.selectedClient = Object.assign({}, client);
+    const modalRef = this.modalService.open(ClientModalComponent, { windowClass: 'animated fadeInDown' });
+    modalRef.componentInstance.opc = true;
+    modalRef.result.then((result) => {
+      if (!result) {
+        this.notifyService.showSuccess("Actualizar", "¡El cliente se editó correctamente!");
+      }
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      console.log(this.closeResult);
+    });
+  }
+
+  onDeleteClient(idClient: string): void {
+    this.confirmationDialogService.confirm('Confirmación', '¿Estás seguro de eliminar el cliente?')
+      .then(confirmed => {
+        if (!confirmed) {
+        } else {
+          this.clientService.deleteClient(idClient, this.currentUser.uid);
+          this.notifyService.showSuccess("Eliminar", "¡El cliente se eliminó correctamente!");
+        }
+      }).catch(() => {
+        console.log("Not ok");
+      });
   }
 
   private getDismissReason(reason: any): string {
@@ -138,8 +167,9 @@ export class ClientListComponent implements OnInit {
       const term = text.toLowerCase();
       return response.name.toLowerCase().includes(term)
         || response.rut.toLowerCase().includes(term)
-        || response.lastName.toLowerCase().includes(term)
+        || response.lastname.toLowerCase().includes(term)
         || response.percent.toLowerCase().includes(term)
+        || response.address.toLowerCase().includes(term)
     });
   }
 

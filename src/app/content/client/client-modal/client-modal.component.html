@@ -1,5 +1,4 @@
 <div class="modal-header">
-  <!--h4 class="modal-title" id="modal-basic-title">Profile update</h4-->
   <h4 class="form-section">
     <i class="mr-2 mt-6 feather ft-user"></i
     >{{ opc ? "Editar cliente" : "Agregar cliente" }}
@@ -102,27 +101,53 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
+          <label for="projectinput5">Dirección *</label>
+          <input
+            type="text"
+            id="projectinput5"
+            class="form-control"
+            formControlName="address"
+            placeholder="Dirección"
+            [ngClass]="{ 'is-invalid': submitted && f.address.errors }"
+          />
+          <small
+            class="form-text text-muted danger"
+            *ngIf="submitted && f.address.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.address.errors.required">
+              La dirección es requerida
+            </div>
+          </small>
+        </div>
+        <div class="col-md-6">
           <div class="form-group">
             <label for="projectinput4">Descuento *</label>
-            <input
-              type="text"
-              id="projectinput4"
-              class="form-control"
-              formControlName="percent"
-              placeholder="Descuento"
-              [ngClass]="{ 'is-invalid': submitted && f.percent.errors }"
-              (keypress)="keyPress($event)"
-            />
-            <small
-              class="form-text text-muted danger"
-              *ngIf="submitted && f.percent.errors"
-              class="invalid-feedback"
-            >
-              <div *ngIf="f.percent.errors.required">
-                El descuento es requerido
+            <div class="input-group">
+              <input
+                type="text"
+                id="projectinput4"
+                class="form-control"
+                aria-describedby="descuento"
+                formControlName="percent"
+                placeholder="Descuento"
+                [ngClass]="{ 'is-invalid': submitted && f.percent.errors }"
+                (keypress)="keyPress($event)"
+              />
+              <div class="input-group-append">
+                <span class="input-group-text" id="descuento">%</span>
               </div>
-            </small>
+              <small
+                class="form-text text-muted danger"
+                *ngIf="submitted && f.percent.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.percent.errors.required">
+                  El descuento es requerido
+                </div>
+              </small>
+            </div>
           </div>
         </div>
       </div>
