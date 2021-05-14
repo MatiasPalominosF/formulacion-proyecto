@@ -122,6 +122,84 @@ var ConfirmationDialogModule = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "Umpa":
+/*!***********************************************!*\
+  !*** ./src/app/_api/client/client.service.ts ***!
+  \***********************************************/
+/*! exports provided: ClientService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ClientService", function() { return ClientService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "8Y7J");
+/* harmony import */ var angularfire2_firestore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! angularfire2/firestore */ "CqG3");
+/* harmony import */ var angularfire2_firestore__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(angularfire2_firestore__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "kU1M");
+
+
+
+
+
+var ClientService = /** @class */ (function () {
+    function ClientService(afs) {
+        this.afs = afs;
+        this.selectedClient = {};
+        this.clientCollection = afs.collection('clients');
+        this.clients = this.clientCollection.valueChanges();
+    }
+    ClientService.prototype.getFullInfoClient = function (uidBoss) {
+        return this.clients = this.afs.collection('clients').doc("" + uidBoss).collection('clientsInfo')
+            .snapshotChanges()
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (changes) {
+            return changes.map(function (action) {
+                var data = action.payload.doc.data();
+                data.rut = action.payload.doc.id;
+                return data;
+            });
+        }));
+    };
+    ClientService.prototype.addClient = function (client, idBoss) {
+        var idClient = client.rut;
+        this.afs.collection('clients').doc("" + idBoss).collection('clientsInfo').doc("" + idClient).set(client);
+    };
+    ClientService.prototype.updateClient = function (client, idBoss) {
+        var idClient = client.rut;
+        this.clientDoc = this.afs.collection('clients').doc("" + idBoss).collection('clientsInfo').doc("" + idClient);
+        this.clientDoc.update(client);
+    };
+    ClientService.prototype.deleteClient = function (idClient, idBoss) {
+        this.clientDoc = this.afs.collection('clients').doc("" + idBoss).collection('clientsInfo').doc("" + idClient);
+        this.clientDoc.delete();
+    };
+    ClientService.prototype.getOneClient = function (idClient, idBoss) {
+        this.clientDoc = this.afs.doc("clients/" + idBoss + "/clientsInfo/" + idClient);
+        return this.client = this.clientDoc.snapshotChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (action) {
+            if (action.payload.exists === false) {
+                return null;
+            }
+            else {
+                var data = action.payload.data();
+                data.rut = action.payload.id;
+                return data;
+            }
+        }));
+    };
+    ClientService.ɵfac = function ClientService_Factory(t) { return new (t || ClientService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](angularfire2_firestore__WEBPACK_IMPORTED_MODULE_1__["AngularFirestore"])); };
+    ClientService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: ClientService, factory: ClientService.ɵfac, providedIn: 'root' });
+    return ClientService;
+}());
+
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ClientService, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
+        args: [{
+                providedIn: 'root'
+            }]
+    }], function () { return [{ type: angularfire2_firestore__WEBPACK_IMPORTED_MODULE_1__["AngularFirestore"] }]; }, null); })();
+
+
+/***/ }),
+
 /***/ "b3t4":
 /*!*******************************************!*\
   !*** ./src/app/_api/sale/sale.service.ts ***!

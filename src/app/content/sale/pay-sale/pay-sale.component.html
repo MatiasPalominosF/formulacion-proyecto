@@ -22,6 +22,81 @@
       <div class="col-md-12">
         <div class="form-body">
           <div class="form-group row mx-auto">
+            <label class="col-md-3 label-control" for="eventRegInput4"
+              >Buscar cliente</label
+            >
+            <div
+              class="col-md-9"
+              *blockUI="'searchClientInfo'; message: 'Loading'"
+            >
+              <div class="input-group">
+                <input
+                  type="text"
+                  id="eventInput4"
+                  class="form-control"
+                  formControlName="rut"
+                  [ngClass]="{ 'is-invalid': submittedSearch && f.rut.errors }"
+                  placeholder="Rut"
+                />
+                <div class="input-group-append">
+                  <button
+                    (click)="searchClient()"
+                    type="button"
+                    class="btn btn-icon btn-primary mr-1"
+                  >
+                    <i class="la la-search"></i>
+                  </button>
+                </div>
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submittedSearch && f.rut.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f.rut.errors.required">El rut es requerido</div>
+                </small>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="showData">
+            <hr />
+            <div class="form-group row mx-auto">
+              <label class="col-md-3 label-control" for="eventRegInput6"
+                >Cliente</label
+              >
+              <div class="col-md-9">
+                <input
+                  type="text"
+                  id="eventInput6"
+                  class="form-control"
+                  placeholder="Nombre cliente"
+                  formControlName="nameclient"
+                  readonly
+                />
+              </div>
+            </div>
+            <div class="form-group row mx-auto">
+              <label class="col-md-3 label-control" for="eventRegInput5"
+                >Descuento</label
+              >
+              <div class="col-md-9">
+                <div class="input-group">
+                  <input
+                    type="text"
+                    id="eventInput5"
+                    class="form-control"
+                    placeholder="Descuento"
+                    formControlName="discount"
+                    readonly
+                  />
+                  <div class="input-group-append">
+                    <span class="input-group-text" id="descuento">%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr />
+          </div>
+          <div class="form-group row mx-auto">
             <label class="col-md-3 label-control" for="eventRegInput1"
               >Monto a pagar</label
             >
@@ -36,6 +111,25 @@
               />
             </div>
           </div>
+          <div *ngIf="showData">
+            <hr />
+            <div class="form-group row mx-auto">
+              <label class="col-md-3 label-control" for="eventRegInput7"
+                >Monto con descuento</label
+              >
+              <div class="col-md-9">
+                <input
+                  type="text"
+                  id="eventInput7"
+                  class="form-control"
+                  placeholder="Monto a pagar"
+                  formControlName="withdiscount"
+                  readonly
+                />
+              </div>
+            </div>
+            <hr />
+          </div>
           <div class="form-group row mx-auto">
             <label class="col-md-3 label-control" for="eventRegInput2"
               >Paga con</label
@@ -49,7 +143,17 @@
                 class="form-control"
                 placeholder="Paga con"
                 formControlName="paidWith"
+                [ngClass]="{ 'is-invalid': submitted && f.paidWith.errors }"
               />
+              <small
+                class="form-text text-muted danger"
+                *ngIf="submitted && f.paidWith.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.paidWith.errors.required">
+                  El monto a pagar es requerido
+                </div>
+              </small>
             </div>
           </div>
           <div class="form-group row mx-auto">

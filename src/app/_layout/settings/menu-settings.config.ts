@@ -83,12 +83,25 @@ export const MenuSettingsConfig: MenuConfig = {
         icon: 'feather ft-shopping-cart',
         page: '/contacts'
       },
-      { section: 'PERSONAL', icon: 'la-ellipsis-h' },
+      { section: 'GESTIÓN', icon: 'la-ellipsis-h' },
       {
         title: 'Usuarios',
         icon: 'la-users',
-        page: '/user/user-list'
+        page: 'null',
+        submenu: {
+          items: [
+            {
+              title: 'Personal',
+              page: '/user/user-list'
+            },
+            {
+              title: 'Clientes',
+              page: '/client/client-list'
+            },
+          ]
+        }
       },
+
       { section: 'ADMINISTRACIÓN', icon: 'la-ellipsis-h' },
       {
         title: 'Informes',
@@ -97,9 +110,9 @@ export const MenuSettingsConfig: MenuConfig = {
         submenu: {
           items: [
             {
-               title: 'Ventas',
-               page: '/report/report-list'
-             },
+              title: 'Ventas',
+              page: '/report/report-list'
+            },
             {
               title: 'Anulaciones',
               page: 'null'
@@ -110,7 +123,7 @@ export const MenuSettingsConfig: MenuConfig = {
       {
         title: 'Anulaciones',
         icon: 'la-calendar-times-o',
-        page: '',
+        page: '/cancellation/cancellation-list',
       },
       { section: 'SOPORTE', icon: 'la-ellipsis-h' },
       {
@@ -174,16 +187,23 @@ export const MenuSettingsConfig: MenuConfig = {
         icon: 'la-edit',
         page: '/product/product-list'
       },
-      /*{
-        title: 'Stock',
-        icon: 'feather ft-shopping-cart',
-        page: '/stock/stock-list'
-      },*/
-      { section: 'PERSONAL', icon: 'la-ellipsis-h' },
+      { section: 'GESTIÓN', icon: 'la-ellipsis-h' },
       {
         title: 'Usuarios',
         icon: 'la-users',
-        page: '/user/user-list'
+        page: 'null',
+        submenu: {
+          items: [
+            {
+              title: 'Personal',
+              page: '/user/user-list'
+            },
+            {
+              title: 'Clientes',
+              page: '/client/client-list'
+            },
+          ]
+        }
       },
       { section: 'ADMINISTRACIÓN', icon: 'la-ellipsis-h' },
       {
@@ -193,9 +213,9 @@ export const MenuSettingsConfig: MenuConfig = {
         submenu: {
           items: [
             {
-               title: 'Ventas',
-               page: '/report/report-list'
-             },
+              title: 'Ventas',
+              page: '/report/report-list'
+            },
             {
               title: 'Anulaciones',
               page: 'null'
@@ -206,7 +226,7 @@ export const MenuSettingsConfig: MenuConfig = {
       {
         title: 'Anulaciones',
         icon: 'la-calendar-times-o',
-        page: '',
+        page: '/cancellation/cancellation-list',
       },
       { section: 'SOPORTE', icon: 'la-ellipsis-h' },
       {

@@ -76,7 +76,7 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadcrumb = {
-      'mainlabel': 'Lista de usuarios',
+      'mainlabel': 'Usuarios',
       'links': [
         {
           'name': 'Home',
@@ -84,7 +84,7 @@ export class UserListComponent implements OnInit {
           'link': '/dashboard/ecommerce'
         },
         {
-          'name': 'Usuarios',
+          'name': 'Lista de usuarios',
           'isLink': false,
           'link': ''
         }

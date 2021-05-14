@@ -1819,7 +1819,7 @@ function UserListComponent_div_6_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](1, "div", 8);
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](2, "div", 9);
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](3, "h4", 10);
-    _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtext"](4, "Gesti\u00F3n de usuarios");
+    _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtext"](4, "Lista de usuarios");
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](5, "div", 11);
@@ -1879,13 +1879,16 @@ function UserListComponent_div_6_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](39, "select", 24);
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵlistener"]("ngModelChange", function UserListComponent_div_6_Template_select_ngModelChange_39_listener($event) { _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵrestoreView"](_r8); var ctx_r10 = _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵnextContext"](); return ctx_r10.pageSize = $event; });
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](40, "option", 25);
-    _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtext"](41, "2 \u00EDtems por p\u00E1gina");
+    _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtext"](41, "Mostrar todos los \u00EDtems");
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](42, "option", 25);
-    _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtext"](43, "4 \u00EDtems por p\u00E1gina");
+    _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtext"](43, "2 \u00EDtems por p\u00E1gina");
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](44, "option", 25);
-    _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtext"](45, "6 \u00EDtems por p\u00E1gina");
+    _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtext"](45, "4 \u00EDtems por p\u00E1gina");
+    _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](46, "option", 25);
+    _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtext"](47, "6 \u00EDtems por p\u00E1gina");
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementEnd"]();
@@ -1897,12 +1900,14 @@ function UserListComponent_div_6_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](10);
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("formControl", ctx_r0.filter);
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](24);
-    _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("ngForOf", _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind3"](35, 9, _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](36, 13, ctx_r0.employeeSearch), (ctx_r0.page - 1) * ctx_r0.pageSize, (ctx_r0.page - 1) * ctx_r0.pageSize + ctx_r0.pageSize));
+    _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("ngForOf", _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind3"](35, 10, _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](36, 14, ctx_r0.employeeSearch), (ctx_r0.page - 1) * ctx_r0.pageSize, (ctx_r0.page - 1) * ctx_r0.pageSize + ctx_r0.pageSize));
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](4);
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("collectionSize", ctx_r0.collectionSize)("page", ctx_r0.page)("pageSize", ctx_r0.pageSize);
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("ngModel", ctx_r0.pageSize);
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("ngValue", ctx_r0.collectionSize);
+    _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("ngValue", 2);
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("ngValue", 4);
@@ -1960,7 +1965,7 @@ var UserListComponent = /** @class */ (function () {
     }
     UserListComponent.prototype.ngOnInit = function () {
         this.breadcrumb = {
-            'mainlabel': 'Lista de usuarios',
+            'mainlabel': 'Usuarios',
             'links': [
                 {
                     'name': 'Home',
@@ -1968,7 +1973,7 @@ var UserListComponent = /** @class */ (function () {
                     'link': '/dashboard/ecommerce'
                 },
                 {
-                    'name': 'Usuarios',
+                    'name': 'Lista de usuarios',
                     'isLink': false,
                     'link': ''
                 }
@@ -2103,7 +2108,7 @@ var UserListComponent = /** @class */ (function () {
             _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementEnd"]();
             _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](4, "div", 4);
             _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](5, "div", 5);
-            _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtemplate"](6, UserListComponent_div_6_Template, 46, 15, "div", 6);
+            _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtemplate"](6, UserListComponent_div_6_Template, 48, 16, "div", 6);
             _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementEnd"]();
             _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementEnd"]();
             _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementEnd"]();

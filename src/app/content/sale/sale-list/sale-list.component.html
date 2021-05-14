@@ -104,6 +104,7 @@
                           style="width: auto"
                           [(ngModel)]="pageSize"
                         >
+                          <option [ngValue]="collectionSize">Mostrar todos los ítems</option>
                           <option [ngValue]="2">2 ítems por página</option>
                           <option [ngValue]="4">4 ítems por página</option>
                           <option [ngValue]="6">6 ítems por página</option>

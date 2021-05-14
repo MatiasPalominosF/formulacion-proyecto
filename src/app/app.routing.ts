@@ -138,6 +138,10 @@ const appRoutes: Routes = [
         , canActivate: [AuthGuard]
       },
       {
+        path: 'client', loadChildren: () => import('./content/client/client.module').then(m => m.ClientModule),
+        canActivate: [AuthGuard]
+      },
+      {
         path: 'stock', loadChildren: () => import('./content/stock/stock.module').then(m => m.StockModule),
         canActivate: [AuthGuard]
       },
@@ -151,6 +155,10 @@ const appRoutes: Routes = [
       },
       {
         path: 'report', loadChildren: () => import('../app/content/report/report.module').then(m => m.ReportModule),
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'cancellation', loadChildren: () => import('../app/content/cancellation/cancellation.module').then(m => m.CancellationModule),
         canActivate: [AuthGuard]
       },
       {

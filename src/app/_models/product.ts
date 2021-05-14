@@ -5,6 +5,7 @@ export interface ProductInterface {
     stock?: string;
     neto?: string;
     iva?: string;
+    totalPrice?: number;
     bruto?: string;
     measure?: string;
     margen?: string;
