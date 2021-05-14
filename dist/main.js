@@ -4851,11 +4851,23 @@ var MenuSettingsConfig = {
                 icon: 'feather ft-shopping-cart',
                 page: '/contacts'
             },
-            { section: 'PERSONAL', icon: 'la-ellipsis-h' },
+            { section: 'GESTIÓN', icon: 'la-ellipsis-h' },
             {
                 title: 'Usuarios',
                 icon: 'la-users',
-                page: '/user/user-list'
+                page: 'null',
+                submenu: {
+                    items: [
+                        {
+                            title: 'Personal',
+                            page: '/user/user-list'
+                        },
+                        {
+                            title: 'Clientes',
+                            page: '/client/client-list'
+                        },
+                    ]
+                }
             },
             { section: 'ADMINISTRACIÓN', icon: 'la-ellipsis-h' },
             {
@@ -4878,7 +4890,7 @@ var MenuSettingsConfig = {
             {
                 title: 'Anulaciones',
                 icon: 'la-calendar-times-o',
-                page: '',
+                page: '/cancellation/cancellation-list',
             },
             { section: 'SOPORTE', icon: 'la-ellipsis-h' },
             {
@@ -4942,16 +4954,23 @@ var MenuSettingsConfig = {
                 icon: 'la-edit',
                 page: '/product/product-list'
             },
-            /*{
-              title: 'Stock',
-              icon: 'feather ft-shopping-cart',
-              page: '/stock/stock-list'
-            },*/
-            { section: 'PERSONAL', icon: 'la-ellipsis-h' },
+            { section: 'GESTIÓN', icon: 'la-ellipsis-h' },
             {
                 title: 'Usuarios',
                 icon: 'la-users',
-                page: '/user/user-list'
+                page: 'null',
+                submenu: {
+                    items: [
+                        {
+                            title: 'Personal',
+                            page: '/user/user-list'
+                        },
+                        {
+                            title: 'Clientes',
+                            page: '/client/client-list'
+                        },
+                    ]
+                }
             },
             { section: 'ADMINISTRACIÓN', icon: 'la-ellipsis-h' },
             {
@@ -4974,7 +4993,7 @@ var MenuSettingsConfig = {
             {
                 title: 'Anulaciones',
                 icon: 'la-calendar-times-o',
-                page: '',
+                page: '/cancellation/cancellation-list',
             },
             { section: 'SOPORTE', icon: 'la-ellipsis-h' },
             {
@@ -6089,6 +6108,11 @@ var appRoutes = [
                 canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]]
             },
             {
+                path: 'client',
+                loadChildren: function () { return Promise.all(/*! import() | content-client-client-module */[__webpack_require__.e("common"), __webpack_require__.e("content-client-client-module")]).then(__webpack_require__.bind(null, /*! ./content/client/client.module */ "cCSp")).then(function (m) { return m.ClientModule; }); },
+                canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]]
+            },
+            {
                 path: 'stock',
                 loadChildren: function () { return __webpack_require__.e(/*! import() | content-stock-stock-module */ "content-stock-stock-module").then(__webpack_require__.bind(null, /*! ./content/stock/stock.module */ "4Url")).then(function (m) { return m.StockModule; }); },
                 canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]]
@@ -6106,6 +6130,11 @@ var appRoutes = [
             {
                 path: 'report',
                 loadChildren: function () { return Promise.all(/*! import() | app-content-report-report-module */[__webpack_require__.e("default~app-content-report-report-module~app-content-table-datatablesext-datatablesext-module"), __webpack_require__.e("common"), __webpack_require__.e("app-content-report-report-module")]).then(__webpack_require__.bind(null, /*! ../app/content/report/report.module */ "fk/G")).then(function (m) { return m.ReportModule; }); },
+                canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]]
+            },
+            {
+                path: 'cancellation',
+                loadChildren: function () { return __webpack_require__.e(/*! import() | app-content-cancellation-cancellation-module */ "app-content-cancellation-cancellation-module").then(__webpack_require__.bind(null, /*! ../app/content/cancellation/cancellation.module */ "xQ7D")).then(function (m) { return m.CancellationModule; }); },
                 canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]]
             },
             {
