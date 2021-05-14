@@ -186,13 +186,9 @@ export const MenuSettingsConfig: MenuConfig = {
         icon: 'la-edit',
         page: '/product/product-list'
       },
-      /*{
-        title: 'Stock',
-        icon: 'feather ft-shopping-cart',
-        page: '/stock/stock-list'
-      },*/
+      { section: 'GESTIÓN', icon: 'la-ellipsis-h' },
       {
-        title: 'USUARIOS',
+        title: 'Usuarios',
         icon: 'la-users',
         page: 'null',
         submenu: {
