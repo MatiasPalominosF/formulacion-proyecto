@@ -83,8 +83,9 @@ export const MenuSettingsConfig: MenuConfig = {
         icon: 'feather ft-shopping-cart',
         page: '/contacts'
       },
+      { section: 'GESTIÓN', icon: 'la-ellipsis-h' },
       {
-        title: 'USUARIOS',
+        title: 'Usuarios',
         icon: 'la-users',
         page: 'null',
         submenu: {
@@ -122,7 +123,7 @@ export const MenuSettingsConfig: MenuConfig = {
       {
         title: 'Anulaciones',
         icon: 'la-calendar-times-o',
-        page: '',
+        page: '/cancellation/cancellation-list',
       },
       { section: 'SOPORTE', icon: 'la-ellipsis-h' },
       {
@@ -225,7 +226,7 @@ export const MenuSettingsConfig: MenuConfig = {
       {
         title: 'Anulaciones',
         icon: 'la-calendar-times-o',
-        page: '',
+        page: '/cancellation/cancellation-list',
       },
       { section: 'SOPORTE', icon: 'la-ellipsis-h' },
       {
