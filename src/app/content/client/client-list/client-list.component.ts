@@ -1,11 +1,14 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, OnInit, PipeTransform } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ClientService } from 'src/app/_api/client/client.service';
 import { Client } from 'src/app/_models/client';
+import { NotificationService } from 'src/app/_services/notificacion.service';
+import { ClientModalComponent } from '../client-modal/client-modal.component';
 
 @Component({
   selector: 'app-client-list',
@@ -22,6 +25,7 @@ export class ClientListComponent implements OnInit {
   public filter = new FormControl('');
   public pipe: any;
   public clientSortable: any;
+  private closeResult = '';
 
   //Atributos tabla
 
@@ -42,6 +46,8 @@ export class ClientListComponent implements OnInit {
 
   constructor(
     private clientService: ClientService,
+    private modalService: NgbModal,
+    private notifyService: NotificationService,
   ) { }
 
   ngOnInit(): void {
@@ -67,7 +73,29 @@ export class ClientListComponent implements OnInit {
   }
 
   onAddClient(): void {
-    console.log("Se presionó");
+    this.clientService.selectedClient = Object.assign({}, {});
+    const modalRef = this.modalService.open(ClientModalComponent, { windowClass: 'animated fadeInDown' });
+    modalRef.componentInstance.opc = false;
+    modalRef.result.then((result) => {
+      console.log("resultado del modal: ", result);
+      if (result) {
+        this.notifyService.showSuccess("Agregar", "¡El nuevo cliente se agregó correctamente!");
+      }
+
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      console.log(this.closeResult);
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
   getAllClients(): void {

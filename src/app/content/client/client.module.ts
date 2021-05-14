@@ -4,15 +4,16 @@ import { ClientListComponent } from './client-list/client-list.component';
 import { RouterModule } from '@angular/router';
 import { BreadcrumbModule } from 'src/app/_layout/breadcrumb/breadcrumb.module';
 import { CardModule } from '../partials/general/card/card.module';
-import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BlockUIModule } from 'ng-block-ui';
 import { BlockTemplateComponent } from 'src/app/_layout/blockui/block-template.component';
+import { ClientModalComponent } from './client-modal/client-modal.component';
 
 
 
 @NgModule({
-  declarations: [ClientListComponent],
+  declarations: [ClientListComponent, ClientModalComponent],
   imports: [
     CommonModule,
     BreadcrumbModule,
@@ -20,6 +21,7 @@ import { BlockTemplateComponent } from 'src/app/_layout/blockui/block-template.c
     NgbModule,
     NgbPaginationModule,
     FormsModule,
+    NgbModalModule,
     ReactiveFormsModule,
     BlockUIModule.forRoot({
       template: BlockTemplateComponent
@@ -28,7 +30,11 @@ import { BlockTemplateComponent } from 'src/app/_layout/blockui/block-template.c
       {
         path: 'client-list',
         component: ClientListComponent,
-      }
+      },
+      {
+        path: 'client-modal',
+        component: ClientModalComponent,
+      },
     ]),
   ]
 })

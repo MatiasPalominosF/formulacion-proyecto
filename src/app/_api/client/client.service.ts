@@ -10,24 +10,29 @@ import { Client } from 'src/app/_models/client';
 export class ClientService {
 
   private clientCollection: AngularFirestoreCollection<Client>;
-  clients: Observable<Client[]>;
+  private clients: Observable<Client[]>;
+  public selectedClient: Client = {};
 
-  constructor(public afs: AngularFirestore) { 
+
+  constructor(public afs: AngularFirestore) {
     this.clientCollection = afs.collection<Client>('clients');
     this.clients = this.clientCollection.valueChanges();
   }
 
   getFullInfoClient(uidBoss: string) {
-    console.log("uidbossService:", uidBoss);
     return this.clients = this.afs.collection('clients').doc(`${uidBoss}`).collection<Client>('clientsInfo')
       .snapshotChanges()
       .pipe(map(changes => {
         return changes.map(action => {
           const data = action.payload.doc.data() as Client;
-          console.log("DATA:", data);
           data.rut = action.payload.doc.id;
           return data;
         });
       }));
+  }
+
+  addClient(client: Client, idBoss: string): void {
+    let clientId = client.rut;
+    this.afs.collection('clients').doc(`${idBoss}`).collection<Client>('clientsInfo').doc(`${clientId}`).set(client);
   }
 }
