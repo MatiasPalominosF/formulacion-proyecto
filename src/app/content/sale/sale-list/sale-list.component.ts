@@ -264,23 +264,25 @@ export class SaleListComponent implements OnInit {
   }
 
   onPay() {
-    console.log("this.productList.length", this.productList.length);
-    console.log("this.gValue", this.gValue);
 
-    this.productService.productListSelected = this.productList;
-    const modalRef = this.modalService.open(PaySaleComponent, { windowClass: 'animated fadeInDown' });
-    modalRef.componentInstance.saldoTotal = this.gValue.precioTotal;
-    modalRef.result.then((result) => {
-      console.log("result:", result);
-      if (result) {
-        this.emptyListProducts();
-        console.log("this.precioTotal", this.precioTotal);
-        this.notifyService.showSuccess("Pagar", "¡Se ha realizado el pago correctamente!");
-      }
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      console.log(this.closeResult);
-    });
+    if (this.productList.length == 0 || this.productList.length < 0) {
+      this.notifyService.showWarning("Aviso", "¡Debe seleccionar un producto!");
+    } else {
+      this.productService.productListSelected = this.productList;
+      const modalRef = this.modalService.open(PaySaleComponent, { windowClass: 'animated fadeInDown' });
+      modalRef.componentInstance.saldoTotal = this.gValue.precioTotal;
+      modalRef.result.then((result) => {
+        console.log("result:", result);
+        if (result) {
+          this.emptyListProducts();
+          console.log("this.precioTotal", this.precioTotal);
+          this.notifyService.showSuccess("Pagar", "¡Se ha realizado el pago correctamente!");
+        }
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        console.log(this.closeResult);
+      });
+    }
 
   }
 
