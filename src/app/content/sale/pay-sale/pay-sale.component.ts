@@ -2,9 +2,12 @@ import { formatDate } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ClientService } from 'src/app/_api/client/client.service';
 import { ProductService } from 'src/app/_api/product/product.service';
 import { SaleService } from 'src/app/_api/sale/sale.service';
 import { Product } from 'src/app/_models/product2';
+import { NotificationService } from 'src/app/_services/notificacion.service';
 
 @Component({
   selector: 'app-pay-sale',
@@ -15,17 +18,23 @@ export class PaySaleComponent implements OnInit {
 
   @Input() public saldoTotal: number;
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
+  @BlockUI('searchClientInfo') blockUISearchClient: NgBlockUI;
 
   public payFormGroup: FormGroup;
+  private saldoFlag: number;
+  private sedescuenta: number = 0;
   private currentUser: any;
   public submittedSearch = false;
   public submitted = false;
+  public showData = false;
 
   constructor(
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
     public productService: ProductService,
-    private saleService: SaleService
+    private saleService: SaleService,
+    private clientService: ClientService,
+    private notifyService: NotificationService,
   ) { }
 
   ngOnInit(): void {
@@ -35,13 +44,15 @@ export class PaySaleComponent implements OnInit {
       rut: ['', Validators.required],
       amount: [''],
       paidWith: ['', Validators.required],
-      change: ['']
+      change: [''],
+      discount: [''],
+      nameclient: [''],
+      withdiscount: [''],
     });
 
     this.cargarDatos();
     this.getUserLogged();
 
-    //this.productService.updateFieldOnProduct("yhfZDMsLSlOek8QYu1bE", this.currentUser.uid, "49");
   }
 
   getUserLogged(): void {
@@ -59,35 +70,74 @@ export class PaySaleComponent implements OnInit {
   }
 
   cargarDatos() {
-    console.log("this.productService.productListSelected: ", this.productService.productListSelected);
     this.f['amount'].patchValue(this.saldoTotal);
   }
 
   onPaySubmit() {
-    console.log("Valor form: ", this.fValue);
-
     this.submitted = true;
 
     if (this.f['paidWith'].invalid) {
       return;
     }
 
-    this.updateStock(this.productService.productListSelected, this.currentUser.uid);
-    this.addSale(this.productService.productListSelected, this.currentUser.uid);
-    this.saldoTotal = 0;
-    this.passEntry.emit(true);
-    this.activeModal.close(true);
-
-
+    if (this.showData === true) {
+      this.productService.productListSelected.forEach(element => {
+        if (element.totalPrice < this.sedescuenta) { }
+        else {
+          element.totalPrice = element.totalPrice - this.sedescuenta;
+        }
+      });
+      this.updateStock(this.productService.productListSelected, this.currentUser.uid);
+      this.addSale(this.productService.productListSelected, this.currentUser.uid);
+      this.saldoTotal = 0;
+      this.passEntry.emit(true);
+      this.activeModal.close(true);
+    } else {
+      this.updateStock(this.productService.productListSelected, this.currentUser.uid);
+      this.addSale(this.productService.productListSelected, this.currentUser.uid);
+      this.saldoTotal = 0;
+      this.passEntry.emit(true);
+      this.activeModal.close(true);
+    }
   }
 
   searchClient(): void {
     this.submittedSearch = true;
+
     if (this.f['rut'].invalid) {
       return;
     }
 
-    console.log("this.fValue.rut", this.fValue.rut);
+    this.blockUISearchClient.start('Cargando...');
+    this.clientService.getOneClient(this.fValue.rut, this.currentUser.uid).subscribe(
+      data => {
+        if (data == null) {
+          this.saldoTotal = this.saldoFlag;
+          this.notifyService.showWarning("Aviso", "¡Usuario no encontrado!");
+          this.showData = false;
+          this.sedescuenta = 0;
+          this.f['paidWith'].patchValue('');
+          this.f['change'].patchValue('');
+          this.f['discount'].patchValue('');
+          this.f['nameclient'].patchValue('');
+          this.f['withdiscount'].patchValue('');
+        } else {
+          this.showData = true;
+          this.f['paidWith'].patchValue('');
+          this.f['change'].patchValue('');
+          this.f['discount'].patchValue(data.percent);
+          this.f['nameclient'].patchValue(data.name + ' ' + data.lastname);
+          this.sedescuenta = this.saldoTotal * (parseInt(data.percent, 10) / 100);
+          var withDisc = this.saldoTotal - this.sedescuenta;
+          this.f['withdiscount'].patchValue(withDisc);
+          this.saldoFlag = this.saldoTotal;
+          this.saldoTotal = withDisc;
+        }
+        this.blockUISearchClient.stop();
+
+
+      }
+    );
   }
 
 

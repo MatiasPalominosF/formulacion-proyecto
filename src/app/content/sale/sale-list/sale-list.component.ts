@@ -305,10 +305,9 @@ export class SaleListComponent implements OnInit {
 
   reloadSelectProductInfo() {
     this.blockUIProductsSale.start('Loading..');
+    this.emptyListProducts();
+    this.blockUIProductsSale.stop();
 
-    setTimeout(() => {
-      this.blockUIProductsSale.stop();
-    }, 2500);
   }
 
 }

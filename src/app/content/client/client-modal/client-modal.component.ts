@@ -79,7 +79,7 @@ export class ClientModalComponent implements OnInit {
       this.activeModal.close(true);
     } else {
       // Se edita un cliente.
-      this.clientService.updateWorker(this.fValue, this.currentUser.uid);
+      this.clientService.updateClient(this.fValue, this.currentUser.uid);
       this.passEntry.emit(false);
       this.activeModal.close(false);
     }
