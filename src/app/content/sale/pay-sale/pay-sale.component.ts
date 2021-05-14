@@ -18,6 +18,8 @@ export class PaySaleComponent implements OnInit {
 
   public payFormGroup: FormGroup;
   private currentUser: any;
+  public submittedSearch = false;
+  public submitted = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,9 +32,10 @@ export class PaySaleComponent implements OnInit {
     console.log("this.saldoTotal", this.saldoTotal);
 
     this.payFormGroup = this.formBuilder.group({
-      amount: ['', Validators.required],
+      rut: ['', Validators.required],
+      amount: [''],
       paidWith: ['', Validators.required],
-      change: ['', Validators.required]
+      change: ['']
     });
 
     this.cargarDatos();
@@ -63,6 +66,12 @@ export class PaySaleComponent implements OnInit {
   onPaySubmit() {
     console.log("Valor form: ", this.fValue);
 
+    this.submitted = true;
+
+    if (this.f['paidWith'].invalid) {
+      return;
+    }
+
     this.updateStock(this.productService.productListSelected, this.currentUser.uid);
     this.addSale(this.productService.productListSelected, this.currentUser.uid);
     this.saldoTotal = 0;
@@ -71,6 +80,16 @@ export class PaySaleComponent implements OnInit {
 
 
   }
+
+  searchClient(): void {
+    this.submittedSearch = true;
+    if (this.f['rut'].invalid) {
+      return;
+    }
+
+    console.log("this.fValue.rut", this.fValue.rut);
+  }
+
 
   addSale(productList: Array<Product>, uidBoss: string): void {
     productList.forEach(element => {
