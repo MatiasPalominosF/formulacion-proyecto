@@ -8,13 +8,14 @@ import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BlockUIModule } from 'ng-block-ui';
 import { BlockTemplateComponent } from 'src/app/_layout/blockui/block-template.component';
-import { FilterDatePipe } from 'src/app/_pipe/filter-date.pipe';
+import { FilterPipeModule } from 'src/app/_pipe/filter-pipe.module';
 
 
 
 @NgModule({
   declarations: [CancellationListComponent],
   imports: [
+    FilterPipeModule,
     CommonModule,
     BreadcrumbModule,
     CardModule,

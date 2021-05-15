@@ -52,17 +52,6 @@
                     />
                   </div>
                 </div>
-                <!--div class="col-md-3">
-                  <div class="form-group form-inline">
-                    <button
-                      (click)="exportAsXLSX()"
-                      type="button"
-                      class="btn btn-icon btn-info mr-1"
-                    >
-                      <i class="icon-doc"></i>
-                    </button>
-                  </div>
-                </div-->
               </div>
               <div class="table-responsive card-body">
                 <table class="table table-striped">
@@ -79,6 +68,7 @@
                       *ngFor="
                         let element of productSearch
                           | async
+                          | filterDate: from:to
                           | slice
                             : (page - 1) * pageSize
                             : (page - 1) * pageSize + pageSize;
