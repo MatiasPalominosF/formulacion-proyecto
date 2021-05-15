@@ -2,10 +2,13 @@ import { DecimalPipe } from '@angular/common';
 import { Component, OnInit, PipeTransform } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { element } from 'protractor';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { SaleService } from 'src/app/_api/sale/sale.service';
 import { Product } from 'src/app/_models/product2';
+import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
+import { NotificationService } from 'src/app/_services/notificacion.service';
 
 @Component({
   selector: 'app-cancellation-list',
@@ -29,7 +32,7 @@ export class CancellationListComponent implements OnInit {
   public from = new Date('December 25, 1995 13:30:00');;
   public to = new Date();
 
-  public headElements = ['#', 'Producto', 'Cantidad', 'Precio total', 'Fecha', 'Acciones'];
+  public headElements = ['#', 'Producto', 'Cantidad', 'Precio total', 'Fecha', 'Anulada'];
   public options = {
     close: false,
     expand: true,
@@ -40,11 +43,13 @@ export class CancellationListComponent implements OnInit {
 
   constructor(
     private saleService: SaleService,
+    private confirmationDialogService: ConfirmationDialogService,
+    private notifyService: NotificationService,
   ) { }
 
   ngOnInit(): void {
     this.breadcrumb = {
-      'mainlabel': 'Cancelaciones',
+      'mainlabel': 'Anulaciones',
       'links': [
         {
           'name': 'Home',
@@ -63,9 +68,40 @@ export class CancellationListComponent implements OnInit {
     this.getAllSales();
   }
 
+  onChange(element: Product, value: boolean) {
+    var text = '';
+
+    if (value) {
+      text = '¿Estás seguro de anular la venta?';
+    } else {
+      text = '¿Estás seguro de cancelar la anulación de la venta?';
+    }
+    this.confirmationDialogService.confirm('Confirmación', text)
+      .then(confirmed => {
+        if (!confirmed) {
+          this.getAllSales();
+        } else {
+          if (value) {
+            element.cancellation = value;
+            this.saleService.updateSale(element, element.id, this.currentUser.uid);
+            this.notifyService.showSuccess("Anular", "¡La venta se anuló correctamente!");
+          } else {
+            element.cancellation = value;
+            this.saleService.updateSale(element, element.id, this.currentUser.uid);
+            this.notifyService.showSuccess("Anular", "¡Se canceló la anulacion correctamente!");
+          }
+
+        }
+      }).catch(() => {
+        console.log("Not ok");
+        this.getAllSales();
+      });
+  }
+
   getAllSales(): void {
     this.blockUIcancellationTable.start('Cargando...');
     this.saleService.getFullInfoSale(this.currentUser.uid).subscribe(data => {
+      console.log("Data", data);
       this.PRODUCT = data;
       this.collectionSize = this.PRODUCT.length;
       this.searchData(this.pipe);

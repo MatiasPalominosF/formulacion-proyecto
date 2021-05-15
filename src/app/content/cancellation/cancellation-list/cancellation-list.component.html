@@ -104,6 +104,34 @@
                         >
                         </ngb-highlight>
                       </td>
+                      <td>
+                        <div class="form-group pb-1">
+                          <div class="float-left">
+                            <ui-switch
+                              class="switchery"
+                              switchColor="white"
+                              color="rgb(55, 188, 155)"
+                              size="small"
+                              [checked]="element.cancellation"
+                              (change)="onChange(element, $event)"
+                            ></ui-switch>
+                          </div>
+                          <div *ngIf="element.cancellation; else elseBlock">
+                            <label
+                              for="switcheryColor"
+                              class="card-title ml-1 ds-1"
+                              >Sí</label
+                            >
+                          </div>
+                          <ng-template #elseBlock>
+                            <label
+                              for="switcheryColor"
+                              class="card-title ml-1 ds-1"
+                              >No</label
+                            >
+                          </ng-template>
+                        </div>
+                      </td>
                     </tr>
                   </tbody>
                 </table>

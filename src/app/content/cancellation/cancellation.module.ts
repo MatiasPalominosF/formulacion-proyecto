@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BlockUIModule } from 'ng-block-ui';
 import { BlockTemplateComponent } from 'src/app/_layout/blockui/block-template.component';
 import { FilterPipeModule } from 'src/app/_pipe/filter-pipe.module';
+import { UiSwitchModule } from 'ngx-ui-switch';
 
 
 
@@ -22,6 +23,7 @@ import { FilterPipeModule } from 'src/app/_pipe/filter-pipe.module';
     NgbModule,
     NgbPaginationModule,
     FormsModule,
+    UiSwitchModule,
     ReactiveFormsModule,
     BlockUIModule.forRoot({
       template: BlockTemplateComponent

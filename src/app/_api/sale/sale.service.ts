@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Product } from 'src/app/_models/product2';
@@ -9,12 +9,13 @@ import { Product } from 'src/app/_models/product2';
 })
 export class SaleService {
 
-  private workerCollection: AngularFirestoreCollection<Product>;
+  private saleCollection: AngularFirestoreCollection<Product>;
   private sales: Observable<Product[]>;
+  private saleDoc: AngularFirestoreDocument<Product>;
 
   constructor(public afs: AngularFirestore) {
-    this.workerCollection = afs.collection<Product>('product');
-    this.sales = this.workerCollection.valueChanges();
+    this.saleCollection = afs.collection<Product>('product');
+    this.sales = this.saleCollection.valueChanges();
   }
 
   addSaleProduct(sale: Product, idBoss: string): void {
@@ -22,6 +23,11 @@ export class SaleService {
     sale.id = tempId;
 
     this.afs.collection('sale').doc(`${idBoss}`).collection('saleInfo').doc(tempId).set(sale);
+  }
+
+  updateSale(producto: Product, idSale: string, idBoss: string) {
+    this.saleDoc = this.afs.collection('sale').doc(`${idBoss}`).collection<Product>('saleInfo').doc(`${idSale}`);
+    this.saleDoc.update(producto);
   }
 
   getFullInfoSale(uidBoss: string) {
