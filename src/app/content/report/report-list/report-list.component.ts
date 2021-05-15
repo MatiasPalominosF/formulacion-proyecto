@@ -15,8 +15,6 @@ export interface ExportData {
   cantidad_vendida?: number;
   fecha_venta?: Date;
   precio_total?: number;
-  se_anulo?: boolean;
-  medida?: string;
 }
 
 @Component({
@@ -125,8 +123,6 @@ export class ReportListComponent implements OnInit {
         this.dataExport.cantidad_vendida = element.quantity;
         this.dataExport.fecha_venta = element.date.toDate();
         this.dataExport.precio_total = element.totalPrice;
-        this.dataExport.se_anulo = element.cancellation;
-        this.dataExport.medida = element.measure;
         console.log(this.dataExport);
         this.dataExports.push(this.dataExport);
         this.dataExport = {};

@@ -31,7 +31,7 @@ export class SaleService {
   }
 
   getFullInfoSale(uidBoss: string) {
-    return this.sales = this.afs.collection('sale').doc(`${uidBoss}`).collection<Product>('saleInfo')
+    return this.sales = this.afs.collection('sale').doc(`${uidBoss}`).collection<Product>('saleInfo', ref => ref.where('cancellation', '==', false))
       .snapshotChanges()
       .pipe(map(changes => {
         return changes.map(action => {
