@@ -10,11 +10,12 @@ import { BlockUIModule } from 'ng-block-ui';
 import { BlockTemplateComponent } from 'src/app/_layout/blockui/block-template.component';
 import { FilterPipeModule } from 'src/app/_pipe/filter-pipe.module';
 import { UiSwitchModule } from 'ngx-ui-switch';
+import { OnlyCancellationListComponent } from './only-cancellation-list/only-cancellation-list.component';
 
 
 
 @NgModule({
-  declarations: [CancellationListComponent],
+  declarations: [CancellationListComponent, OnlyCancellationListComponent],
   imports: [
     FilterPipeModule,
     CommonModule,
@@ -32,6 +33,10 @@ import { UiSwitchModule } from 'ngx-ui-switch';
       {
         path: 'cancellation-list',
         component: CancellationListComponent,
+      },
+      {
+        path: 'only-cancellation-list',
+        component: OnlyCancellationListComponent,
       },
     ]),
   ]

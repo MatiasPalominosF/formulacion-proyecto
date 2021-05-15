@@ -3,8 +3,10 @@ export interface Product {
   name?: string;
   total?: string;
   stock?: string;
+  cancellatedby?: string;
   quantity?: number;
   date?: any;
+  datecancellation?: any;
   totalPrice?: number;
   sellTotal?: number;
   cancellation?: boolean;

@@ -41,4 +41,17 @@ export class SaleService {
         });
       }));
   }
+
+  getCancellationSale(uidBoss: string) {
+    return this.sales = this.afs.collection('sale').doc(`${uidBoss}`).collection<Product>('saleInfo', ref => ref.where('cancellation', '==', true)).snapshotChanges()
+      .pipe(map(changes => {
+        return changes.map(action => {
+          const data = action.payload.doc.data() as Product;
+          data.id = action.payload.doc.id;
+          return data;
+        });
+      }));
+  }
+
+
 }
