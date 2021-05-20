@@ -68,6 +68,8 @@
             class="form-control"
             formControlName="rut"
             placeholder="RUT"
+            (input)="checkRun()"
+            maxlength="10"
             [ngClass]="{ 'is-invalid': submitted && f.rut.errors }"
           />
           <small
@@ -75,7 +77,13 @@
             *ngIf="submitted && f.rut.errors"
             class="invalid-feedback"
           >
-            <div *ngIf="f.rut.errors.required">El RUT es requerido</div>
+            <div *ngIf="hasError('rut', 'required')">El RUT es requerido</div>
+            <div *ngIf="hasError('rut', 'pattern')">
+              Debe ingresar un RUT válido
+            </div>
+            <div *ngIf="hasError('rut', 'verificator')">
+              El digito verificador no corresponde al run ingresado
+            </div>
           </small>
         </div>
         <div class="col-md-6">
@@ -87,6 +95,7 @@
               class="form-control"
               formControlName="phone"
               placeholder="Celular"
+              maxlength="9"
               [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
               (keypress)="keyPress($event)"
             />
@@ -96,6 +105,9 @@
               class="invalid-feedback"
             >
               <div *ngIf="f.phone.errors.required">El celular es requerido</div>
+              <div *ngIf="hasError('phone', 'minLength')">
+                El celular dede tener 9 dígitos
+              </div>
             </small>
           </div>
         </div>

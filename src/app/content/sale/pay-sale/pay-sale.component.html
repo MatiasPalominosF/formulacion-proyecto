@@ -35,6 +35,7 @@
                   id="eventInput4"
                   class="form-control"
                   formControlName="rut"
+                  (input)="checkRun()"
                   [ngClass]="{ 'is-invalid': submittedSearch && f.rut.errors }"
                   placeholder="Rut"
                 />
@@ -59,6 +60,16 @@
           </div>
           <div *ngIf="showData">
             <hr />
+            <button
+              type="button"
+              class="close"
+              aria-label="Close"
+              placement="top"
+              ngbTooltip="Eliminar descuento"
+              (click)="deleteClientInFront()"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
             <div class="form-group row mx-auto">
               <label class="col-md-3 label-control" for="eventRegInput6"
                 >Cliente</label
@@ -86,7 +97,7 @@
                     class="form-control"
                     placeholder="Descuento"
                     formControlName="discount"
-                    readonly
+                    (ngModelChange)="checkDiscount($event)"
                   />
                   <div class="input-group-append">
                     <span class="input-group-text" id="descuento">%</span>

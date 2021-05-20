@@ -70,6 +70,7 @@
             formControlName="id"
             placeholder="RUT"
             (input)="checkRun()"
+            maxlength="10"
             [ngClass]="{ 'is-invalid': submitted && f.id.errors }"
           />
           <small
@@ -120,6 +121,7 @@
             class="form-control"
             formControlName="phone"
             placeholder="Celular"
+            maxlength="9"
             [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
             (keypress)="keyPress($event)"
           />
@@ -129,7 +131,9 @@
             class="invalid-feedback"
           >
             <div *ngIf="f.phone.errors.required">El celular es requerido</div>
-            <div *ngIf="f.phone.errors.minlength">El celular dede tener 9 dígitos</div>
+            <div *ngIf="f.phone.errors.minlength">
+              El celular dede tener 9 dígitos
+            </div>
           </small>
         </div>
       </div>

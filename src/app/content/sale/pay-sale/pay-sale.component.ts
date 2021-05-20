@@ -6,6 +6,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ClientService } from 'src/app/_api/client/client.service';
 import { ProductService } from 'src/app/_api/product/product.service';
 import { SaleService } from 'src/app/_api/sale/sale.service';
+import { Client } from 'src/app/_models/client';
 import { Product } from 'src/app/_models/product2';
 import { NotificationService } from 'src/app/_services/notificacion.service';
 
@@ -27,6 +28,7 @@ export class PaySaleComponent implements OnInit {
   public submittedSearch = false;
   public submitted = false;
   public showData = false;
+  private client: Client = {};
 
   constructor(
     private formBuilder: FormBuilder,
@@ -112,16 +114,10 @@ export class PaySaleComponent implements OnInit {
     this.clientService.getOneClient(this.fValue.rut, this.currentUser.uid).subscribe(
       data => {
         if (data == null) {
-          this.saldoTotal = this.saldoFlag;
           this.notifyService.showWarning("Aviso", "¡Usuario no encontrado!");
-          this.showData = false;
-          this.sedescuenta = 0;
-          this.f['paidWith'].patchValue('');
-          this.f['change'].patchValue('');
-          this.f['discount'].patchValue('');
-          this.f['nameclient'].patchValue('');
-          this.f['withdiscount'].patchValue('');
+          this.clean();
         } else {
+          this.client = data;
           this.showData = true;
           this.f['paidWith'].patchValue('');
           this.f['change'].patchValue('');
@@ -129,6 +125,7 @@ export class PaySaleComponent implements OnInit {
           this.f['nameclient'].patchValue(data.name + ' ' + data.lastname);
           this.sedescuenta = this.saldoTotal * (parseInt(data.percent, 10) / 100);
           var withDisc = this.saldoTotal - this.sedescuenta;
+          //var withDisc = this.calcDiscount(data);
           this.f['withdiscount'].patchValue(withDisc);
           this.saldoFlag = this.saldoTotal;
           this.saldoTotal = withDisc;
@@ -138,6 +135,23 @@ export class PaySaleComponent implements OnInit {
 
       }
     );
+  }
+
+  checkDiscount(fpercent: any) {
+    this.saldoTotal = this.saldoFlag;
+    console.log("this.saldoTotal: ", this.saldoTotal);
+    console.log("this.sedescuenta: ", this.sedescuenta);
+    var percent = parseInt(fpercent, 10);
+    this.sedescuenta = this.saldoTotal * (percent / 100);
+    var withDisc = this.saldoTotal - this.sedescuenta;
+    this.f['withdiscount'].patchValue(withDisc);
+    this.saldoTotal = withDisc;
+  }
+
+  calcDiscount(client: Client): number {
+    this.sedescuenta = this.saldoTotal * (parseInt(client.percent, 10) / 100);
+    var withDisc = this.saldoTotal - this.sedescuenta;
+    return withDisc;
   }
 
 
@@ -162,6 +176,25 @@ export class PaySaleComponent implements OnInit {
     });
   }
 
+
+  clean() {
+    this.client = {};
+    console.log("this.saldoTotal", this.saldoTotal);
+    console.log("this.saldoFlag", this.saldoFlag);
+    this.submittedSearch = false;
+    this.showData = false;
+    this.sedescuenta = 0;
+    this.f['rut'].patchValue('');
+    this.f['paidWith'].patchValue('');
+    this.f['change'].patchValue('');
+    this.f['discount'].patchValue('');
+    this.f['nameclient'].patchValue('');
+    this.f['withdiscount'].patchValue('');
+    console.log("this.saldoTotal", this.saldoTotal);
+    this.saldoTotal = this.saldoFlag;
+    console.log("this.saldoTotal", this.saldoTotal);
+  }
+
   stringToInt(value: string): number {
     var res = parseInt(value, 10);
 
@@ -175,12 +208,34 @@ export class PaySaleComponent implements OnInit {
   }
 
   calChange(event: any) {
+    console.log("calcChange:", this.saldoTotal);
     if (event == "") {
       this.f['change'].patchValue(0);
     } else {
       var change = event - this.saldoTotal;
       this.f['change'].patchValue(change);
     }
+  }
+
+  checkRun() {
+    let run = this.payFormGroup.get("rut");
+    //Despejar Puntos
+    var runClean = run.value.replace('.', '');
+    // Despejar Guión
+    runClean = runClean.replace('-', '');
+
+    // Aislar Cuerpo y Dígito Verificador
+    let body = runClean.slice(0, -1);
+    let dv = runClean.slice(-1).toUpperCase();
+
+    // Formatear RUN
+    run.setValue(body + '-' + dv);
+  }
+
+
+  deleteClientInFront() {
+    console.log("Se presionó");
+    this.clean();
   }
 
   keyPress(event: any) {
