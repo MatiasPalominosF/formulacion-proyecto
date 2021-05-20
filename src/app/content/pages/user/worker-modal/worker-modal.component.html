@@ -129,6 +129,7 @@
             class="invalid-feedback"
           >
             <div *ngIf="f.phone.errors.required">El celular es requerido</div>
+            <div *ngIf="f.phone.errors.minlength">El celular dede tener 9 dígitos</div>
           </small>
         </div>
       </div>

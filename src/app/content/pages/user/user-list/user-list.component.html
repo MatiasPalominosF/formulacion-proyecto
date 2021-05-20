@@ -42,7 +42,7 @@
                     <th scope="col">Nombre</th>
                     <th scope="col">Apellido</th>
                     <th scope="col">Celular</th>
-                    <!--th scope="col">Cargo</th-->
+                    <th scope="col">Cargo</th>
                     <th scope="col">Acciones</th>
                   </tr>
                 </thead>
@@ -86,13 +86,12 @@
                       >
                       </ngb-highlight>
                     </td>
-                    <!--td>
-                      <ngb-highlight
-                        [result]="element.rol"
-                        [term]="filter.value"
-                      >
-                      </ngb-highlight>
-                    </td-->
+                    <td>
+                      <span *ngIf="element.rol == '1'"> Vendedor </span>
+                      <span *ngIf="element.rol == '3'"> Contador </span>
+                      <span *ngIf="element.rol == '2'"> Pastelero </span>
+                    </td>
+
                     <td>
                       <button
                         (click)="onPreUpdateWorker(element)"

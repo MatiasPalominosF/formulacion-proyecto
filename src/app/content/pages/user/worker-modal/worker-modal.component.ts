@@ -39,7 +39,7 @@ export class WorkerModalComponent implements OnInit {
       id: ['', [Validators.required, Validators.pattern(/^\d{1,2}\d{3}\d{3}[-][0-9kK]{1}$/), this.checkVerificatorDigit]],
       uidboss: [''],
       password: ['', Validators.required],
-      phone: ['', Validators.required],
+      phone: ['', [Validators.required, Validators.minLength(9)]],
       rol: ['', Validators.required],
     });
 
