@@ -152,6 +152,19 @@ export class UserListComponent implements OnInit {
     }
   }
 
+
+  setRol(rol: any) {
+    if (rol === 1) {
+      return 'Vendedor';
+    }
+    if (rol === 2) {
+      return 'Pastelero';
+    }
+    if (rol === 3) {
+      return 'Contador';
+    }
+  }
+
   getUserLogged(): void {
     if (localStorage.getItem('currentUser')) {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -162,6 +175,10 @@ export class UserListComponent implements OnInit {
     this.blockUIUserTable.start('Loading..');
     this.workersService.getFullInfoEmployees(this.currentUser.uid).subscribe(
       workers => {
+        console.log("worker", workers);
+        workers.forEach(element => {
+          
+        });
         this.PERSON = workers;
         this.collectionSize = this.PERSON.length;
         this.searchData(this.pipe);
@@ -169,7 +186,6 @@ export class UserListComponent implements OnInit {
         this.blockUIUserTable.stop();
       }
     );
-
   }
 
   /**

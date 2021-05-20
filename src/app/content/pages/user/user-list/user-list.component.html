@@ -42,7 +42,7 @@
                     <th scope="col">Nombre</th>
                     <th scope="col">Apellido</th>
                     <th scope="col">Celular</th>
-                    <th scope="col">Cargo</th>
+                    <!--th scope="col">Cargo</th-->
                     <th scope="col">Acciones</th>
                   </tr>
                 </thead>
@@ -86,13 +86,13 @@
                       >
                       </ngb-highlight>
                     </td>
-                    <td>
+                    <!--td>
                       <ngb-highlight
-                        [result]="element.vendedor ? 'Vendedor' : 'Nada'"
+                        [result]="element.rol"
                         [term]="filter.value"
                       >
                       </ngb-highlight>
-                    </td>
+                    </td-->
                     <td>
                       <button
                         (click)="onPreUpdateWorker(element)"
@@ -134,7 +134,9 @@
                   style="width: auto"
                   [(ngModel)]="pageSize"
                 >
-                  <option [ngValue]="collectionSize">Mostrar todos los ítems</option>
+                  <option [ngValue]="collectionSize">
+                    Mostrar todos los ítems
+                  </option>
                   <option [ngValue]="2">2 ítems por página</option>
                   <option [ngValue]="4">4 ítems por página</option>
                   <option [ngValue]="6">6 ítems por página</option>

@@ -22,8 +22,7 @@ export class WorkersService {
   }
 
   getFullInfoEmployees(uidBoss) {
-    console.log(uidBoss);
-    return this.workers = this.afs.collection('workers').doc(`${uidBoss}`).collection<WorkersInterface>('workersInfo')
+    return this.workers = this.afs.collection<WorkersInterface>('users', ref => ref.where('uidboss', '==', `${uidBoss}`))
       .snapshotChanges()
       .pipe(map(changes => {
         return changes.map(action => {
@@ -32,7 +31,6 @@ export class WorkersService {
           return data;
         });
       }));
-    //this.afs.doc<WorkersInterface>(`workers/${uidBoss}`)
   }
 
   getOneWorker(idWorker: string, idBoss: string) {
@@ -50,18 +48,27 @@ export class WorkersService {
 
   addWorker(worker: WorkersInterface, idBoss: string): void {
     let workerId = worker.id;
-    worker.vendedor = true;
-    this.afs.collection('workers').doc(`${idBoss}`).collection<WorkersInterface>('workersInfo').doc(`${workerId}`).set(worker);
+    this.afs.collection<WorkersInterface>('users').doc(`${workerId}`).set(worker).catch(function (error) {
+      // An error happened.
+      console.log(error);
+    });
+    //this.afs.collection('workers').doc(`${idBoss}`).collection<WorkersInterface>('workersInfo').doc(`${workerId}`).set(worker);
   }
 
-  updateWorker(worker: WorkersInterface, idBoss: string): void {
+  updateWorker(worker: WorkersInterface, idBoss: string): boolean {
     let idWorker = worker.id;
-    this.workerDoc = this.afs.collection('workers').doc(`${idBoss}`).collection<WorkersInterface>('workersInfo').doc(`${idWorker}`);
-    this.workerDoc.update(worker);
+    this.workerDoc = this.afs.collection<WorkersInterface>('users').doc(`${idWorker}`);
+    try {
+      this.workerDoc.update(worker);
+      return true;
+    } catch (error) {
+      return false;
+    }
+
   }
 
   deleteWorker(idWorker: string, idBoss: string): void {
-    this.workerDoc = this.afs.collection('workers').doc(`${idBoss}`).collection<WorkersInterface>('workersInfo').doc(`${idWorker}`);
+    this.workerDoc = this.afs.collection<WorkersInterface>('users').doc(`${idWorker}`);
     this.workerDoc.delete();
   }
 }
