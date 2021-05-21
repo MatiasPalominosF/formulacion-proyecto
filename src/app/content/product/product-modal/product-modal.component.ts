@@ -155,7 +155,7 @@ export class ProductModalComponent implements OnInit {
     } if (this.titleIngredient == "Editar ingredientes") {
       opc = true;
     }
-    const modalRef = this.modalService.open(ProductIngredientComponent, { windowClass: 'animated fadeInDown' });
+    const modalRef = this.modalService.open(ProductIngredientComponent, { windowClass: 'animated fadeInDown', size: 'lg' });
     modalRef.componentInstance.opc = opc;
     modalRef.result.then((result) => {
       if (result) {

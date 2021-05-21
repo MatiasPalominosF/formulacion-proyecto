@@ -104,7 +104,9 @@
                           style="width: auto"
                           [(ngModel)]="pageSize"
                         >
-                          <option [ngValue]="collectionSize">Mostrar todos los ítems</option>
+                          <option [ngValue]="collectionSize">
+                            Mostrar todos los ítems
+                          </option>
                           <option [ngValue]="2">2 ítems por página</option>
                           <option [ngValue]="4">4 ítems por página</option>
                           <option [ngValue]="6">6 ítems por página</option>
@@ -141,9 +143,9 @@
                           }"
                         />
                         <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2"
-                            >{{unidad}}</span
-                          >
+                          <span class="input-group-text" id="basic-addon2">{{
+                            unidad
+                          }}</span>
                         </div>
                         <small
                           class="form-text text-muted danger"
@@ -168,8 +170,8 @@
                         />
                       </div>
                     </div>
-                    <div class="col-md-3">
-                      <label></label>
+                    <div class="col-md-3 m-auto">
+                      <br />
                       <div class="input-group">
                         <button
                           (click)="addPreview()"
@@ -220,7 +222,12 @@
                             <td>
                               <button
                                 (click)="onRemove(i)"
-                                class="btn btn-xs btn-social-icon mr-1 mb-1 btn-pinterest"
+                                class="
+                                  btn btn-xs btn-social-icon
+                                  mr-1
+                                  mb-1
+                                  btn-pinterest
+                                "
                               >
                                 <span class="la la-trash"></span>
                               </button>

@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import * as firebase from 'firebase/app';
 import { Product } from 'src/app/_models/product2';
+import { Ingredient } from 'src/app/_models/ingredient';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class ProductService {
   private product: Observable<ProductInterface>;
   public selectedProduct: ProductInterface = {};
   public productListSelected: Array<Product> = [];
+  public ingredientsSelected: Ingredient[] = [];
   constructor(
     public afs: AngularFirestore
   ) {
