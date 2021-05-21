@@ -14,7 +14,7 @@
   </button>
 </div>
 <div class="modal-body">
-  <form [formGroup]="productInfo" (ngSubmit)="onProductInfoSubmit()">
+  <form [formGroup]="productInfo">
     <div class="form-body">
       <h4 class="form-section">
         <i class="la la-eye"></i> Acerca del producto
@@ -29,7 +29,6 @@
               id="name"
               class="form-control border-primary"
               placeholder="Nombre producto"
-              [(ngModel)]="this.productService.selectedProduct.name"
               [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
             />
             <small
@@ -81,7 +80,6 @@
           <div class="form-group">
             <label for="neto">Neto *</label>
             <input
-              [(ngModel)]="this.productService.selectedProduct.neto"
               (keypress)="keyPress($event)"
               (ngModelChange)="setIvaBruto($event)"
               formControlName="neto"
@@ -107,7 +105,6 @@
             <label for="iva">IVA</label>
             <input
               readonly
-              [(ngModel)]="this.productService.selectedProduct.iva"
               formControlName="iva"
               type="text"
               id="iva"
@@ -129,7 +126,6 @@
             <label for="bruto">Bruto</label>
             <input
               readonly
-              [(ngModel)]="this.productService.selectedProduct.bruto"
               formControlName="bruto"
               type="text"
               id="bruto"
@@ -152,7 +148,6 @@
           <div class="form-group">
             <label for="margen">Margen de ganacia</label>
             <input
-              [(ngModel)]="this.productService.selectedProduct.margen"
               (keypress)="keyPress($event)"
               (change)="setTotal($event.target.value)"
               formControlName="margen"
@@ -177,7 +172,6 @@
           <div class="form-group">
             <label for="total">Precio venta</label>
             <input
-              [(ngModel)]="this.productService.selectedProduct.total"
               (keypress)="keyPress($event)"
               (change)="setMargen($event.target.value)"
               formControlName="total"
@@ -202,7 +196,6 @@
           <div class="form-group">
             <label for="stock">Cantidad producto</label>
             <input
-              [(ngModel)]="this.productService.selectedProduct.stock"
               (keypress)="keyPress($event)"
               formControlName="stock"
               type="text"
@@ -226,7 +219,6 @@
           <div class="form-group">
             <label for="minimun">Cantidad mínima producto</label>
             <input
-              [(ngModel)]="this.productService.selectedProduct.minimun"
               (keypress)="keyPress($event)"
               formControlName="minimun"
               type="text"
@@ -290,7 +282,19 @@
           </div>
         </div>
         <div class="col-md-12">
-          <div class="row justify-content-center">
+          <div class="card-content collapse show">
+            <div class="row">
+              <div class="col-md-6 m-auto">
+                <button
+                  (click)="addIngredients()"
+                  class="btn btn-primary btn-min-width mr-1 mb-1"
+                >
+                  <i class="la la-plus"></i> {{ titleIngredient }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <!--div class="row justify-content-center">
             <div class="form-group">
               <label>¿Añadir ingredientes?</label>
               <div
@@ -371,9 +375,9 @@
                 </div>
               </ng-template>
             </div>
-          </div>
+          </div-->
         </div>
-        <div
+        <!--div
           class="col-md-12 mb-2"
           id="showaddingredients"
           style="display: none"
@@ -426,10 +430,6 @@
                             [value]="measureName"
                             readonly
                           />
-                          <!--span class="input-group-text" id="basic-addon2" 
-                            [(ngModel)]="measureName">{{
-                            measureName
-                          }}</span-->
                         </div>
                         <button
                           class="btn btn-danger"
@@ -439,13 +439,6 @@
                           <i class="feather ft-x"></i>
                         </button>
                       </div>
-                      <!--input
-                        type="text"
-                        formControlName="quantity"
-                        class="form-control"
-                        id="quantity"
-                        placeholder="Ingrese cantidad"
-                      /-->
                     </div>
                   </div>
                 </div>
@@ -455,7 +448,7 @@
           <button type="button" class="btn btn-primary" (click)="addPhone()">
             <i class="feather ft-plus"></i> Agregar receta
           </button>
-        </div>
+        </div-->
       </div>
     </div>
     <div class="modal-footer">
@@ -466,7 +459,7 @@
       >
         <i class="feather ft-x"></i> Cerrar
       </button>
-      <button type="submit" class="btn btn-sm btn-outline-primary">
+      <button (click)="onProductInfoSubmit()" class="btn btn-sm btn-outline-primary">
         <i class="feather ft-check"></i> Guardar
       </button>
     </div>

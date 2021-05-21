@@ -15,11 +15,12 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProductModalComponent } from './product-modal/product-modal.component';
+import { ProductIngredientComponent } from './product-ingredient/product-ingredient.component';
 
 
 
 @NgModule({
-  declarations: [ProductListComponent, ProductModalComponent],
+  declarations: [ProductListComponent, ProductModalComponent, ProductIngredientComponent],
   imports: [
     ConfirmationDialogModule,
     CommonModule,
@@ -45,6 +46,10 @@ import { ProductModalComponent } from './product-modal/product-modal.component';
       {
         path: 'product-modal',
         component: ProductModalComponent
+      },
+      {
+        path: 'product-ingredient',
+        component: ProductIngredientComponent
       }
     ]),
   ], providers: [ConfirmationDialogService, AngularFirestore]

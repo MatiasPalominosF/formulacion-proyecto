@@ -3,9 +3,11 @@ import { ProductInterface } from './../../../_models/product';
 import { ProductService } from './../../../_api/product/product.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, Inject, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { NotificationService } from 'src/app/_services/notificacion.service';
+import { ProductIngredientComponent } from '../product-ingredient/product-ingredient.component';
 
 @Component({
   selector: 'app-product-modal',
@@ -17,7 +19,9 @@ export class ProductModalComponent implements OnInit {
   @BlockUI('productInfo') blockUIProjectInfo: NgBlockUI;
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
   productInfo: FormGroup;
+  closeResult = '';
   submitted = false;
+  public titleIngredient = '';
   public ingredientList: FormArray;
   ingredientes: ProductInterface[];
   measureName;
@@ -41,6 +45,8 @@ export class ProductModalComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     public productService: ProductService,
+    private modalService: NgbModal,
+    private notifyService: NotificationService,
     @Inject(DOCUMENT) document
   ) { }
 
@@ -63,15 +69,12 @@ export class ProductModalComponent implements OnInit {
 
     this.getUserLogged();
     this.ingredientList = this.productInfo.get('ingredients') as FormArray;
-    console.log("opción:", this.opc);
+    if (!this.opc) {
+      this.titleIngredient = "Agregar ingredientes";
+    }
+
     this.getIngredients();
-    //this.setMeaure(1);
-    this.setValueInIngredients();
-    this.cargarDatos();
-    /*console.log("this.productService.selectedProduct.ismaterial", this.productService.selectedProduct.ismaterial);
-    if (this.productService.selectedProduct.ismaterial != undefined) {
-      console.log("ACA!");
-    }*/
+    this.setData();
     this.prueba();
   }
   get userFormGroup() {
@@ -86,37 +89,28 @@ export class ProductModalComponent implements OnInit {
     return this.productInfo.value;
   }
 
-  cargarDatos() {
-    console.log("this.productService.selectedProduct", this.productService.selectedProduct);
-    if (this.productService.selectedProduct != undefined && this.productService.selectedProduct != null && this.productService.selectedProduct != "") {
-      console.log("ENTRO AL SIII");
-      console.log("this.productService.selectedProduct.ismaterial", this.productService.selectedProduct.ismaterial);
-      //SE VERIFICA SI ES MATERIA PRIMA O NO EN EL PRIMER IF Y EL ELSE.
+  setData() {
+    if (this.opc) {
+      if (this.productService.selectedProduct.ingredients.length > 0) {
+        this.titleIngredient = "Editar ingredientes";
+      } else {
+        this.titleIngredient = "Agregar ingredientes";
+      }
+      this.f['name'].patchValue(this.productService.selectedProduct.name);
+      this.f['measure'].patchValue(this.productService.selectedProduct.measure);
+      this.f['neto'].patchValue(this.productService.selectedProduct.neto);
+      this.f['iva'].patchValue(this.productService.selectedProduct.iva);
+      this.f['bruto'].patchValue(this.productService.selectedProduct.bruto);
+      this.f['margen'].patchValue(this.productService.selectedProduct.margen);
+      this.f['total'].patchValue(this.productService.selectedProduct.total);
+      this.f['stock'].patchValue(this.productService.selectedProduct.stock);
+      this.f['minimun'].patchValue(this.productService.selectedProduct.minimun);
       if (this.productService.selectedProduct.ismaterial) {
-
-        this.productInfo.patchValue({
-          ismaterial: "yes"
-        })
+        this.f['ismaterial'].patchValue("yes");
+      } else {
+        this.f['ismaterial'].patchValue("no");
       }
-      else {
-        console.log("ENTRO AL ELSE");
-        this.productInfo.patchValue({
-          ismaterial: "no"
-        })
-      }
-      console.log("this.productService.selectedProduct.measure", this.productService.selectedProduct.measure);
-      this.productInfo.patchValue({
-        measure: this.productService.selectedProduct.measure
-      })
 
-      //this.setMeaure(2);
-
-    }
-    else {
-      console.log("ENTRO AL NOOOO");
-      this.productInfo.patchValue({
-        ismaterial: "no"
-      })
     }
   }
 
@@ -150,6 +144,41 @@ export class ProductModalComponent implements OnInit {
       }
     }
 
+  }
+
+
+  addIngredients() {
+    console.log("Se presionó", this.productService.selectedProduct.ingredients);
+    var opc: boolean;
+    if (this.titleIngredient == "Agregar ingredientes") {
+      opc = false;
+    } if (this.titleIngredient == "Editar ingredientes") {
+      opc = true;
+    }
+    const modalRef = this.modalService.open(ProductIngredientComponent, { windowClass: 'animated fadeInDown' });
+    modalRef.componentInstance.opc = opc;
+    modalRef.result.then((result) => {
+      if (result) {
+        this.notifyService.showSuccess("Agregar", "¡Los ingredientes se agregaron correctamente!");
+      }
+      if (!result) {
+        this.notifyService.showSuccess("Editar", "¡Los ingredientes se editaron correctamente!");
+      }
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      console.log(this.closeResult);
+    });
+
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
   setValueInIngredients() {
