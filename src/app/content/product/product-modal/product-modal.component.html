@@ -255,7 +255,6 @@
                   >Sí</label
                 >
               </div>
-
               <div class="d-inline-block custom-control custom-radio ml-1">
                 <input
                   formControlName="ismaterial"
@@ -269,16 +268,16 @@
                   >No</label
                 >
               </div>
+              <small
+                class="form-text text-muted danger"
+                *ngIf="submitted && f.ismaterial.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.ismaterial.errors.required">
+                  El campo materia prima es requerido.
+                </div>
+              </small>
             </div>
-            <small
-              class="form-text text-muted danger"
-              *ngIf="submitted && f.ismaterial.errors"
-              class="invalid-feedback"
-            >
-              <div *ngIf="f.ismaterial.errors.required">
-                La materia prima es requerido.
-              </div>
-            </small>
           </div>
         </div>
         <div class="col-md-12">
@@ -294,161 +293,7 @@
               </div>
             </div>
           </div>
-          <!--div class="row justify-content-center">
-            <div class="form-group">
-              <label>¿Añadir ingredientes?</label>
-              <div
-                *ngIf="
-                  this.productService.selectedProduct.ingredients !=
-                    undefined &&
-                    this.productService.selectedProduct.ingredients.length > 0;
-                  else elseBlock
-                "
-              >
-                <div class="input-group">
-                  <div>
-                    <div class="custom-control custom-radio">
-                      <input
-                        checked
-                        (change)="showcontent($event.target.value)"
-                        value="yes"
-                        type="radio"
-                        class="custom-control-input"
-                        name="customRadio"
-                        id="customRadio1"
-                      />
-                      <label class="custom-control-label" for="customRadio1"
-                        >Sí</label
-                      >
-                    </div>
-                  </div>
-                  <div>
-                    <div class="ml-1 custom-control custom-radio">
-                      <input
-                        (change)="showcontent($event.target.value)"
-                        value="no"
-                        type="radio"
-                        class="custom-control-input"
-                        name="customRadio"
-                        id="customRadio2"
-                      />
-                      <label class="custom-control-label" for="customRadio2"
-                        >No</label
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <ng-template #elseBlock>
-                <div class="input-group">
-                  <div>
-                    <div class="custom-control custom-radio">
-                      <input
-                        (change)="showcontent($event.target.value)"
-                        value="yes"
-                        type="radio"
-                        class="custom-control-input"
-                        name="customRadio"
-                        id="customRadio1"
-                      />
-                      <label class="custom-control-label" for="customRadio1"
-                        >Sí</label
-                      >
-                    </div>
-                  </div>
-                  <div>
-                    <div class="ml-1 custom-control custom-radio">
-                      <input
-                        (change)="showcontent($event.target.value)"
-                        value="no"
-                        type="radio"
-                        class="custom-control-input"
-                        name="customRadio"
-                        id="customRadio2"
-                        checked
-                      />
-                      <label class="custom-control-label" for="customRadio2"
-                        >No</label
-                      >
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </div>
-          </div-->
         </div>
-        <!--div
-          class="col-md-12 mb-2"
-          id="showaddingredients"
-          style="display: none"
-          formArrayName="ingredients"
-        >
-          <div
-            class=""
-            *ngFor="let userForm of userFormGroup.controls; let i = index"
-          >
-            <div [formGroupName]="i" class="">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="measure">Producto *</label>
-                    <div class="input-group mb-1">
-                      <select
-                        name="idIngredients"
-                        class="form-control"
-                        formControlName="idIngredients"
-                        (ngModelChange)="onChangeObj($event)"
-                      >
-                        <option disabled selected>Selecciona una opción</option>
-                        <option
-                          *ngFor="let interest of ingredientes"
-                          [value]="interest.id"
-                        >
-                          {{ interest.name }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="quantity">Cantidad *</label>
-                    <div class="input-group mb-1">
-                      <div class="input-group">
-                        <input
-                          type="text"
-                          formControlName="quantity"
-                          id="quantity"
-                          class="form-control"
-                          placeholder="Ingrese cantidad"
-                          aria-describedby="basic-addon2"
-                        />
-                        <div class="input-group-append">
-                          <input
-                            class="input-group-text"
-                            formControlName="measure2"
-                            [value]="measureName"
-                            readonly
-                          />
-                        </div>
-                        <button
-                          class="btn btn-danger"
-                          type="button"
-                          (click)="removePhone(i)"
-                        >
-                          <i class="feather ft-x"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <button type="button" class="btn btn-primary" (click)="addPhone()">
-            <i class="feather ft-plus"></i> Agregar receta
-          </button>
-        </div-->
       </div>
     </div>
     <div class="modal-footer">
@@ -459,7 +304,10 @@
       >
         <i class="feather ft-x"></i> Cerrar
       </button>
-      <button (click)="onProductInfoSubmit()" class="btn btn-sm btn-outline-primary">
+      <button
+        (click)="onProductInfoSubmit()"
+        class="btn btn-sm btn-outline-primary"
+      >
         <i class="feather ft-check"></i> Guardar
       </button>
     </div>

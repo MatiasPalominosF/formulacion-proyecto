@@ -90,7 +90,6 @@ export class ProductIngredientComponent implements OnInit {
           this.searchData(this.pipe);
           this.productSortable = this.ingredients;
           this.ingredient = {};
-          //this.blockUITableProduct.stop();
         }
       );
     });

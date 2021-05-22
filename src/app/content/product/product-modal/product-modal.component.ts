@@ -24,7 +24,6 @@ export class ProductModalComponent implements OnInit {
   submitted = false;
   public titleIngredient = '';
   public opcIngredient;
-  public ingredientList: any;
   ingredientes: ProductInterface[];
   measureName;
   measures = [
@@ -69,17 +68,13 @@ export class ProductModalComponent implements OnInit {
     });
 
     this.getUserLogged();
-    this.ingredientList = this.productInfo.get('ingredients');
     if (!this.opc) {
       this.titleIngredient = "Agregar ingredientes";
     }
 
     this.getIngredients();
     this.setData();
-    this.prueba();
-  }
-  get userFormGroup() {
-    return this.productInfo.get('ingredients') as FormArray;
+
   }
 
   get f() {
@@ -115,39 +110,6 @@ export class ProductModalComponent implements OnInit {
     }
   }
 
-  setMeaure(opc: any) {
-
-    if (opc == 1) {
-
-    } else {
-      console.log("this.productService.selectedProduct.measure", this.productService.selectedProduct.measure);
-      switch (this.productService.selectedProduct.measure) {
-        case "1":
-          this.measureName = "Kg"
-          break;
-        case "2":
-          this.measureName = "Gr"
-          break;
-        case "3":
-          this.measureName = "L"
-          break;
-        case "4":
-          this.measureName = "Cc"
-          break;
-        case "5":
-          this.measureName = "Ml"
-          break;
-        case "6":
-          this.measureName = "Un"
-          break;
-        default:
-          console.log("Error!");
-      }
-    }
-
-  }
-
-
   addIngredients() {
     if (this.titleIngredient == "Agregar ingredientes") {
       this.opcIngredient = false;
@@ -180,39 +142,10 @@ export class ProductModalComponent implements OnInit {
     }
   }
 
-  setValueInIngredients() {
-    var any;
-    if (this.productService.selectedProduct.ingredients != undefined && this.productService.selectedProduct.ingredients.length > 0 && this.productService.selectedProduct.ingredients != null) {
-      document.getElementById("showaddingredients").style.display = "block";
-      this.productService.selectedProduct.ingredients.forEach(element => {
-        any = element;
-        console.log("any.idIngredients", any.idIngredients);
-        console.log("any.quantity", any.quantity);
-        console.log("any.measure", any.measure2);
-        this.ingredientList.push(this.formBuilder.group({
-          idIngredients: any.idIngredients,
-          quantity: any.quantity,
-          measure2: any.measure2,
-        }))
-
-      });
-    }
-
-  }
-
   getIngredients() {
     this.productService.getMaterial(this.currentUser.uid).subscribe(datos => {
-      console.log("Ahora viene esto:", datos);
       this.ingredientes = datos;
     });
-  }
-
-  prueba() {
-    this.productService.getProductById(this.currentUser.uid, this.productService.selectedProduct.id).subscribe(
-      datos => {
-        console.log("PRODUTO DATOS: ", datos);
-      }
-    );
   }
 
   setIvaBruto(value) {
@@ -229,40 +162,6 @@ export class ProductModalComponent implements OnInit {
     } else {
       this.productInfo.get("bruto").setValue("");
     }
-  }
-
-  onChangeObj(value: any) {
-    console.log("que:", value);
-    this.productService.getProductById(this.currentUser.uid, value).subscribe(producto => {
-      var arrayControl = this.userFormGroup;
-
-
-      switch (producto.measure) {
-        case "1":
-          this.measureName = "Kg"
-          break;
-        case "2":
-          this.measureName = "Gr"
-          break;
-        case "3":
-          this.measureName = "L"
-          break;
-        case "4":
-          this.measureName = "Cc"
-          break;
-        case "5":
-          this.measureName = "Ml"
-          break;
-        case "6":
-          this.measureName = "Un"
-          break;
-        default:
-          console.log("Sin datos!");
-      }
-
-
-      console.log("aaa", arrayControl.value)
-    });
   }
 
   setTotal(e) {
@@ -298,31 +197,6 @@ export class ProductModalComponent implements OnInit {
       this.productInfo.get("margen").setValue(0);
     }
 
-  }
-
-  showcontent(value) {
-    if (value == "yes") {
-      document.getElementById("showaddingredients").style.display = "block";
-    } else {
-      //this.productInfo.get('ingredients').setErrors(null);
-      document.getElementById("showaddingredients").style.display = "none";
-    }
-  }
-
-  createIngredients(): FormGroup {
-    return this.formBuilder.group({
-      idIngredients: [''],
-      quantity: [''],
-      measure2: [''],
-    });
-  }
-
-  addPhone() {
-    this.ingredientList.push(this.createIngredients());
-  }
-
-  removePhone(index) {
-    this.ingredientList.removeAt(index);
   }
 
   getUserLogged(): void {
@@ -368,7 +242,4 @@ export class ProductModalComponent implements OnInit {
     this.productService.ingredientsSelected = [];
     this.productInfo.reset();
   }
-
-
-
 }
