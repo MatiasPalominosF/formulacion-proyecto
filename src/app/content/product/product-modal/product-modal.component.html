@@ -36,7 +36,7 @@
               *ngIf="submitted && f.name.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.name.errors.required">
+              <div *ngIf="hasError('name', 'required')">
                 El nombre del producto es requerido.
               </div>
             </small>
@@ -65,7 +65,7 @@
               *ngIf="submitted && f.measure.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.measure.errors.required">
+              <div *ngIf="hasError('measure', 'required')">
                 La unidad de medida del producto es requerida.
               </div>
             </small>
@@ -94,8 +94,11 @@
               *ngIf="submitted && f.neto.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.neto.errors.required">
+              <div *ngIf="hasError('neto', 'required')">
                 El valor neto del producto es requerido.
+              </div>
+              <div *ngIf="hasError('neto', 'min')">
+                El valor debe ser mayor a 0.
               </div>
             </small>
           </div>
@@ -117,7 +120,9 @@
               *ngIf="submitted && f.iva.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.iva.errors.required">El iva del producto.</div>
+              <div *ngIf="hasError('iva', 'required')">
+                El iva del producto.
+              </div>
             </small>
           </div>
         </div>
@@ -138,7 +143,7 @@
               *ngIf="submitted && f.bruto.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.bruto.errors.required">
+              <div *ngIf="hasError('bruto', 'required')">
                 El precio bruto es requerido.
               </div>
             </small>
@@ -162,8 +167,11 @@
               *ngIf="submitted && f.margen.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.margen.errors.required">
+              <div *ngIf="hasError('margen', 'required')">
                 El margen de ganacia es requerido.
+              </div>
+              <div *ngIf="hasError('margen', 'min')">
+                El valor debe ser mayor a 0.
               </div>
             </small>
           </div>
@@ -186,8 +194,11 @@
               *ngIf="submitted && f.total.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.total.errors.required">
+              <div *ngIf="hasError('total', 'required')">
                 El precio venta es requerido.
+              </div>
+              <div *ngIf="hasError('total', 'min')">
+                El valor debe ser mayor a 0.
               </div>
             </small>
           </div>
@@ -209,8 +220,11 @@
               *ngIf="submitted && f.stock.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.stock.errors.required">
+              <div *ngIf="hasError('stock', 'required')">
                 El stock del producto es requerido.
+              </div>
+              <div *ngIf="hasError('stock', 'min')">
+                El valor debe ser mayor a 0.
               </div>
             </small>
           </div>
@@ -232,8 +246,11 @@
               *ngIf="submitted && f.minimun.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.minimun.errors.required">
+              <div *ngIf="hasError('minimun', 'required')">
                 La cantidad mínima es requerido.
+              </div>
+              <div *ngIf="hasError('minimun', 'min')">
+                El valor debe ser mayor a 0.
               </div>
             </small>
           </div>
@@ -273,7 +290,7 @@
                 *ngIf="submitted && f.ismaterial.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="f.ismaterial.errors.required">
+                <div *ngIf="hasError('ismaterial', 'required')">
                   El campo materia prima es requerido.
                 </div>
               </small>

@@ -94,22 +94,32 @@
                       </td>
                       <td>
                         <ngb-highlight
-                          [result]="element.totalPrice"
+                          [result]="element.totalPrice | number | transform"
                           [term]="filter.value"
                         >
                         </ngb-highlight>
                       </td>
                       <td>
                         <ngb-highlight
-                          [result]="element.date.toDate() | date: 'dd/MM/yyyy HH:mm'"
-                          [term]="element.date.toDate() | date: 'dd/MM/yyyy HH:mm'"
+                          [result]="
+                            element.date.toDate() | date: 'dd/MM/yyyy HH:mm'
+                          "
+                          [term]="
+                            element.date.toDate() | date: 'dd/MM/yyyy HH:mm'
+                          "
                         >
                         </ngb-highlight>
                       </td>
                       <td>
                         <ngb-highlight
-                          [result]="element.datecancellation.toDate() | date: 'dd/MM/yyyy HH:mm'"
-                          [term]="element.datecancellation.toDate() | date: 'dd/MM/yyyy HH:mm'"
+                          [result]="
+                            element.datecancellation.toDate()
+                              | date: 'dd/MM/yyyy HH:mm'
+                          "
+                          [term]="
+                            element.datecancellation.toDate()
+                              | date: 'dd/MM/yyyy HH:mm'
+                          "
                         >
                         </ngb-highlight>
                       </td>

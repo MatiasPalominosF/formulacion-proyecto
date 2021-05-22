@@ -110,7 +110,7 @@ export class EcommerceComponent implements OnInit {
 
   getInfoSales() {
     this.blockUISellCard.start('Loading..');
-    this.saleService.getFullInfoSale(this.currentUser.uid).subscribe(
+    this.saleService.getFullInfoSaleNotCancelled(this.currentUser.uid).subscribe(
       sale => {
         var sum = 0;
         sale.forEach(element => {

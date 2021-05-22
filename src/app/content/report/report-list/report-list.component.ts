@@ -105,7 +105,7 @@ export class ReportListComponent implements OnInit {
 
   getAllSales(): void {
     this.blockUIReportTable.start('Loading..');
-    this.saleService.getFullInfoSale(this.currentUser.uid).subscribe(data => {
+    this.saleService.getFullInfoSaleNotCancelled(this.currentUser.uid).subscribe(data => {
       console.log(data);
       this.PRODUCT = data;
       this.collectionSize = this.PRODUCT.length;

@@ -30,7 +30,7 @@ export class SaleService {
     this.saleDoc.update(producto);
   }
 
-  getFullInfoSale(uidBoss: string) {
+  getFullInfoSaleNotCancelled(uidBoss: string) {
     return this.sales = this.afs.collection('sale').doc(`${uidBoss}`).collection<Product>('saleInfo', ref => ref.where('cancellation', '==', false))
       .snapshotChanges()
       .pipe(map(changes => {
@@ -41,6 +41,20 @@ export class SaleService {
         });
       }));
   }
+
+  getFullInfoSale(uidBoss: string): Observable<Product[]> {
+    return this.sales = this.afs.collection('sale').doc(`${uidBoss}`).collection<Product>('saleInfo')
+      .snapshotChanges()
+      .pipe(map(changes => {
+        return changes.map(action => {
+          const data = action.payload.doc.data() as Product;
+          data.id = action.payload.doc.id;
+          return data;
+        });
+      }));
+  }
+
+
 
   getCancellationSale(uidBoss: string) {
     return this.sales = this.afs.collection('sale').doc(`${uidBoss}`).collection<Product>('saleInfo', ref => ref.where('cancellation', '==', true)).snapshotChanges()

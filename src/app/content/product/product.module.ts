@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProductModalComponent } from './product-modal/product-modal.component';
 import { ProductIngredientComponent } from './product-ingredient/product-ingredient.component';
+import { FilterPipeModule } from 'src/app/_pipe/filter-pipe.module';
 
 
 
@@ -28,6 +29,7 @@ import { ProductIngredientComponent } from './product-ingredient/product-ingredi
     NgxEchartsModule,
     CardModule,
     NgbModule,
+    FilterPipeModule,
     NgbModalModule,
     ReactiveFormsModule,
     FormsModule,

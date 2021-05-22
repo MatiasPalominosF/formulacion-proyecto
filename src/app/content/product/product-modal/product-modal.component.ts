@@ -56,17 +56,18 @@ export class ProductModalComponent implements OnInit {
     this.productInfo = this.formBuilder.group({
       haveIngredient: false,
       name: ['', Validators.required],
-      stock: ['', Validators.required],
-      neto: ['', Validators.required],
-      iva: ['', Validators.required],
-      bruto: ['', Validators.required],
-      margen: ['', Validators.required],
-      total: ['', Validators.required],
-      minimun: ['', Validators.required],
+      stock: ['', [Validators.required, Validators.min(0)]],
+      neto: ['', [Validators.required, Validators.min(1)]],
+      iva: ['', [Validators.required]],
+      bruto: ['', [Validators.required]],
+      margen: ['', [Validators.required, Validators.min(0)]],
+      total: ['', [Validators.required, Validators.min(1)]],
+      minimun: ['', [Validators.required, Validators.min(0)]],
       ismaterial: ['', Validators.required],
       measure: ['', Validators.required],
     });
 
+    //Validators.pattern(/^(?!0+\.00)(?=.{1,9}(\.|$))(?!0(?!\.))\d{1,3}(,\d{3})*(\.\d+)?$/)
     this.getUserLogged();
     if (!this.opc) {
       this.titleIngredient = "Agregar ingredientes";
@@ -110,6 +111,33 @@ export class ProductModalComponent implements OnInit {
     }
   }
 
+  addDotInNumber(id: string) {
+    let field = this.productInfo.get(id);
+    var entrada = field.value.split('.').join('');
+    entrada = entrada.split('').reverse();
+    var salida = [];
+    var aux = '';
+    var paginador = Math.ceil(entrada.length / 3);
+
+    for (let i = 0; i < paginador; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (entrada[j + (i * 3)] != undefined) {
+          aux += entrada[j + (i * 3)];
+        }
+      }
+
+      salida.push(aux);
+      aux = '';
+      var final = salida.join('.').split("").reverse().join('');
+      field.setValue(final);
+    }
+  }
+
+  deleteDotInNumber(field: string) {
+    var entrada = field.split('.').join('');
+    return entrada;
+  }
+
   addIngredients() {
     if (this.titleIngredient == "Agregar ingredientes") {
       this.opcIngredient = false;
@@ -149,6 +177,7 @@ export class ProductModalComponent implements OnInit {
   }
 
   setIvaBruto(value) {
+    value = this.deleteDotInNumber(value);
     var valor = parseInt(value, 10);
     var iva = (Math.round(valor * 0.19))
     if (!isNaN(valor)) {
@@ -242,4 +271,8 @@ export class ProductModalComponent implements OnInit {
     this.productService.ingredientsSelected = [];
     this.productInfo.reset();
   }
+
+  public hasError = (controlName: string, errorName: string) => {
+    return this.productInfo.get(controlName).hasError(errorName);
+  };
 }

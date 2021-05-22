@@ -10,6 +10,7 @@ import { CardModule } from '../partials/general/card/card.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaySaleComponent } from './pay-sale/pay-sale.component';
 import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
+import { FilterPipeModule } from 'src/app/_pipe/filter-pipe.module';
 
 
 
@@ -20,6 +21,7 @@ import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog
     BreadcrumbModule,
     CardModule,
     NgbModule,
+    FilterPipeModule,
     NgbPaginationModule,
     ReactiveFormsModule,
     FormsModule,
