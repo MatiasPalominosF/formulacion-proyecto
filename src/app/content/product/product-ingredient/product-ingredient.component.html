@@ -143,7 +143,7 @@
                       </td>
                       <td>
                         <button
-                          (click)="onDeleteProduct(element.id)"
+                          (click)="onDeleteIngredient(element.id)"
                           class="
                             btn btn-xs btn-social-icon
                             mr-1
@@ -198,7 +198,7 @@
       (click)="onIngredientSubmit()"
       class="btn btn-sm btn-outline-primary"
     >
-      <i class="feather ft-check"></i> Agregar
+      <i class="feather ft-check"></i> {{ opc ? "Editar" : "Agregar" }}
     </button>
   </div>
 </div>

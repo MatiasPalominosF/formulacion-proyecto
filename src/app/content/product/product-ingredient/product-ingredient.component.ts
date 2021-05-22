@@ -7,6 +7,8 @@ import { debounceTime, distinctUntilChanged, filter, map, merge, startWith } fro
 import { ProductService } from 'src/app/_api/product/product.service';
 import { Ingredient } from 'src/app/_models/ingredient';
 import { Product } from 'src/app/_models/product2';
+import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
+import { NotificationService } from 'src/app/_services/notificacion.service';
 
 @Component({
   selector: 'app-product-ingredient',
@@ -26,7 +28,6 @@ export class ProductIngredientComponent implements OnInit {
   public measure = "";
   public quantity = "";
   private currentUser: any;
-  private PRODUCT: Product[] = [];
   private INGREDIENTSEARCH: Product[] = [];
   private ingredients: Ingredient[] = [];
   private ingredient: Ingredient = {};
@@ -41,6 +42,8 @@ export class ProductIngredientComponent implements OnInit {
   constructor(
     public productService: ProductService,
     public activeModal: NgbActiveModal,
+    private confirmationDialogService: ConfirmationDialogService,
+    private notifyService: NotificationService,
   ) { }
 
   ngOnInit(): void {
@@ -83,10 +86,9 @@ export class ProductIngredientComponent implements OnInit {
           this.ingredient.name = data.name;
           this.ingredient.quantity = Number(element.quantity);
           this.ingredients.push(this.ingredient);
-          this.PRODUCT.push(element);
           this.collectionSize = this.ingredients.length;
           this.searchData(this.pipe);
-          this.productSortable = this.PRODUCT;
+          this.productSortable = this.ingredients;
           this.ingredient = {};
           //this.blockUITableProduct.stop();
         }
@@ -179,7 +181,6 @@ export class ProductIngredientComponent implements OnInit {
       } else {
         this.ingredients.push(this.ingredient);
       }
-
       this.quantity = "";
       this.searchProduct = {};
       this.ingredient = {};
@@ -188,6 +189,28 @@ export class ProductIngredientComponent implements OnInit {
       this.submitted = false;
     }
 
+  }
+
+  onDeleteIngredient(id: string) {
+    this.confirmationDialogService.confirm('Confirmación', '¿Estás seguro de eliminar el ingrediente?')
+      .then(confirmed => {
+        if (!confirmed) {
+        } else {
+          this.ingredients.forEach(element => {
+            if (element.id === id) {
+              var i = this.ingredients.indexOf(element);
+              if (i !== -1) {
+                this.ingredients.splice(i, 1);
+                this.collectionSize = this.ingredients.length;
+                this.searchData(this.pipe);
+              }
+            }
+          });
+          this.notifyService.showSuccess("Eliminar", "¡El ingrediente se eliminó correctamente!");
+        }
+      }).catch(() => {
+        console.log("Not ok");
+      });
   }
 
   onIngredientSubmit() {
