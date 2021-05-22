@@ -74,7 +74,7 @@
                       </td>
                       <td>
                         <ngb-highlight
-                          [result]="element.total"
+                          [result]="element.total | number | transform "
                           [term]="filter.value"
                         >
                         </ngb-highlight>

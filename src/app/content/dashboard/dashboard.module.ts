@@ -13,11 +13,13 @@ import { BlockUIModule } from 'ng-block-ui';
 import { BlockTemplateComponent } from '../../_layout/blockui/block-template.component';
 import { MatchHeightModule } from '../partials/general/match-height/match-height.module';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { FilterPipeModule } from 'src/app/_pipe/filter-pipe.module';
 
 @NgModule({
   imports: [
     CommonModule,
     ChartistModule,
+    FilterPipeModule,
     FormsModule,
     ChartsModule,
     CardModule,

@@ -1,0 +1,204 @@
+<div class="modal-lg">
+  <div class="modal-header bg-warning">
+    <h4 class="modal-title white" id="myModalLabel1">
+      {{ opc ? "Editar ingredientes" : "Agregar ingredientes" }}
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="activeModal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card-content collapse show">
+      <div class="form-body">
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-3 m-auto">
+                  <div class="form-group">
+                    <form>
+                      <label>Buscar</label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        [formControl]="filter"
+                        placeholder="Buscar"
+                      />
+                    </form>
+                  </div>
+                </div>
+                <div class="col-md-3 m-auto">
+                  <div class="form-group">
+                    <label>Añadir ingrediente</label>
+                    <input
+                      name="search"
+                      type="search"
+                      #instance="ngbTypeahead"
+                      aria-label="Search"
+                      [(ngModel)]="searchProduct"
+                      (ngModelChange)="modelChangeFn($event)"
+                      [ngbTypeahead]="search2"
+                      [resultTemplate]="rt"
+                      [inputFormatter]="formatter"
+                      class="form-control"
+                      (focus)="focus$.next($event.target.value)"
+                      (click)="click$.next($event.target.value)"
+                      placeholder="Buscar ingredientes"
+                    />
+                  </div>
+                  <ng-template #rt let-r="result" let-t="term">
+                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                  </ng-template>
+                </div>
+                <div class="col-md-3 m-auto">
+                  <div class="form-group">
+                    <label>Cantidad</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Cantidad"
+                        [(ngModel)]="quantity"
+                        (ngModelChange)="modelChangeFn2($event)"
+                        (keypress)="keyPress($event)"
+                        aria-describedby="basic-addon2"
+                        [ngClass]="{
+                          'is-invalid': submitted && error
+                        }"
+                      />
+                      <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2">{{
+                          measure
+                        }}</span>
+                      </div>
+                      <small
+                        class="form-text text-muted danger"
+                        *ngIf="submitted && error"
+                        class="invalid-feedback"
+                      >
+                        <div *ngIf="error">
+                          La cantidad del producto es requerida.
+                        </div>
+                      </small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 m-auto">
+                  <br />
+                  <div class="input-group-append">
+                    <button
+                      (click)="addNewIngredient()"
+                      class="btn btn-primary btn-min-width mr-1 mb-1"
+                    >
+                      <i class="la la-plus"></i> Añadir
+                    </button>
+                  </div>
+                </div>
+                <!--dps de este-->
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive card-body">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Cantidad</th>
+                      <th scope="col">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      *ngFor="
+                        let element of productSearch
+                          | async
+                          | slice
+                            : (page - 1) * pageSize
+                            : (page - 1) * pageSize + pageSize;
+                        index as i
+                      "
+                    >
+                      <th scope="row">{{ i + 1 }}</th>
+                      <td>
+                        <ngb-highlight
+                          [result]="element.name"
+                          [term]="filter.value"
+                        >
+                        </ngb-highlight>
+                      </td>
+                      <td>
+                        <ngb-highlight
+                          [result]="element.quantity + ' ' + element.measure"
+                          [term]="filter.value"
+                        >
+                        </ngb-highlight>
+                      </td>
+                      <td>
+                        <button
+                          (click)="onDeleteIngredient(element.id)"
+                          class="
+                            btn btn-xs btn-social-icon
+                            mr-1
+                            mb-1
+                            btn-pinterest
+                          "
+                        >
+                          <span class="la la-trash"></span>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="d-flex justify-content-between p-2">
+                  <ngb-pagination
+                    [collectionSize]="collectionSize"
+                    [(page)]="page"
+                    [pageSize]="pageSize"
+                  >
+                  </ngb-pagination>
+
+                  <select
+                    class="custom-select"
+                    style="width: auto"
+                    [(ngModel)]="pageSize"
+                    name="select"
+                  >
+                    <option [ngValue]="collectionSize">
+                      Mostrar todos los ítems
+                    </option>
+                    <option [ngValue]="2">2 ítems por página</option>
+                    <option [ngValue]="4">4 ítems por página</option>
+                    <option [ngValue]="6">6 ítems por página</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      (click)="activeModal.dismiss('Cross click')"
+      type="button"
+      class="btn btn-sm grey btn-outline-secondary"
+    >
+      <i class="feather ft-x"></i> Cerrar
+    </button>
+    <button
+      (click)="onIngredientSubmit()"
+      class="btn btn-sm btn-outline-primary"
+    >
+      <i class="feather ft-check"></i> {{ opc ? "Editar" : "Agregar" }}
+    </button>
+  </div>
+</div>

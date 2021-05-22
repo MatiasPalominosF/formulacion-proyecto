@@ -1,90 +1,175 @@
 <div class="modal-header">
-    <!--h4 class="modal-title" id="modal-basic-title">Profile update</h4-->
-    <h4 class="form-section"><i class="mr-2 mt-6 feather ft-user"></i>{{opc ? 'Editar personal' : 'Agregar personal'}}
-    </h4>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-    </button>
+  <!--h4 class="modal-title" id="modal-basic-title">Profile update</h4-->
+  <h4 class="form-section">
+    <i class="mr-2 mt-6 feather ft-user"></i
+    >{{ opc ? "Editar personal" : "Agregar personal" }}
+  </h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
 <div class="modal-body">
-    <form [formGroup]="projectInfo" (ngSubmit)="onProjectInfoSubmit()">
-        <div class="form-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="projectinput1">Nombre *</label>
-                        <input type="text" id="projectinput1" class="form-control" formControlName="name"
-                            placeholder="Nombre" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
-                            [(ngModel)]="this.workerService.selectedWorker.name" />
-                        <small class="form-text text-muted danger" *ngIf="submitted && f.name.errors"
-                            class="invalid-feedback">
-                            <div *ngIf=" f.name.errors.required">
-                                El nombre es requerido</div>
-                        </small>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="projectinput2">Apellido *</label>
-                        <input type="text" id="projectinput2" class="form-control" formControlName="lastname"
-                            placeholder="Apellido" [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }"
-                            [(ngModel)]="this.workerService.selectedWorker.lastname" />
-                        <small class="form-text text-muted danger" *ngIf="submitted && f.lastname.errors"
-                            class="invalid-feedback">
-                            <div *ngIf="f.lastname.errors.required">
-                                Last Name is required</div>
-                        </small>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div *ngIf="opc == false; else editBlock" class="form-group">
-                        <label for="projectinput3">RUT *</label>
-                        <input type="text" id="projectinput3" class="form-control" formControlName="id"
-                            placeholder="RUT" [ngClass]="{ 'is-invalid': submitted && f.id.errors }"
-                            [(ngModel)]="this.workerService.selectedWorker.id" />
-                        <small class="form-text text-muted danger" *ngIf="submitted && f.id.errors"
-                            class="invalid-feedback">
-                            <div *ngIf="f.id.errors.required">El RUT es requerido</div>
-                        </small>
-                    </div>
-                    <ng-template #editBlock>
-                        <div *ngIf="opc; else editBlock" class="form-group">
-                            <label for="projectinput3">RUT *</label>
-                            <input type="text" readonly id="projectinput3" class="form-control" formControlName="id"
-                                placeholder="RUT" [ngClass]="{ 'is-invalid': submitted && f.id.errors }"
-                                [(ngModel)]="this.workerService.selectedWorker.id" />
-                            <small class="form-text text-muted danger" *ngIf="submitted && f.id.errors"
-                                class="invalid-feedback">
-                                <div *ngIf="f.id.errors.required">El RUT es requerido</div>
-                            </small>
-                        </div>
-                    </ng-template>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="projectinput4">Celular *</label>
-                        <input type="text" id="projectinput4" class="form-control" formControlName="phone"
-                            placeholder="Celular" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
-                            (keypress)="keyPress($event)" [(ngModel)]="this.workerService.selectedWorker.phone" />
-                        <small class="form-text text-muted danger" *ngIf="submitted && f.phone.errors"
-                            class="invalid-feedback">
-                            <div *ngIf="f.phone.errors.required">El celular
-                                es requerido</div>
-                        </small>
-                    </div>
-                </div>
-            </div>
+  <form [formGroup]="projectInfo" (ngSubmit)="onProjectInfoSubmit()">
+    <div class="form-body">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="projectinput1">Nombre *</label>
+            <input
+              type="text"
+              id="projectinput1"
+              class="form-control"
+              formControlName="name"
+              placeholder="Nombre"
+              [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+            />
+            <small
+              class="form-text text-muted danger"
+              *ngIf="submitted && f.name.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.name.errors.required">El nombre es requerido</div>
+            </small>
+          </div>
         </div>
-        <div class="modal-footer">
-            <button (click)="activeModal.dismiss('Cross click')" type="button"
-                class="btn btn-sm grey btn-outline-secondary">
-                <i class="feather ft-x"></i> Cerrar
-            </button>
-            <button type="submit" class="btn btn-sm btn-outline-primary">
-                <i class="feather ft-check"></i> Guardar
-            </button>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="projectinput2">Apellido *</label>
+            <input
+              type="text"
+              id="projectinput2"
+              class="form-control"
+              formControlName="lastname"
+              placeholder="Apellido"
+              [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }"
+            />
+            <small
+              class="form-text text-muted danger"
+              *ngIf="submitted && f.lastname.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.lastname.errors.required">
+                El apellido es requerido
+              </div>
+            </small>
+          </div>
         </div>
-    </form>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label for="projectinput3">RUT *</label>
+          <input
+            type="text"
+            id="projectinput3"
+            class="form-control"
+            formControlName="id"
+            placeholder="RUT"
+            (input)="checkRun()"
+            maxlength="10"
+            [ngClass]="{ 'is-invalid': submitted && f.id.errors }"
+          />
+          <small
+            class="form-text text-muted danger"
+            *ngIf="submitted && f.id.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="hasError('id', 'required')">El RUT es requerido</div>
+            <div *ngIf="hasError('id', 'pattern')">
+              Debe ingresar un RUT válido
+            </div>
+            <div *ngIf="hasError('id', 'verificator')">
+              El digito verificador no corresponde al run ingresado
+            </div>
+          </small>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="projectinput4">Clave *</label>
+            <input
+              type="password"
+              id="projectinput4"
+              class="form-control"
+              formControlName="password"
+              placeholder="Contraseña"
+              [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+            />
+            <small
+              class="form-text text-muted danger"
+              *ngIf="submitted && f.password.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.password.errors.required">
+                La contraseña es requerida
+              </div>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="projectinput6">Celular *</label>
+          <input
+            type="text"
+            id="projectinput6"
+            class="form-control"
+            formControlName="phone"
+            placeholder="Celular"
+            maxlength="9"
+            [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
+            (keypress)="keyPress($event)"
+          />
+          <small
+            class="form-text text-muted danger"
+            *ngIf="submitted && f.phone.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.phone.errors.required">El celular es requerido</div>
+            <div *ngIf="f.phone.errors.minlength">
+              El celular dede tener 9 dígitos
+            </div>
+          </small>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="projectinput5">Cargo *</label>
+        <select
+          id="projectinput5"
+          class="form-control border-primary"
+          formControlName="rol"
+          [ngClass]="{ 'is-invalid': submitted && f.rol.errors }"
+        >
+          <option disabled selected>Selecciona una opción</option>
+          <option *ngFor="let rol of roles" [value]="rol.id" value="rol.id">
+            {{ rol.name }}
+          </option>
+        </select>
+        <small
+          class="form-text text-muted danger"
+          *ngIf="submitted && f.rol.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.rol.errors.required">El rol es requerido</div>
+        </small>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        (click)="activeModal.dismiss('Cross click')"
+        type="button"
+        class="btn btn-sm grey btn-outline-secondary"
+      >
+        <i class="feather ft-x"></i> Cerrar
+      </button>
+      <button type="submit" class="btn btn-sm btn-outline-primary">
+        <i class="feather ft-check"></i> Guardar
+      </button>
+    </div>
+  </form>
 </div>

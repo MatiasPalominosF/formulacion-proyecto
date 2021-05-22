@@ -87,12 +87,11 @@
                       </ngb-highlight>
                     </td>
                     <td>
-                      <ngb-highlight
-                        [result]="element.vendedor ? 'Vendedor' : 'Nada'"
-                        [term]="filter.value"
-                      >
-                      </ngb-highlight>
+                      <span *ngIf="element.rol == '1'"> Vendedor </span>
+                      <span *ngIf="element.rol == '3'"> Contador </span>
+                      <span *ngIf="element.rol == '2'"> Pastelero </span>
                     </td>
+
                     <td>
                       <button
                         (click)="onPreUpdateWorker(element)"
@@ -134,7 +133,9 @@
                   style="width: auto"
                   [(ngModel)]="pageSize"
                 >
-                  <option [ngValue]="collectionSize">Mostrar todos los ítems</option>
+                  <option [ngValue]="collectionSize">
+                    Mostrar todos los ítems
+                  </option>
                   <option [ngValue]="2">2 ítems por página</option>
                   <option [ngValue]="4">4 ítems por página</option>
                   <option [ngValue]="6">6 ítems por página</option>

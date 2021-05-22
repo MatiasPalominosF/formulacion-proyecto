@@ -4882,7 +4882,7 @@ var MenuSettingsConfig = {
                         },
                         {
                             title: 'Anulaciones',
-                            page: 'null'
+                            page: '/cancellation/only-cancellation-list'
                         },
                     ]
                 }
@@ -4985,7 +4985,7 @@ var MenuSettingsConfig = {
                         },
                         {
                             title: 'Anulaciones',
-                            page: 'null'
+                            page: '/cancellation/only-cancellation-list'
                         },
                     ]
                 }
@@ -6002,7 +6002,7 @@ var appRoutes = [
             },
             {
                 path: 'components',
-                loadChildren: function () { return Promise.all(/*! import() | app-content-ngbbootstrap-components-module */[__webpack_require__.e("default~app-content-forms-form-elements-form-elements-module~app-content-ngbbootstrap-components-mod~3ff90b5b"), __webpack_require__.e("app-content-ngbbootstrap-components-module")]).then(__webpack_require__.bind(null, /*! ../app/content/ngbbootstrap/components.module */ "cUVv")).then(function (m) { return m.ComponentsModule; }); },
+                loadChildren: function () { return Promise.all(/*! import() | app-content-ngbbootstrap-components-module */[__webpack_require__.e("default~app-content-cancellation-cancellation-module~app-content-forms-form-elements-form-elements-m~66743ec6"), __webpack_require__.e("app-content-ngbbootstrap-components-module")]).then(__webpack_require__.bind(null, /*! ../app/content/ngbbootstrap/components.module */ "cUVv")).then(function (m) { return m.ComponentsModule; }); },
                 canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]]
             },
             {
@@ -6037,7 +6037,7 @@ var appRoutes = [
             },
             {
                 path: 'form-elements',
-                loadChildren: function () { return Promise.all(/*! import() | app-content-forms-form-elements-form-elements-module */[__webpack_require__.e("default~app-content-applications-todo-app-todo-app-module~app-content-forms-form-elements-form-eleme~600725ba"), __webpack_require__.e("default~app-content-applications-email-email-module~app-content-extra-components-extra-components-mo~02ca94ce"), __webpack_require__.e("default~app-content-forms-form-elements-form-elements-module~app-content-ngbbootstrap-components-mod~3ff90b5b"), __webpack_require__.e("default~app-content-forms-form-elements-form-elements-module~app-content-table-boostraptables-boostr~5b0227fc"), __webpack_require__.e("app-content-forms-form-elements-form-elements-module")]).then(__webpack_require__.bind(null, /*! ../app/content/forms/form-elements/form-elements.module */ "yEPu")).then(function (m) {
+                loadChildren: function () { return Promise.all(/*! import() | app-content-forms-form-elements-form-elements-module */[__webpack_require__.e("default~app-content-cancellation-cancellation-module~app-content-forms-form-elements-form-elements-m~66743ec6"), __webpack_require__.e("default~app-content-applications-todo-app-todo-app-module~app-content-forms-form-elements-form-eleme~600725ba"), __webpack_require__.e("default~app-content-applications-email-email-module~app-content-extra-components-extra-components-mo~02ca94ce"), __webpack_require__.e("default~app-content-forms-form-elements-form-elements-module~app-content-table-boostraptables-boostr~5b0227fc"), __webpack_require__.e("app-content-forms-form-elements-form-elements-module")]).then(__webpack_require__.bind(null, /*! ../app/content/forms/form-elements/form-elements.module */ "yEPu")).then(function (m) {
                     return m.FormElementsModule;
                 }); },
                 canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]]
@@ -6072,7 +6072,7 @@ var appRoutes = [
             },
             {
                 path: 'boostraptables',
-                loadChildren: function () { return Promise.all(/*! import() | app-content-table-boostraptables-boostraptables-module */[__webpack_require__.e("default~app-content-applications-contacts-contacts-module~app-content-dashboard-dashboard-module~app~a5f9bb0a"), __webpack_require__.e("default~app-content-forms-form-elements-form-elements-module~app-content-ngbbootstrap-components-mod~3ff90b5b"), __webpack_require__.e("default~app-content-forms-form-elements-form-elements-module~app-content-table-boostraptables-boostr~5b0227fc"), __webpack_require__.e("common"), __webpack_require__.e("app-content-table-boostraptables-boostraptables-module")]).then(__webpack_require__.bind(null, /*! ../app/content/table/boostraptables/boostraptables.module */ "yuZa")).then(function (m) {
+                loadChildren: function () { return Promise.all(/*! import() | app-content-table-boostraptables-boostraptables-module */[__webpack_require__.e("default~app-content-applications-contacts-contacts-module~app-content-dashboard-dashboard-module~app~a5f9bb0a"), __webpack_require__.e("default~app-content-cancellation-cancellation-module~app-content-forms-form-elements-form-elements-m~66743ec6"), __webpack_require__.e("default~app-content-forms-form-elements-form-elements-module~app-content-table-boostraptables-boostr~5b0227fc"), __webpack_require__.e("common"), __webpack_require__.e("app-content-table-boostraptables-boostraptables-module")]).then(__webpack_require__.bind(null, /*! ../app/content/table/boostraptables/boostraptables.module */ "yuZa")).then(function (m) {
                     return m.BoostraptablesModule;
                 }); },
                 canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]]
@@ -6134,7 +6134,7 @@ var appRoutes = [
             },
             {
                 path: 'cancellation',
-                loadChildren: function () { return __webpack_require__.e(/*! import() | app-content-cancellation-cancellation-module */ "app-content-cancellation-cancellation-module").then(__webpack_require__.bind(null, /*! ../app/content/cancellation/cancellation.module */ "xQ7D")).then(function (m) { return m.CancellationModule; }); },
+                loadChildren: function () { return Promise.all(/*! import() | app-content-cancellation-cancellation-module */[__webpack_require__.e("default~app-content-cancellation-cancellation-module~app-content-forms-form-elements-form-elements-m~66743ec6"), __webpack_require__.e("common"), __webpack_require__.e("app-content-cancellation-cancellation-module")]).then(__webpack_require__.bind(null, /*! ../app/content/cancellation/cancellation.module */ "xQ7D")).then(function (m) { return m.CancellationModule; }); },
                 canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]]
             },
             {
@@ -8719,7 +8719,7 @@ var LoginComponent = /** @class */ (function () {
     }
     LoginComponent.prototype.ngOnInit = function () {
         this.loginForm = this.formBuilder.group({
-            email: ['palominos90@gmail.com', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
+            email: ['palominos90@gmail.com', [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].email]],
             password: ['123456', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
             rememberMe: false
         });

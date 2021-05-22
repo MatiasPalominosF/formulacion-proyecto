@@ -17,7 +17,7 @@
               <div class="card-body card_padding">
                 <div class="media d-flex">
                   <div class="media-body text-left">
-                    <h3 class="info">{{ cantSales }}</h3>
+                    <h3 class="info">{{ cantSales | number | transform }}</h3>
                     <h6>Productos vendidos</h6>
                   </div>
                   <div>
@@ -44,7 +44,7 @@
               <div class="card-body card_padding">
                 <div class="media d-flex">
                   <div class="media-body text-left">
-                    <h3 class="warning">${{ sumSales }}</h3>
+                    <h3 class="warning">${{ sumSales | number | transform }}</h3>
                     <h6>Ventas</h6>
                   </div>
                   <div>
@@ -72,7 +72,7 @@
               <div class="card-body card_padding">
                 <div class="media d-flex">
                   <div class="media-body text-left">
-                    <h3 class="success">{{ cantWorkers }}</h3>
+                    <h3 class="success">{{ cantWorkers | number | transform }}</h3>
                     <h6>Personal</h6>
                   </div>
                   <div>

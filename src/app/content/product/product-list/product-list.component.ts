@@ -101,8 +101,6 @@ export class ProductListComponent implements OnInit {
   getFullInfoProduct() {
     this.blockUITableProduct.start('Loading..');
     this.productService.getFullInfoProduct(this.currentUser.uid).subscribe(product => {
-      console.log("DATOS:", product);
-      //console.log("ESTA WEA TRAE:", Object.entries(product[0].ingredients).length === 0);
       this.PRODUCT = product;
       this.collectionSize = this.PRODUCT.length;
       this.searchData(this.pipe);
@@ -154,8 +152,6 @@ export class ProductListComponent implements OnInit {
   }
 
   onDeleteProduct(idProduct: string): void {
-    console.log("Delete Work: ", idProduct);
-    console.log("Delete Work Boss: ", this.currentUser.uid);
     this.confirmationDialogService.confirm('Confirmación', '¿Estás seguro de eliminar el producto?')
       .then(confirmed => {
         if (!confirmed) {
@@ -180,7 +176,6 @@ export class ProductListComponent implements OnInit {
   * '@param' pipe
   */
   searchData(pipe: DecimalPipe) {
-    console.log("this.productSearch ", this.productSearch);
     this.productSearch = this.filter.valueChanges.pipe(
       startWith(''),
       map(text => this.search(text, pipe))

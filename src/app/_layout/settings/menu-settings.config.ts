@@ -115,7 +115,7 @@ export const MenuSettingsConfig: MenuConfig = {
             },
             {
               title: 'Anulaciones',
-              page: 'null'
+              page: '/cancellation/only-cancellation-list'
             },
           ]
         }
@@ -218,7 +218,7 @@ export const MenuSettingsConfig: MenuConfig = {
             },
             {
               title: 'Anulaciones',
-              page: 'null'
+              page: '/cancellation/only-cancellation-list'
             },
           ]
         }
