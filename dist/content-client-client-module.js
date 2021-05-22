@@ -351,28 +351,52 @@ function ClientModalComponent_small_28_div_1_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "El RUT es requerido");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
+function ClientModalComponent_small_28_div_2_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, " Debe ingresar un RUT v\u00E1lido ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} }
+function ClientModalComponent_small_28_div_3_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, " El digito verificador no corresponde al run ingresado ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} }
 function ClientModalComponent_small_28_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "small", 31);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, ClientModalComponent_small_28_div_1_Template, 2, 0, "div", 32);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, ClientModalComponent_small_28_div_2_Template, 2, 0, "div", 32);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, ClientModalComponent_small_28_div_3_Template, 2, 0, "div", 32);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
     var ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r2.f.rut.errors.required);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r2.hasError("rut", "required"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r2.hasError("rut", "pattern"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r2.hasError("rut", "verificator"));
 } }
 function ClientModalComponent_small_34_div_1_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "El celular es requerido");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
+function ClientModalComponent_small_34_div_2_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, " El celular dede tener 9 d\u00EDgitos ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} }
 function ClientModalComponent_small_34_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "small", 31);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, ClientModalComponent_small_34_div_1_Template, 2, 0, "div", 32);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, ClientModalComponent_small_34_div_2_Template, 2, 0, "div", 32);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
     var ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r3.f.phone.errors.required);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r3.hasError("phone", "minLength"));
 } }
 function ClientModalComponent_small_40_div_1_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
@@ -405,18 +429,22 @@ function ClientModalComponent_small_50_Template(rf, ctx) { if (rf & 1) {
 var _c0 = function (a0) { return { "is-invalid": a0 }; };
 var ClientModalComponent = /** @class */ (function () {
     function ClientModalComponent(activeModal, formBuilder, clientService) {
+        var _this = this;
         this.activeModal = activeModal;
         this.formBuilder = formBuilder;
         this.clientService = clientService;
         this.passEntry = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.submitted = false;
+        this.hasError = function (controlName, errorName) {
+            return _this.clientInfo.get(controlName).hasError(errorName);
+        };
     }
     ClientModalComponent.prototype.ngOnInit = function () {
         this.clientInfo = this.formBuilder.group({
             name: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
             lastname: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
-            rut: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
-            phone: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
+            rut: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].pattern(/^\d{1,2}\d{3}\d{3}[-][0-9kK]{1}$/), this.checkVerificatorDigit]],
+            phone: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].minLength(9)]],
             discount: [false, _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
             address: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
             percent: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
@@ -487,8 +515,60 @@ var ClientModalComponent = /** @class */ (function () {
             this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
         }
     };
+    ClientModalComponent.prototype.checkRun = function () {
+        var run = this.clientInfo.get("rut");
+        //Despejar Puntos
+        var runClean = run.value.replace('.', '');
+        // Despejar Guión
+        runClean = runClean.replace('-', '');
+        // Aislar Cuerpo y Dígito Verificador
+        var body = runClean.slice(0, -1);
+        var dv = runClean.slice(-1).toUpperCase();
+        // Formatear RUN
+        run.setValue(body + '-' + dv);
+    };
+    ClientModalComponent.prototype.checkVerificatorDigit = function (control) {
+        var run = control;
+        if (run.value == null)
+            return;
+        //Despejar Puntos
+        var runClean = run.value.replace('.', '');
+        // Despejar Guión
+        runClean = runClean.replace('-', '');
+        // Aislar Cuerpo y Dígito Verificador
+        var body = runClean.slice(0, -1);
+        var dv = runClean.slice(-1).toUpperCase();
+        // Calcular Dígito Verificador
+        var suma = 0;
+        var multiplo = 2;
+        // Para cada dígito del Cuerpo
+        for (var i = 1; i <= body.length; i++) {
+            // Obtener su Producto con el Múltiplo Correspondiente
+            var index = multiplo * runClean.charAt(body.length - i);
+            // Sumar al Contador General
+            suma = suma + index;
+            // Consolidar Múltiplo dentro del rango [2,7]
+            if (multiplo < 7) {
+                multiplo = multiplo + 1;
+            }
+            else {
+                multiplo = 2;
+            }
+        }
+        // Calcular Dígito Verificador en base al Módulo 11
+        var dvEsperado = 11 - (suma % 11);
+        // Casos Especiales (0 y K)
+        dv = (dv == 'K') ? 10 : dv;
+        dv = (dv == 0) ? 11 : dv;
+        // Validar que el Cuerpo coincide con su Dígito Verificador
+        if (dvEsperado != dv) {
+            return { verificator: true };
+        }
+        else
+            null;
+    };
     ClientModalComponent.ɵfac = function ClientModalComponent_Factory(t) { return new (t || ClientModalComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NgbActiveModal"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_api_client_client_service__WEBPACK_IMPORTED_MODULE_3__["ClientService"])); };
-    ClientModalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ClientModalComponent, selectors: [["app-client-modal"]], inputs: { opc: "opc" }, outputs: { passEntry: "passEntry" }, decls: 58, vars: 26, consts: [[1, "modal-header"], [1, "form-section"], [1, "mr-2", "mt-6", "feather", "ft-user"], ["type", "button", "aria-label", "Close", 1, "close", 3, "click"], ["aria-hidden", "true"], [1, "modal-body"], [3, "formGroup", "ngSubmit"], [1, "form-body"], [1, "row"], [1, "col-md-6"], [1, "form-group"], ["for", "projectinput1"], ["type", "text", "id", "projectinput1", "formControlName", "name", "placeholder", "Nombre", 1, "form-control", 3, "ngClass"], ["class", "form-text text-muted danger", "class", "invalid-feedback", 4, "ngIf"], ["for", "projectinput2"], ["type", "text", "id", "projectinput2", "formControlName", "lastname", "placeholder", "Apellido", 1, "form-control", 3, "ngClass"], ["for", "projectinput3"], ["type", "text", "id", "projectinput3", "formControlName", "rut", "placeholder", "RUT", 1, "form-control", 3, "ngClass"], ["for", "projectinput4"], ["type", "text", "id", "projectinput4", "formControlName", "phone", "placeholder", "Celular", 1, "form-control", 3, "ngClass", "keypress"], ["for", "projectinput5"], ["type", "text", "id", "projectinput5", "formControlName", "address", "placeholder", "Direcci\u00F3n", 1, "form-control", 3, "ngClass"], [1, "input-group"], ["type", "text", "id", "projectinput4", "aria-describedby", "descuento", "formControlName", "percent", "placeholder", "Descuento", 1, "form-control", 3, "ngClass", "keypress"], [1, "input-group-append"], ["id", "descuento", 1, "input-group-text"], [1, "modal-footer"], ["type", "button", 1, "btn", "btn-sm", "grey", "btn-outline-secondary", 3, "click"], [1, "feather", "ft-x"], ["type", "submit", 1, "btn", "btn-sm", "btn-outline-primary"], [1, "feather", "ft-check"], [1, "invalid-feedback"], [4, "ngIf"]], template: function ClientModalComponent_Template(rf, ctx) { if (rf & 1) {
+    ClientModalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ClientModalComponent, selectors: [["app-client-modal"]], inputs: { opc: "opc" }, outputs: { passEntry: "passEntry" }, decls: 58, vars: 26, consts: [[1, "modal-header"], [1, "form-section"], [1, "mr-2", "mt-6", "feather", "ft-user"], ["type", "button", "aria-label", "Close", 1, "close", 3, "click"], ["aria-hidden", "true"], [1, "modal-body"], [3, "formGroup", "ngSubmit"], [1, "form-body"], [1, "row"], [1, "col-md-6"], [1, "form-group"], ["for", "projectinput1"], ["type", "text", "id", "projectinput1", "formControlName", "name", "placeholder", "Nombre", 1, "form-control", 3, "ngClass"], ["class", "form-text text-muted danger", "class", "invalid-feedback", 4, "ngIf"], ["for", "projectinput2"], ["type", "text", "id", "projectinput2", "formControlName", "lastname", "placeholder", "Apellido", 1, "form-control", 3, "ngClass"], ["for", "projectinput3"], ["type", "text", "id", "projectinput3", "formControlName", "rut", "placeholder", "RUT", "maxlength", "10", 1, "form-control", 3, "ngClass", "input"], ["for", "projectinput4"], ["type", "text", "id", "projectinput4", "formControlName", "phone", "placeholder", "Celular", "maxlength", "9", 1, "form-control", 3, "ngClass", "keypress"], ["for", "projectinput5"], ["type", "text", "id", "projectinput5", "formControlName", "address", "placeholder", "Direcci\u00F3n", 1, "form-control", 3, "ngClass"], [1, "input-group"], ["type", "text", "id", "projectinput4", "aria-describedby", "descuento", "formControlName", "percent", "placeholder", "Descuento", 1, "form-control", 3, "ngClass", "keypress"], [1, "input-group-append"], ["id", "descuento", 1, "input-group-text"], [1, "modal-footer"], ["type", "button", 1, "btn", "btn-sm", "grey", "btn-outline-secondary", 3, "click"], [1, "feather", "ft-x"], ["type", "submit", 1, "btn", "btn-sm", "btn-outline-primary"], [1, "feather", "ft-check"], [1, "invalid-feedback"], [4, "ngIf"]], template: function ClientModalComponent_Template(rf, ctx) { if (rf & 1) {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h4", 1);
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](2, "i", 2);
@@ -530,8 +610,10 @@ var ClientModalComponent = /** @class */ (function () {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](25, "label", 16);
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](26, "RUT *");
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](27, "input", 17);
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](28, ClientModalComponent_small_28_Template, 2, 1, "small", 13);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](27, "input", 17);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("input", function ClientModalComponent_Template_input_input_27_listener() { return ctx.checkRun(); });
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](28, ClientModalComponent_small_28_Template, 4, 3, "small", 13);
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](29, "div", 9);
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](30, "div", 10);
@@ -541,7 +623,7 @@ var ClientModalComponent = /** @class */ (function () {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](33, "input", 19);
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("keypress", function ClientModalComponent_Template_input_keypress_33_listener($event) { return ctx.keyPress($event); });
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](34, ClientModalComponent_small_34_Template, 2, 1, "small", 13);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](34, ClientModalComponent_small_34_Template, 3, 2, "small", 13);
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -615,7 +697,7 @@ var ClientModalComponent = /** @class */ (function () {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngClass", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](24, _c0, ctx.submitted && ctx.f.percent.errors));
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.submitted && ctx.f.percent.errors);
-        } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["ɵangular_packages_forms_forms_y"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormGroupDirective"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControlName"], _angular_common__WEBPACK_IMPORTED_MODULE_4__["NgClass"], _angular_common__WEBPACK_IMPORTED_MODULE_4__["NgIf"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJjbGllbnQtbW9kYWwuY29tcG9uZW50LmNzcyJ9 */"] });
+        } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["ɵangular_packages_forms_forms_y"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormGroupDirective"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControlName"], _angular_common__WEBPACK_IMPORTED_MODULE_4__["NgClass"], _angular_common__WEBPACK_IMPORTED_MODULE_4__["NgIf"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["MaxLengthValidator"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJjbGllbnQtbW9kYWwuY29tcG9uZW50LmNzcyJ9 */"] });
     return ClientModalComponent;
 }());
 

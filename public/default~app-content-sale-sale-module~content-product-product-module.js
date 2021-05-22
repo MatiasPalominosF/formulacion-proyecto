@@ -141,6 +141,87 @@ var ConfirmationDialogComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "BCt1":
+/*!*****************************************!*\
+  !*** ./src/app/_pipe/transform.pipe.ts ***!
+  \*****************************************/
+/*! exports provided: TransformPipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TransformPipe", function() { return TransformPipe; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "8Y7J");
+
+
+var TransformPipe = /** @class */ (function () {
+    function TransformPipe() {
+    }
+    TransformPipe.prototype.transform = function (value) {
+        if (!value)
+            return "";
+        else
+            return value.toString().replace(/,/g, '.');
+    };
+    TransformPipe.ɵfac = function TransformPipe_Factory(t) { return new (t || TransformPipe)(); };
+    TransformPipe.ɵpipe = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefinePipe"]({ name: "transform", type: TransformPipe, pure: true });
+    return TransformPipe;
+}());
+
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](TransformPipe, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"],
+        args: [{
+                name: 'transform'
+            }]
+    }], null, null); })();
+
+
+/***/ }),
+
+/***/ "Fdpk":
+/*!*******************************************!*\
+  !*** ./src/app/_pipe/filter-date.pipe.ts ***!
+  \*******************************************/
+/*! exports provided: FilterDatePipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilterDatePipe", function() { return FilterDatePipe; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "8Y7J");
+
+
+var FilterDatePipe = /** @class */ (function () {
+    function FilterDatePipe() {
+    }
+    FilterDatePipe.prototype.transform = function (row, f1, f2) {
+        if (row == null) {
+            return;
+        }
+        f1.toString().length == 0 ? f1 = new Date() : f1;
+        f2 == null ? f2 = new Date() : f2;
+        if (f1 >= f2 || f1 == null) {
+            return row;
+        }
+        return row.filter(function (x) {
+            return new Date(x.date.toDate()) >= new Date(f1) && new Date(x.date.toDate()) <= new Date(f2);
+        });
+    };
+    FilterDatePipe.ɵfac = function FilterDatePipe_Factory(t) { return new (t || FilterDatePipe)(); };
+    FilterDatePipe.ɵpipe = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefinePipe"]({ name: "filterDate", type: FilterDatePipe, pure: true });
+    return FilterDatePipe;
+}());
+
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](FilterDatePipe, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"],
+        args: [{
+                name: 'filterDate'
+            }]
+    }], null, null); })();
+
+
+/***/ }),
+
 /***/ "ScZz":
 /*!***************************************************!*\
   !*** ./src/app/_services/notificacion.service.ts ***!
@@ -211,6 +292,7 @@ var ProductService = /** @class */ (function () {
         this.afs = afs;
         this.selectedProduct = {};
         this.productListSelected = [];
+        this.ingredientsSelected = [];
         this.workerCollection = afs.collection('product');
         this.products = this.workerCollection.valueChanges();
     }
@@ -279,6 +361,46 @@ var ProductService = /** @class */ (function () {
                 providedIn: 'root'
             }]
     }], function () { return [{ type: _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_0__["AngularFirestore"] }]; }, null); })();
+
+
+/***/ }),
+
+/***/ "YDLe":
+/*!*********************************************!*\
+  !*** ./src/app/_pipe/filter-pipe.module.ts ***!
+  \*********************************************/
+/*! exports provided: FilterPipeModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilterPipeModule", function() { return FilterPipeModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "8Y7J");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "SVse");
+/* harmony import */ var _filter_date_pipe__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./filter-date.pipe */ "Fdpk");
+/* harmony import */ var _transform_pipe__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./transform.pipe */ "BCt1");
+
+
+
+
+
+var FilterPipeModule = /** @class */ (function () {
+    function FilterPipeModule() {
+    }
+    FilterPipeModule.ɵmod = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineNgModule"]({ type: FilterPipeModule });
+    FilterPipeModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjector"]({ factory: function FilterPipeModule_Factory(t) { return new (t || FilterPipeModule)(); }, imports: [[_angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"]]] });
+    return FilterPipeModule;
+}());
+
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsetNgModuleScope"](FilterPipeModule, { declarations: [_filter_date_pipe__WEBPACK_IMPORTED_MODULE_2__["FilterDatePipe"], _transform_pipe__WEBPACK_IMPORTED_MODULE_3__["TransformPipe"]], imports: [_angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"]], exports: [_filter_date_pipe__WEBPACK_IMPORTED_MODULE_2__["FilterDatePipe"], _transform_pipe__WEBPACK_IMPORTED_MODULE_3__["TransformPipe"]] }); })();
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](FilterPipeModule, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"],
+        args: [{
+                declarations: [_filter_date_pipe__WEBPACK_IMPORTED_MODULE_2__["FilterDatePipe"], _transform_pipe__WEBPACK_IMPORTED_MODULE_3__["TransformPipe"]],
+                exports: [_filter_date_pipe__WEBPACK_IMPORTED_MODULE_2__["FilterDatePipe"], _transform_pipe__WEBPACK_IMPORTED_MODULE_3__["TransformPipe"]],
+                imports: [_angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"]]
+            }]
+    }], null, null); })();
 
 
 /***/ })

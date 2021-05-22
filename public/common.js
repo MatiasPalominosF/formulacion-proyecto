@@ -26,8 +26,7 @@ var WorkersService = /** @class */ (function () {
         this.workers = this.workerCollection.valueChanges();
     }
     WorkersService.prototype.getFullInfoEmployees = function (uidBoss) {
-        console.log(uidBoss);
-        return this.workers = this.afs.collection('workers').doc("" + uidBoss).collection('workersInfo')
+        return this.workers = this.afs.collection('users', function (ref) { return ref.where('uidboss', '==', "" + uidBoss); })
             .snapshotChanges()
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (changes) {
             return changes.map(function (action) {
@@ -36,7 +35,6 @@ var WorkersService = /** @class */ (function () {
                 return data;
             });
         }));
-        //this.afs.doc<WorkersInterface>(`workers/${uidBoss}`)
     };
     WorkersService.prototype.getOneWorker = function (idWorker, idBoss) {
         this.workerDoc = this.afs.collection('workers').doc("" + idBoss).collection('workersInfo').doc("" + idWorker);
@@ -53,16 +51,25 @@ var WorkersService = /** @class */ (function () {
     };
     WorkersService.prototype.addWorker = function (worker, idBoss) {
         var workerId = worker.id;
-        worker.vendedor = true;
-        this.afs.collection('workers').doc("" + idBoss).collection('workersInfo').doc("" + workerId).set(worker);
+        this.afs.collection('users').doc("" + workerId).set(worker).catch(function (error) {
+            // An error happened.
+            console.log(error);
+        });
+        //this.afs.collection('workers').doc(`${idBoss}`).collection<WorkersInterface>('workersInfo').doc(`${workerId}`).set(worker);
     };
     WorkersService.prototype.updateWorker = function (worker, idBoss) {
         var idWorker = worker.id;
-        this.workerDoc = this.afs.collection('workers').doc("" + idBoss).collection('workersInfo').doc("" + idWorker);
-        this.workerDoc.update(worker);
+        this.workerDoc = this.afs.collection('users').doc("" + idWorker);
+        try {
+            this.workerDoc.update(worker);
+            return true;
+        }
+        catch (error) {
+            return false;
+        }
     };
     WorkersService.prototype.deleteWorker = function (idWorker, idBoss) {
-        this.workerDoc = this.afs.collection('workers').doc("" + idBoss).collection('workersInfo').doc("" + idWorker);
+        this.workerDoc = this.afs.collection('users').doc("" + idWorker);
         this.workerDoc.delete();
     };
     WorkersService.ɵfac = function WorkersService_Factory(t) { return new (t || WorkersService)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_0__["AngularFirestore"])); };
@@ -221,17 +228,42 @@ __webpack_require__.r(__webpack_exports__);
 var SaleService = /** @class */ (function () {
     function SaleService(afs) {
         this.afs = afs;
-        this.workerCollection = afs.collection('product');
-        this.sales = this.workerCollection.valueChanges();
+        this.saleCollection = afs.collection('product');
+        this.sales = this.saleCollection.valueChanges();
     }
     SaleService.prototype.addSaleProduct = function (sale, idBoss) {
         var tempId = this.afs.createId();
         sale.id = tempId;
         this.afs.collection('sale').doc("" + idBoss).collection('saleInfo').doc(tempId).set(sale);
     };
+    SaleService.prototype.updateSale = function (producto, idSale, idBoss) {
+        this.saleDoc = this.afs.collection('sale').doc("" + idBoss).collection('saleInfo').doc("" + idSale);
+        this.saleDoc.update(producto);
+    };
+    SaleService.prototype.getFullInfoSaleNotCancelled = function (uidBoss) {
+        return this.sales = this.afs.collection('sale').doc("" + uidBoss).collection('saleInfo', function (ref) { return ref.where('cancellation', '==', false); })
+            .snapshotChanges()
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (changes) {
+            return changes.map(function (action) {
+                var data = action.payload.doc.data();
+                data.id = action.payload.doc.id;
+                return data;
+            });
+        }));
+    };
     SaleService.prototype.getFullInfoSale = function (uidBoss) {
         return this.sales = this.afs.collection('sale').doc("" + uidBoss).collection('saleInfo')
             .snapshotChanges()
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (changes) {
+            return changes.map(function (action) {
+                var data = action.payload.doc.data();
+                data.id = action.payload.doc.id;
+                return data;
+            });
+        }));
+    };
+    SaleService.prototype.getCancellationSale = function (uidBoss) {
+        return this.sales = this.afs.collection('sale').doc("" + uidBoss).collection('saleInfo', function (ref) { return ref.where('cancellation', '==', true); }).snapshotChanges()
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (changes) {
             return changes.map(function (action) {
                 var data = action.payload.doc.data();
