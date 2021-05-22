@@ -1,3 +1,5 @@
+import { Ingredient } from "./ingredient";
+
 export interface Product {
   id?: string;
   name?: string;
@@ -13,5 +15,5 @@ export interface Product {
   change?: number;
   paid?: number;
   measure?: string;
-  ingredients?: [];
+  ingredients?: Ingredient[];
 }

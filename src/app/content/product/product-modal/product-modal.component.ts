@@ -19,10 +19,12 @@ export class ProductModalComponent implements OnInit {
   @BlockUI('productInfo') blockUIProjectInfo: NgBlockUI;
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
   productInfo: FormGroup;
+  private product: ProductInterface = {};
   closeResult = '';
   submitted = false;
   public titleIngredient = '';
-  public ingredientList: FormArray;
+  public opcIngredient;
+  public ingredientList: any;
   ingredientes: ProductInterface[];
   measureName;
   measures = [
@@ -64,11 +66,10 @@ export class ProductModalComponent implements OnInit {
       minimun: ['', Validators.required],
       ismaterial: ['', Validators.required],
       measure: ['', Validators.required],
-      ingredients: this.formBuilder.array([])
     });
 
     this.getUserLogged();
-    this.ingredientList = this.productInfo.get('ingredients') as FormArray;
+    this.ingredientList = this.productInfo.get('ingredients');
     if (!this.opc) {
       this.titleIngredient = "Agregar ingredientes";
     }
@@ -148,21 +149,19 @@ export class ProductModalComponent implements OnInit {
 
 
   addIngredients() {
-    console.log("Se presionó", this.productService.selectedProduct.ingredients);
-    var opc: boolean;
     if (this.titleIngredient == "Agregar ingredientes") {
-      opc = false;
+      this.opcIngredient = false;
     } if (this.titleIngredient == "Editar ingredientes") {
-      opc = true;
+      this.opcIngredient = true;
     }
     const modalRef = this.modalService.open(ProductIngredientComponent, { windowClass: 'animated fadeInDown', size: 'lg' });
-    modalRef.componentInstance.opc = opc;
+    modalRef.componentInstance.opc = this.opcIngredient;
     modalRef.result.then((result) => {
       if (result) {
-        this.notifyService.showSuccess("Agregar", "¡Los ingredientes se agregaron correctamente!");
-      }
-      if (!result) {
         this.notifyService.showSuccess("Editar", "¡Los ingredientes se editaron correctamente!");
+      }
+      else {
+        this.notifyService.showSuccess("Agregar", "¡Los ingredientes se agregaron correctamente!");
       }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -343,24 +342,30 @@ export class ProductModalComponent implements OnInit {
     } else {
       this.fValue.ismaterial = true;
     }
-    console.log("Value aceptado:", this.fValue);
 
     if (!this.opc) {
-      this.fValue.ingredients.forEach(element => {
-        element.quantity = element.quantity * this.fValue.stock;
-      });
-
-      // Se agrega nuevo usuario.
-      this.productService.addProduct(this.fValue, this.currentUser.uid);
+      this.product = this.fValue;
+      this.product.ingredients = this.productService.ingredientsSelected;
+      // Se agrega nuevo producto.
+      this.productService.addProduct(this.product, this.currentUser.uid);
       this.passEntry.emit(true);
       this.activeModal.close(true);
     } else {
-      // Se edita un usuario.
-      console.log("SE PRESIONA EDITAR...");
-      this.productService.updateProduct(this.fValue, this.productService.selectedProduct.id, this.currentUser.uid);
+      this.product = this.fValue;
+      this.product.id = this.productService.selectedProduct.id;
+      if (this.opcIngredient) {
+        if (this.productService.ingredientsSelected.length == 0) {
+          this.product.ingredients = this.productService.selectedProduct.ingredients;
+        } else {
+          this.product.ingredients = this.productService.ingredientsSelected;
+        }
+      }
+      //Se edita un producto.
+      this.productService.updateProduct(this.product, this.product.id, this.currentUser.uid);
       this.passEntry.emit(false);
       this.activeModal.close(false);
     }
+    this.productService.ingredientsSelected = [];
     this.productInfo.reset();
   }
 

@@ -1,3 +1,5 @@
+import { Ingredient } from "./ingredient";
+
 export interface ProductInterface {
     id?: string;
     name?: string;
@@ -11,5 +13,5 @@ export interface ProductInterface {
     margen?: string;
     minimun?: string;
     ismaterial?: boolean;
-    ingredients?: [];
+    ingredients?: Ingredient[];
 }

@@ -27,6 +27,7 @@ export class ProductIngredientComponent implements OnInit {
   public quantity = "";
   private currentUser: any;
   private PRODUCT: Product[] = [];
+  private INGREDIENTSEARCH: Product[] = [];
   private ingredients: Ingredient[] = [];
   private ingredient: Ingredient = {};
   productSearch: Observable<Product[]>;
@@ -44,18 +45,33 @@ export class ProductIngredientComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserLogged();
+    this.getMaterial();
     if (Object.keys(this.productService.selectedProduct).length != 0) {
-      if (this.productService.selectedProduct.ingredients.length > 0) {
+      //if (this.productService.selectedProduct.ingredients.length > 0) {
+      if (this.opc) {
         console.log("Tiene ingredientes");
         this.getIngredients(this.productService.selectedProduct.ingredients);
         console.log("this.PRODUCT", this.ingredients);
       } else {
+        this.getIngredients(this.productService.selectedProduct.ingredients);
         console.log("No tiene ingredients");
       }
     } else {
       console.log("no tiene nada");
     }
   }
+
+
+  getMaterial() {
+    this.productService.getMaterial(this.currentUser.uid).subscribe(
+      data => {
+        data.forEach(element => {
+          this.INGREDIENTSEARCH.push(element);
+        });
+      }
+    );
+  }
+
 
   getIngredients(ingredients: Product[]) {
     ingredients.forEach(element => {
@@ -67,11 +83,11 @@ export class ProductIngredientComponent implements OnInit {
           this.ingredient.name = data.name;
           this.ingredient.quantity = Number(element.quantity);
           this.ingredients.push(this.ingredient);
-          this.ingredient = {};
-          this.PRODUCT.push(data);
+          this.PRODUCT.push(element);
           this.collectionSize = this.ingredients.length;
           this.searchData(this.pipe);
           this.productSortable = this.PRODUCT;
+          this.ingredient = {};
           //this.blockUITableProduct.stop();
         }
       );
@@ -87,8 +103,8 @@ export class ProductIngredientComponent implements OnInit {
       map((term) => {
         console.log({ term });
         return term === ''
-          ? this.PRODUCT
-          : this.PRODUCT
+          ? this.INGREDIENTSEARCH
+          : this.INGREDIENTSEARCH
             .filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1)
             .slice(0, 10)
       })
@@ -177,8 +193,14 @@ export class ProductIngredientComponent implements OnInit {
   onIngredientSubmit() {
     this.productService.ingredientsSelected = this.ingredients;
     console.log("this.productService.ingredientsSelected", this.productService.ingredientsSelected);
-    this.passEntry.emit(true);
-    this.activeModal.close(true);
+    if (this.opc) {
+      this.passEntry.emit(true);
+      this.activeModal.close(true);
+    } else {
+      this.passEntry.emit(false);
+      this.activeModal.close(false);
+    }
+
 
   }
   /**
