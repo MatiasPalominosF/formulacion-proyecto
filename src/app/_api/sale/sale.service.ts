@@ -31,7 +31,8 @@ export class SaleService {
   }
 
   getFullInfoSaleNotCancelled(uidBoss: string) {
-    return this.sales = this.afs.collection('sale').doc(`${uidBoss}`).collection<Product>('saleInfo', ref => ref.where('cancellation', '==', false))
+    //.orderBy('date','desc')
+    return this.sales = this.afs.collection('sale').doc(`${uidBoss}`).collection<Product>('saleInfo', ref => ref.where('cancellation', '==', false).orderBy('date', 'desc'))
       .snapshotChanges()
       .pipe(map(changes => {
         return changes.map(action => {
@@ -43,7 +44,7 @@ export class SaleService {
   }
 
   getFullInfoSale(uidBoss: string): Observable<Product[]> {
-    return this.sales = this.afs.collection('sale').doc(`${uidBoss}`).collection<Product>('saleInfo')
+    return this.sales = this.afs.collection('sale').doc(`${uidBoss}`).collection<Product>('saleInfo', ref => ref.orderBy('date', 'desc'))
       .snapshotChanges()
       .pipe(map(changes => {
         return changes.map(action => {
@@ -57,7 +58,7 @@ export class SaleService {
 
 
   getCancellationSale(uidBoss: string) {
-    return this.sales = this.afs.collection('sale').doc(`${uidBoss}`).collection<Product>('saleInfo', ref => ref.where('cancellation', '==', true)).snapshotChanges()
+    return this.sales = this.afs.collection('sale').doc(`${uidBoss}`).collection<Product>('saleInfo', ref => ref.where('cancellation', '==', true).orderBy('datecancellation', 'desc')).snapshotChanges()
       .pipe(map(changes => {
         return changes.map(action => {
           const data = action.payload.doc.data() as Product;

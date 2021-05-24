@@ -12,9 +12,6 @@ import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog
 import { NotificationService } from 'src/app/_services/notificacion.service';
 import { PaySaleComponent } from '../pay-sale/pay-sale.component';
 
-
-
-
 @Component({
   selector: 'app-sale-list',
   templateUrl: './sale-list.component.html',
@@ -203,14 +200,30 @@ export class SaleListComponent implements OnInit {
       if (this.productInfo.invalid) {
         return;
       }
-      this.selectedProduct.quantity = parseInt(this.fValue.quantity);
-      this.selectedProduct.cancellation = false;
-      var total = parseInt(this.fValue.total);
-      var quantity = parseInt(this.fValue.quantity)
-      this.selectedProduct.totalPrice = total * quantity;
 
-      this.productList.push(this.selectedProduct);
-      this.sumTotal(this.productList[this.productList.length - 1]);
+      if (this.productList.includes(this.selectedProduct)) {
+        this.productList.forEach(element => {
+          if (element.id === this.selectedProduct.id) {
+            var total = parseInt(this.fValue.total);
+            var quantity = parseInt(this.fValue.quantity);
+            var sum = (total * quantity) + element.totalPrice;
+            console.log("suma precio total: ", sum);
+            element.totalPrice = sum;
+            var tot = quantity + element.quantity;
+            console.log("suma cantidad total: ", tot);
+            element.quantity = tot;
+            this.sumTotal(this.productList[this.productList.length - 1], true, (total * quantity));
+          }
+        });
+      } else {
+        this.selectedProduct.quantity = parseInt(this.fValue.quantity);
+        this.selectedProduct.cancellation = false;
+        var total = parseInt(this.fValue.total);
+        var quantity = parseInt(this.fValue.quantity)
+        this.selectedProduct.totalPrice = total * quantity;
+        this.productList.push(this.selectedProduct);
+        this.sumTotal(this.productList[this.productList.length - 1], false, 0);
+      }
       this.clearForm();
       this.selectedProduct = undefined;
       this.unidad = "";
@@ -220,8 +233,12 @@ export class SaleListComponent implements OnInit {
     }
   }
 
-  sumTotal(product: Product) {
-    this.precioTotal += product.totalPrice;
+  sumTotal(product: Product, igual: boolean, total: number) {
+    if (igual) {
+      this.precioTotal += total;
+    } else {
+      this.precioTotal += product.totalPrice;
+    }
     this.productInfo2.controls['precioTotal'].setValue(this.precioTotal);
   }
   restTotal(product: Product) {
