@@ -17,11 +17,12 @@ import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProductModalComponent } from './product-modal/product-modal.component';
 import { ProductIngredientComponent } from './product-ingredient/product-ingredient.component';
 import { FilterPipeModule } from 'src/app/_pipe/filter-pipe.module';
+import { IngredientModalComponent } from './ingredient-modal/ingredient-modal.component';
 
 
 
 @NgModule({
-  declarations: [ProductListComponent, ProductModalComponent, ProductIngredientComponent],
+  declarations: [ProductListComponent, ProductModalComponent, ProductIngredientComponent, IngredientModalComponent],
   imports: [
     ConfirmationDialogModule,
     CommonModule,
@@ -52,6 +53,10 @@ import { FilterPipeModule } from 'src/app/_pipe/filter-pipe.module';
       {
         path: 'product-ingredient',
         component: ProductIngredientComponent
+      },
+      {
+        path: 'ingredient-modal',
+        component: IngredientModalComponent
       }
     ]),
   ], providers: [ConfirmationDialogService, AngularFirestore]

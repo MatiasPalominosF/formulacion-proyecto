@@ -1,0 +1,56 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="myModalLabel1">Basic Modal</h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="col-md-12">
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-6">
+          <label>Nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="ingredient.name"
+            placeholder="Nombre"
+            readonly
+          />
+        </div>
+        <div class="col-md-6">
+          <label>Cantidad</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="ingredient.quantity"
+              placeholder="Cantidad"
+            />
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2">{{
+                ingredient.measure
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn grey btn-outline-secondary"
+    (click)="activeModal.dismiss('Cross click')"
+    ngbAutofocus
+  >
+    Cerrar
+  </button>
+  <button (click)="onSubmit()" class="btn btn-outline-primary">Guardar</button>
+</div>
