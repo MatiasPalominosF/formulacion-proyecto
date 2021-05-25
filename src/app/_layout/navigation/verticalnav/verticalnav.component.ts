@@ -32,6 +32,7 @@ import { Router, NavigationEnd, Event } from '@angular/router';
 })
 export class VerticalnavComponent implements OnInit {
   child: any;
+  rol: any;
   insideTm: any;
   outsideTm: any;
   loggedInUser: any;
@@ -66,6 +67,7 @@ export class VerticalnavComponent implements OnInit {
   }
   ngOnInit() {
 
+    this.getRole();
     // Subscribe to config changes
     this._themeSettingsService.config
       .pipe(takeUntil(this._unsubscribeAll))
@@ -76,11 +78,52 @@ export class VerticalnavComponent implements OnInit {
     this._menuSettingsService.config
       .pipe(takeUntil(this._unsubscribeAllMenu))
       .subscribe((config) => {
-        this._menuSettingsConfig = config;
+        var elVendedor = [];
+        if (this.rol == 'admin') {// admin
+          this._menuSettingsConfig = config;
+        }
+        if (this.rol == 'vendedor') { //Vendedor
+          config.vertical_menu.items.forEach(element => {
+            if (element.section != 'INVENTARIO' && element.title != 'Productos' && element.section != 'GESTIÓN' && element.title != 'Usuarios' && element.title != 'Informes') {
+              elVendedor.push(element);
+            }
+          });
+          config.vertical_menu.items = elVendedor;
+          this._menuSettingsConfig = config;
+        } if (this.rol == 'pastelero') {//Pastelero
+          config.vertical_menu.items.forEach(element => {
+            if (element.section != 'PRINCIPAL' &&
+              element.title != 'Ventas' &&
+              element.section != 'GESTIÓN' &&
+              element.title != 'Usuarios' &&
+              element.section != 'ADMINISTRACIÓN' &&
+              element.title != 'Anulaciones' &&
+              element.title != 'Informes') {
+              elVendedor.push(element);
+            }
+          });
+          config.vertical_menu.items = elVendedor;
+          this._menuSettingsConfig = config;
+        }
+        //this._menuSettingsConfig = elVendedor;
+        //this._menuSettingsConfig = config;
+        console.log("this._menuSettingsConfig", this._menuSettingsConfig);
       });
+
+
+
     // TODO Patch to reset menu after login
+
     this.resetMainMenu();
     this.setActiveRouteInNavbar();
+
+
+  }
+
+  getRole(): void {
+    var token = JSON.parse(localStorage.getItem('dataCurrentUser'));
+    this.rol = token.rol;
+    console.log("this.rol", this.rol);
   }
 
   resetMainMenu() {
@@ -255,9 +298,9 @@ export class VerticalnavComponent implements OnInit {
   }
 
   /**
-	 * Use for fixed left aside menu, to show menu on mouseenter event.
-	 * @param e Event
-	 */
+   * Use for fixed left aside menu, to show menu on mouseenter event.
+   * @param e Event
+   */
   mouseEnter(e) {
     if (this.navbarService.isFixedMenu()) {
       return;
@@ -276,9 +319,9 @@ export class VerticalnavComponent implements OnInit {
   }
 
   /**
-	 * Use for fixed left aside menu, to show menu on mouseenter event.
-	 * @param e Event
-	 */
+   * Use for fixed left aside menu, to show menu on mouseenter event.
+   * @param e Event
+   */
   mouseLeave(event) {
     if (this.navbarService.isFixedMenu()) {
       return;
@@ -360,9 +403,9 @@ export class VerticalnavComponent implements OnInit {
       this._renderer.removeClass(toggle, 'd-block');
     }
 
-    if ( child.page === '/chats' && this.loggedInUser.email === 'john@pixinvent.com') {
+    if (child.page === '/chats' && this.loggedInUser.email === 'john@pixinvent.com') {
       this.router.navigate(['/chats/static-chat']);
-    } else if ( child.page === '/chats' && this.loggedInUser.email !== 'john@pixinvent.com') {
+    } else if (child.page === '/chats' && this.loggedInUser.email !== 'john@pixinvent.com') {
       this.router.navigate(['/chats']);
     }
   }
