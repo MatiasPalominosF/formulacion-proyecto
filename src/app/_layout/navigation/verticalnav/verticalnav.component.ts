@@ -79,7 +79,7 @@ export class VerticalnavComponent implements OnInit {
       .pipe(takeUntil(this._unsubscribeAllMenu))
       .subscribe((config) => {
         var elVendedor = [];
-        if (this.rol != 'admin') {// admin
+        if (this.rol == 'admin') {// admin
           this._menuSettingsConfig = config;
         }
         if (this.rol == 'vendedor') { //Vendedor
@@ -105,7 +105,7 @@ export class VerticalnavComponent implements OnInit {
           config.vertical_menu.items = elVendedor;
           this._menuSettingsConfig = config;
         }
-        if (this.rol == 'admin') {//CONTADOR
+        if (this.rol == 'contador') {//CONTADOR
           config.vertical_menu.items.forEach(element => {
             if (element.section != 'PRINCIPAL' &&
               element.title != 'Ventas' &&

@@ -33,7 +33,7 @@
           hover: child.hover
         }"
       >
-        <ng-template [ngIf]="rol != 'admin'">
+        <ng-template [ngIf]="rol == 'admin'">
           <!-- Section -->
           <span class="menu-title" *ngIf="child.section">{{
             child.section
@@ -486,7 +486,7 @@
             </ul>
           </ng-template>
         </ng-template>
-        <ng-template [ngIf]="rol == 'admin'">
+        <ng-template [ngIf]="rol == 'contador'">
           <!--CONTADOR-->
           <ng-template
             [ngIf]="

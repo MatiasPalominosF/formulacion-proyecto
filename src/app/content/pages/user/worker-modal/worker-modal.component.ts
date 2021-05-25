@@ -17,11 +17,10 @@ export class WorkerModalComponent implements OnInit {
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
 
   public roles = [
-    { name: "Vendedor", id: 1 },
-    { name: "Pastelero", id: 2 },
-    { name: "Contador", id: 3 },
+    { name: "Vendedor", id: "vendedor" },
+    { name: "Pastelero", id: "pastelero" },
+    { name: "Contador", id: "contador" },
   ]
-
 
   submitted = false;
   projectInfo: FormGroup;
@@ -73,8 +72,6 @@ export class WorkerModalComponent implements OnInit {
     if (this.projectInfo.invalid) {
       return;
     }
-
-    console.log("Acá");
     if (!this.opc) {
       console.log("this.fValue", this.fValue);
       // Se agrega nuevo usuario.

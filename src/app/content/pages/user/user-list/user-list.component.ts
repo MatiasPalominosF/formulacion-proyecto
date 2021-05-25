@@ -134,7 +134,7 @@ export class UserListComponent implements OnInit {
     modalRef.componentInstance.opc = true;
     modalRef.result.then((result) => {
       if (!result) {
-        this.notifyService.showSuccess("Agregar", "¡El personal se editó correctamente!");
+        this.notifyService.showSuccess("Editar", "¡El personal se editó correctamente!");
       }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
