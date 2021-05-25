@@ -79,7 +79,7 @@ export class VerticalnavComponent implements OnInit {
       .pipe(takeUntil(this._unsubscribeAllMenu))
       .subscribe((config) => {
         var elVendedor = [];
-        if (this.rol == 'admin') {// admin
+        if (this.rol != 'admin') {// admin
           this._menuSettingsConfig = config;
         }
         if (this.rol == 'vendedor') { //Vendedor
@@ -99,6 +99,20 @@ export class VerticalnavComponent implements OnInit {
               element.section != 'ADMINISTRACIÓN' &&
               element.title != 'Anulaciones' &&
               element.title != 'Informes') {
+              elVendedor.push(element);
+            }
+          });
+          config.vertical_menu.items = elVendedor;
+          this._menuSettingsConfig = config;
+        }
+        if (this.rol == 'admin') {//CONTADOR
+          config.vertical_menu.items.forEach(element => {
+            if (element.section != 'PRINCIPAL' &&
+              element.title != 'Ventas' &&
+              element.section != 'INVENTARIO' &&
+              element.title != 'Productos' &&
+              element.section != 'GESTIÓN' &&
+              element.title != 'Usuarios') {
               elVendedor.push(element);
             }
           });
