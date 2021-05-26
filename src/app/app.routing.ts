@@ -139,6 +139,10 @@ const appRoutes: Routes = [
         data: { expectedRole1: 'admin', expectedRole2: '' }
       },
       {
+        path: 'store', loadChildren: () => import('../app/content/store/store.module').then(m => m.StoreModule), canActivate: [RoleGuard],
+        data: { expectedRole1: 'admin', expectedRole2: '' }
+      },
+      {
         path: 'sale', loadChildren: () => import('../app/content/sale/sale.module').then(m => m.SaleModule), canActivate: [RoleGuard],
         data: { expectedRole1: 'admin', expectedRole2: '' }
       },

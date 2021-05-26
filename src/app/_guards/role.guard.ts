@@ -16,7 +16,7 @@ export class RoleGuard implements CanActivate {
     const expectedRole2 = route.data.expectedRole2;
     const token = JSON.parse(localStorage.getItem('dataCurrentUser'));
 
-    console.log("ROL:", JSON.parse(localStorage.getItem('dataCurrentUser')).rol);
+    console.log("ROL EN GUARD:", JSON.parse(localStorage.getItem('dataCurrentUser')).rol);
     if (localStorage.getItem('currentUser') == undefined) {
       // Not logged in so redirect to login page with the return url
       this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });

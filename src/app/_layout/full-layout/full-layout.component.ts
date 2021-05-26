@@ -24,6 +24,7 @@ export class FullLayoutComponent implements OnInit {
     this.renderer.addClass(document.body, 'blank-page');
     this.renderer.addClass(document.body, 'pace-done');
 
+    console.log("QUE HAY:", this.router.url);
     if ((this.router.url.indexOf('WithNavbar') >= 0) || (this.router.url.indexOf('Advanced') >= 0)) {
       this.showFooter = true;
       this.showNavbar = true;

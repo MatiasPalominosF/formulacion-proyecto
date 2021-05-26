@@ -84,7 +84,11 @@ export class VerticalnavComponent implements OnInit {
         }
         if (this.rol == 'vendedor') { //Vendedor
           config.vertical_menu.items.forEach(element => {
-            if (element.section != 'INVENTARIO' && element.title != 'Productos' && element.section != 'GESTIÓN' && element.title != 'Usuarios' && element.title != 'Informes') {
+            if (element.section != 'INVENTARIO' 
+            && element.title != 'Productos' 
+            && element.section != 'GESTIÓN' 
+            && element.title != 'Usuarios' 
+            && element.title != 'Informes') {
               elVendedor.push(element);
             }
           });

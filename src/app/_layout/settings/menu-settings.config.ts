@@ -101,7 +101,6 @@ export const MenuSettingsConfig: MenuConfig = {
           ]
         }
       },
-
       { section: 'ADMINISTRACIÓN', icon: 'la-ellipsis-h' },
       {
         title: 'Informes',
@@ -227,6 +226,12 @@ export const MenuSettingsConfig: MenuConfig = {
         title: 'Anulaciones',
         icon: 'la-calendar-times-o',
         page: '/cancellation/cancellation-list',
+      },
+      { section: 'VITRINA', icon: 'la-ellipsis-h' },
+      {
+        title: 'Vitrina comercial',
+        icon: 'la-shopping-cart',
+        page: '/store/my-store'
       },
       { section: 'SOPORTE', icon: 'la-ellipsis-h' },
       {
