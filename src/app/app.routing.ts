@@ -42,6 +42,9 @@ const appRoutes: Routes = [
       {
         path: 'others', loadChildren: () => import('../app/content/full-pages/others/others.module').then(m => m.OthersModule),
         canActivate: [AuthGuard]
+      },
+      {
+        path: '', loadChildren: () => import('../app/content/view-store/view-store.module').then(m => m.ViewStoreModule),
       }
     ]
   },
