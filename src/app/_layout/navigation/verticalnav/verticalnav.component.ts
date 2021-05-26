@@ -78,21 +78,24 @@ export class VerticalnavComponent implements OnInit {
     this._menuSettingsService.config
       .pipe(takeUntil(this._unsubscribeAllMenu))
       .subscribe((config) => {
-        var elVendedor = [];
+        var elemRol = [];
         if (this.rol == 'admin') {// admin
           this._menuSettingsConfig = config;
         }
         if (this.rol == 'vendedor') { //Vendedor
           config.vertical_menu.items.forEach(element => {
-            if (element.section != 'INVENTARIO' 
-            && element.title != 'Productos' 
-            && element.section != 'GESTIÓN' 
-            && element.title != 'Usuarios' 
-            && element.title != 'Informes') {
-              elVendedor.push(element);
+            if (element.section != 'INVENTARIO'
+              && element.title != 'Productos'
+              && element.section != 'GESTIÓN'
+              && element.title != 'Usuarios'
+              && element.title != 'Informes'
+              && element.section != 'VITRINA'
+              && element.title != 'Vitrina comercial'
+            ) {
+              elemRol.push(element);
             }
           });
-          config.vertical_menu.items = elVendedor;
+          config.vertical_menu.items = elemRol;
           this._menuSettingsConfig = config;
         } if (this.rol == 'pastelero') {//Pastelero
           config.vertical_menu.items.forEach(element => {
@@ -102,11 +105,14 @@ export class VerticalnavComponent implements OnInit {
               element.title != 'Usuarios' &&
               element.section != 'ADMINISTRACIÓN' &&
               element.title != 'Anulaciones' &&
-              element.title != 'Informes') {
-              elVendedor.push(element);
+              element.title != 'Informes'
+              && element.section != 'VITRINA'
+              && element.title != 'Vitrina comercial'
+            ) {
+              elemRol.push(element);
             }
           });
-          config.vertical_menu.items = elVendedor;
+          config.vertical_menu.items = elemRol;
           this._menuSettingsConfig = config;
         }
         if (this.rol == 'contador') {//CONTADOR
@@ -116,16 +122,15 @@ export class VerticalnavComponent implements OnInit {
               element.section != 'INVENTARIO' &&
               element.title != 'Productos' &&
               element.section != 'GESTIÓN' &&
-              element.title != 'Usuarios') {
-              elVendedor.push(element);
+              element.title != 'Usuarios'
+              && element.section != 'VITRINA'
+              && element.title != 'Vitrina comercial') {
+              elemRol.push(element);
             }
           });
-          config.vertical_menu.items = elVendedor;
+          config.vertical_menu.items = elemRol;
           this._menuSettingsConfig = config;
         }
-        //this._menuSettingsConfig = elVendedor;
-        //this._menuSettingsConfig = config;
-        console.log("this._menuSettingsConfig", this._menuSettingsConfig);
       });
 
 
