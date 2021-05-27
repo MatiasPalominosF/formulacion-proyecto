@@ -143,6 +143,19 @@
                       </td>
                       <td>
                         <button
+                          (click)="
+                            onUpdateIngredient(element)
+                          "
+                          class="
+                            btn btn-xs btn-social-icon
+                            mr-1
+                            mb-1
+                            btn-instagram
+                          "
+                        >
+                          <span class="la la-pencil"></span>
+                        </button>
+                        <button
                           (click)="onDeleteIngredient(element.id)"
                           class="
                             btn btn-xs btn-social-icon

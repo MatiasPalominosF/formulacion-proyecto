@@ -11,11 +11,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaySaleComponent } from './pay-sale/pay-sale.component';
 import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
 import { FilterPipeModule } from 'src/app/_pipe/filter-pipe.module';
+import { LabelControl } from 'src/app/_directives/label-control.directive';
 
 
 
 @NgModule({
-  declarations: [SaleListComponent, PaySaleComponent],
+  declarations: [SaleListComponent, PaySaleComponent, LabelControl],
   imports: [
     CommonModule,
     BreadcrumbModule,

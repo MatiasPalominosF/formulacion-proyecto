@@ -1,7 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, PipeTransform, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbActiveModal, NgbModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, merge, startWith } from 'rxjs/operators';
 import { ProductService } from 'src/app/_api/product/product.service';
@@ -9,6 +9,7 @@ import { Ingredient } from 'src/app/_models/ingredient';
 import { Product } from 'src/app/_models/product2';
 import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
 import { NotificationService } from 'src/app/_services/notificacion.service';
+import { IngredientModalComponent } from '../ingredient-modal/ingredient-modal.component';
 
 @Component({
   selector: 'app-product-ingredient',
@@ -31,6 +32,7 @@ export class ProductIngredientComponent implements OnInit {
   private INGREDIENTSEARCH: Product[] = [];
   private ingredients: Ingredient[] = [];
   private ingredient: Ingredient = {};
+  closeResult = '';
   productSearch: Observable<Product[]>;
   filter = new FormControl('');
   collectionSize: number;
@@ -44,6 +46,7 @@ export class ProductIngredientComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private confirmationDialogService: ConfirmationDialogService,
     private notifyService: NotificationService,
+    private modalService: NgbModal,
   ) { }
 
   ngOnInit(): void {
@@ -187,7 +190,33 @@ export class ProductIngredientComponent implements OnInit {
       this.searchData(this.pipe);
       this.submitted = false;
     }
+  }
 
+  onUpdateIngredient(ingredient: Ingredient) {
+    const modalRef = this.modalService.open(IngredientModalComponent, { windowClass: 'animated fadeInDown' });
+    modalRef.componentInstance.ingredient = ingredient;
+    modalRef.result.then((result) => {
+      console.log(result);
+      if (result) {
+        ingredient.quantity = result.quantity;
+
+        this.notifyService.showSuccess("Eliminar", "¡La cantidad se editó correctamente!");
+      }
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      console.log(this.closeResult);
+    });
+  }
+
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
   onDeleteIngredient(id: string) {

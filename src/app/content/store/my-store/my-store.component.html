@@ -1,0 +1,48 @@
+<div class="app-content content">
+  <div class="content-wrapper">
+    <div class="content-header row mb-1">
+      <app-breadcrumb class="col-12" [breadcrumb]="breadcrumb"></app-breadcrumb>
+    </div>
+    <div class="content-body">
+      <div class="row justify-content-center" matchHeight="card">
+        <div class="col-md-6 col-sm-12">
+          <div class="card border-danger text-center bg-transparent">
+            <div class="card-content">
+              <div class="card-body pt-3">
+                <img
+                  src="../../../assets/images/elements/16.png"
+                  alt="element 03"
+                  width="190"
+                  class="float-right"
+                />
+                <h4 class="card-title mt-3">Vitrina comercial</h4>
+                <p class="card-text">
+                  Acá se encontrarán todos tus productos en venta.
+                </p>
+                <div class="row justify-content-center">
+                  <div class="col">
+                    <button
+                      (click)="showMyStore()"
+                      type="button"
+                      class="mb-1 btn btn-outline-success btn-min-width"
+                    >
+                      <i class="feather ft-chevrons-right"></i> Ir
+                    </button>
+                  </div>
+                  <div class="col">
+                    <button
+                      type="button"
+                      class="mb-1 btn btn-outline-info btn-min-width"
+                    >
+                      <i class="icon-settings"></i> Configurar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

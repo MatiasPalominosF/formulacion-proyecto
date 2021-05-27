@@ -10,6 +10,7 @@ import { ChangelogComponent } from './changelog/changelog.component';
 import { FullLayoutComponent } from './_layout/full-layout/full-layout.component';
 import { PrivacyPolicyComponent } from './login/privacy-policy/privacy-policy.component';
 import { TermsConditionComponent } from './login/terms-condition/terms-condition.component';
+import { RoleGuard } from './_guards/role.guard';
 
 const appRoutes: Routes = [
   { path: 'privacypolicy', component: PrivacyPolicyComponent },
@@ -41,6 +42,9 @@ const appRoutes: Routes = [
       {
         path: 'others', loadChildren: () => import('../app/content/full-pages/others/others.module').then(m => m.OthersModule),
         canActivate: [AuthGuard]
+      },
+      {
+        path: '', loadChildren: () => import('../app/content/view-store/view-store.module').then(m => m.ViewStoreModule),
       }
     ]
   },
@@ -48,149 +52,134 @@ const appRoutes: Routes = [
   {
     path: '',
     component: PrivateLayoutComponent,
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children: [
-      { path: 'logout', component: LoginComponent, canActivate: [AuthGuard] },
-      { path: 'changelog', component: ChangelogComponent, canActivate: [AuthGuard] },
+      { path: 'logout', component: LoginComponent },
+      { path: 'changelog', component: ChangelogComponent },
       {
-        path: 'dashboard', loadChildren: () => import('../app/content/dashboard/dashboard.module').then(m => m.DashboardModule)
-        , canActivate: [AuthGuard]
+        path: 'dashboard', loadChildren: () => import('../app/content/dashboard/dashboard.module').then(m => m.DashboardModule), canActivate: [RoleGuard],
+        data: { expectedRole1: 'admin', expectedRole2: '' }
       },
       {
         path: 'components', loadChildren: () => import('../app/content/ngbbootstrap/components.module').then(m => m.ComponentsModule),
-        canActivate: [AuthGuard]
       },
       {
         path: 'todo-app', loadChildren: () => import('../app/content/applications/todo-app/todo-app.module').then(m => m.TodoAppModule)
-        , canActivate: [AuthGuard]
+
       },
       {
-        path: 'chats', loadChildren: () => import('../app/content/applications/chat/chats.module').then(m => m.ChatsModule),
-        canActivate: [AuthGuard]
+        path: 'chats', loadChildren: () => import('../app/content/applications/chat/chats.module').then(m => m.ChatsModule)
       },
       {
         path: 'email', loadChildren: () => import('../app/content/applications/email/email.module').then(m => m.EmailModule)
-        , canActivate: [AuthGuard]
       },
       {
-        path: 'calender', loadChildren: () => import('../app/content/applications/calender/calender.module').then(m => m.CalenderModule),
-        canActivate: [AuthGuard]
+        path: 'calender', loadChildren: () => import('../app/content/applications/calender/calender.module').then(m => m.CalenderModule)
       },
       {
-        path: 'contacts', loadChildren: () => import('../app/content/applications/contacts/contacts.module').then(m => m.ContactsModule),
-        canActivate: [AuthGuard]
+        path: 'contacts', loadChildren: () => import('../app/content/applications/contacts/contacts.module').then(m => m.ContactsModule)
       },
       {
         path: 'chartjs', loadChildren: () => import('../app/content/charts-maps/chartjs/chartjs.module').then(m => m.ChartjsModule)
-        , canActivate: [AuthGuard]
       },
       {
         path: 'form-elements', loadChildren: () => import('../app/content/forms/form-elements/form-elements.module').then(m =>
-          m.FormElementsModule),
-        canActivate: [AuthGuard]
+          m.FormElementsModule)
       },
       {
         path: 'form-layouts', loadChildren: () => import('../app/content/forms/form-layouts/form-layouts.module').then(m =>
-          m.FormLayoutsModule),
-        canActivate: [AuthGuard]
+          m.FormLayoutsModule)
       },
       {
         path: 'form-wizard', loadChildren: () => import('../app/content/forms/form-wizard/form-wizard.module').then(m =>
-          m.FormWizardModule),
-        canActivate: [AuthGuard]
+          m.FormWizardModule)
       },
       {
         path: 'form-repeater', loadChildren: () => import('../app/content/forms/form-repeater/form-repeater.module').then(m =>
-          m.FormRepeaterModule),
-        canActivate: [AuthGuard]
+          m.FormRepeaterModule)
       },
       {
         path: 'ngchartist', loadChildren: () => import('../app/content/charts-maps/ngchartist/ngchartist.module').then(m =>
-          m.NgchartistModule),
-        canActivate: [AuthGuard]
+          m.NgchartistModule)
       },
       {
         path: 'boostraptables', loadChildren: () => import('../app/content/table/boostraptables/boostraptables.module').then(m =>
-          m.BoostraptablesModule),
-        canActivate: [AuthGuard]
+          m.BoostraptablesModule)
       },
       {
-        path: 'datatables', loadChildren: () => import('../app/content/table/datatables/datatables.module').then(m => m.DatatablesModule),
-        canActivate: [AuthGuard]
+        path: 'datatables', loadChildren: () => import('../app/content/table/datatables/datatables.module').then(m => m.DatatablesModule)
       },
       {
         path: 'datatablesext', loadChildren: () => import('../app/content/table/datatablesext/datatablesext.module').then(m =>
-          m.DatatablesextModule),
-        canActivate: [AuthGuard]
+          m.DatatablesextModule)
       },
-      { path: 'icons', loadChildren: () => import('../app/content/icons/icons.module').then(m => m.IconsModule), canActivate: [AuthGuard] },
-      { path: 'cards', loadChildren: () => import('../app/content/cards/cards.module').then(m => m.CardsModule), canActivate: [AuthGuard] },
-      { path: 'maps', loadChildren: () => import('../app/content/maps/maps.module').then(m => m.MapsModule), canActivate: [AuthGuard] },
+      { path: 'icons', loadChildren: () => import('../app/content/icons/icons.module').then(m => m.IconsModule) },
+      { path: 'cards', loadChildren: () => import('../app/content/cards/cards.module').then(m => m.CardsModule) },
+      { path: 'maps', loadChildren: () => import('../app/content/maps/maps.module').then(m => m.MapsModule) },
       {
         path: 'invoice', loadChildren: () => import('../app/content/pages/invoice/invoice.module').then(m => m.InvoiceModule)
-        , canActivate: [AuthGuard]
+
       },
       {
-        path: 'timelines', loadChildren: () => import('../app/content/pages/timelines/timelines.module').then(m => m.TimelinesModule),
-        canActivate: [AuthGuard]
+        path: 'timelines', loadChildren: () => import('../app/content/pages/timelines/timelines.module').then(m => m.TimelinesModule)
       },
       {
-        path: 'user', loadChildren: () => import('../app/content/pages/user/user.module').then(m => m.UserModule)
-        , canActivate: [AuthGuard]
+        path: 'user', loadChildren: () => import('../app/content/pages/user/user.module').then(m => m.UserModule), canActivate: [RoleGuard],
+        data: { expectedRole1: 'admin', expectedRole2: '' }
+
       },
       {
-        path: 'client', loadChildren: () => import('./content/client/client.module').then(m => m.ClientModule),
-        canActivate: [AuthGuard]
+        path: 'client', loadChildren: () => import('./content/client/client.module').then(m => m.ClientModule), canActivate: [RoleGuard],
+        data: { expectedRole1: 'admin', expectedRole2: '' }
       },
       {
-        path: 'stock', loadChildren: () => import('./content/stock/stock.module').then(m => m.StockModule),
-        canActivate: [AuthGuard]
+        path: 'stock', loadChildren: () => import('./content/stock/stock.module').then(m => m.StockModule), canActivate: [RoleGuard],
+        data: { expectedRole1: 'admin', expectedRole2: '' }
       },
       {
-        path: 'product', loadChildren: () => import('./content/product/product.module').then(m => m.ProductModule),
-        canActivate: [AuthGuard]
+        path: 'product', loadChildren: () => import('./content/product/product.module').then(m => m.ProductModule), canActivate: [RoleGuard],
+        data: { expectedRole1: 'admin', expectedRole2: '' }
       },
       {
-        path: 'sale', loadChildren: () => import('../app/content/sale/sale.module').then(m => m.SaleModule),
-        canActivate: [AuthGuard]
+        path: 'store', loadChildren: () => import('../app/content/store/store.module').then(m => m.StoreModule), canActivate: [RoleGuard],
+        data: { expectedRole1: 'admin', expectedRole2: '' }
       },
       {
-        path: 'report', loadChildren: () => import('../app/content/report/report.module').then(m => m.ReportModule),
-        canActivate: [AuthGuard]
+        path: 'sale', loadChildren: () => import('../app/content/sale/sale.module').then(m => m.SaleModule), canActivate: [RoleGuard],
+        data: { expectedRole1: 'admin', expectedRole2: '' }
       },
       {
-        path: 'cancellation', loadChildren: () => import('../app/content/cancellation/cancellation.module').then(m => m.CancellationModule),
-        canActivate: [AuthGuard]
+        path: 'report', loadChildren: () => import('../app/content/report/report.module').then(m => m.ReportModule), canActivate: [RoleGuard],
+        data: { expectedRole1: 'admin', expectedRole2: '' }
+      },
+      {
+        path: 'cancellation', loadChildren: () => import('../app/content/cancellation/cancellation.module').then(m => m.CancellationModule), canActivate: [RoleGuard],
+        data: { expectedRole1: 'admin', expectedRole2: '' }
       },
       {
         path: 'gallery', loadChildren: () => import('../app/content/pages/gallery/gallery.module').then(m => m.GalleryModule)
-        , canActivate: [AuthGuard]
       },
       {
         path: 'news-feed', loadChildren: () => import('../app/content/pages/news-feed/news-feed.module').then(m => m.NewsFeedModule)
-        , canActivate: [AuthGuard]
       },
       {
         path: 'dropzone', loadChildren: () => import('../app/content/pages/dropzone/dropzone.module').then(m => m.DropzoneModule)
-        , canActivate: [AuthGuard]
       },
       {
         path: 'social-feed', loadChildren: () => import('../app/content/pages/social-feed/social-feed.module').then(m =>
-          m.SocialFeedModule),
-        canActivate: [AuthGuard]
+          m.SocialFeedModule)
       },
       {
         path: 'search', loadChildren: () => import('../app/content/pages/search/search.module').then(m => m.SearchModule)
-        , canActivate: [AuthGuard]
       },
       {
         path: 'advanceCards', loadChildren: () => import('../app/content/advance-cards/advance-cards.module').then(m =>
-          m.AdvanceCardsModule),
-        canActivate: [AuthGuard]
+          m.AdvanceCardsModule)
       },
       {
         path: 'extraComponents', loadChildren: () => import('../app/content/extra-components/extra-components.module').then(m =>
-          m.ExtraComponentsModule),
-        canActivate: [AuthGuard]
+          m.ExtraComponentsModule)
       },
     ],
   },

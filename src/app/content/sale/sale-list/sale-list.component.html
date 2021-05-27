@@ -14,7 +14,7 @@
       <section class="left-right-offset" id="left-right-offset">
         <div class="row" matchHeight="card">
           <div
-            class="col-md-12 col-xl-8 col-lg-12"
+            class="col-md-8 col-xl-8 col-lg-12"
             *blockUI="'productsInfo'; message: 'Loading'"
           >
             <m-card
@@ -187,7 +187,7 @@
             </m-card>
           </div>
           <div
-            class="col-xl-4 col-lg-12"
+            class="col-md-4 col-xl-4 col-lg-12"
             *blockUI="'productsSale'; message: 'Loading'"
           >
             <m-card
@@ -247,12 +247,7 @@
                             ><b>Total:</b>
                           </label>
                           <div class="col-md-5">
-                            <input
-                              type="text"
-                              class="form-control"
-                              formControlName="precioTotal"
-                              readonly
-                            />
+                            <label controlName="precioTotal"></label>
                           </div>
                         </div>
                       </div>
