@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router, RouterEvent } from '@angular/router';
+import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -11,10 +12,17 @@ export class MyStoreViewComponent implements OnInit {
 
   public product: any;
   public uid: any;
+  public carouselTwo = [
+    '../../../assets/images/carousel/08.jpg',
+    '../../../assets/images/carousel/03.jpg',
+    '../../../assets/images/carousel/01.jpg'
+  ];
   constructor(
-    private router: ActivatedRoute) {
-
-    
+    private router: ActivatedRoute,
+    private config: NgbCarouselConfig
+  ) {
+    config.interval = 3000;
+    config.keyboard = false;
   }
 
   ngOnInit(): void {
