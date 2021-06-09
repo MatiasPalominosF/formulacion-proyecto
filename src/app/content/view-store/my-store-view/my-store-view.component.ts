@@ -49,6 +49,7 @@ export class MyStoreViewComponent implements OnInit {
   getFullInfoProduct() {
     this.blockUIAllInfo.start('Cargando..');
     this.productService.getFullInfoProduct(this.uid).subscribe(product => {
+      console.log(product);
       this.PRODUCT = product;
       this.collectionSize = this.PRODUCT.length;
       this.blockUIAllInfo.stop();
@@ -58,7 +59,7 @@ export class MyStoreViewComponent implements OnInit {
   getInfoUser() {
     this.userService.getOneUser(this.uid).subscribe(
       data => {
-        console.log(data);
+        
         this.nameCake = data.cakeName;
         this.addressCake = data.address;
       }
