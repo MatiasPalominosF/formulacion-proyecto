@@ -38,7 +38,7 @@
         </li>
       </ul>
     </div>
-    <div class="navbar-container">
+    <!--div class="navbar-container">
       <div
         class="collapse navbar-collapse justify-content-end"
         id="navbar-mobile"
@@ -53,6 +53,83 @@
             <a class="nav-link mr-2 nav-link-label" data-toggle="dropdown"
               ><i class="ficon feather ft-settings"></i
             ></a>
+          </li>
+        </ul>
+      </div>
+    </div-->
+    <div class="navbar-container content" [hidden]="isMobile && !showNavbar">
+      <div
+        class="collapse navbar-collapse justify-content-end"
+        id="navbar-mobile"
+      >
+        <ul class="nav navbar-nav float-right">
+          <li
+            class="dropdown-notification nav-item dropdown"
+            ngbDropdown
+            *ngIf="notification === 'on'"
+          >
+            <a class="nav-link nav-link-label" ngbDropdownToggle>
+              <i class="ficon feather ft-shopping-cart"></i>
+              <span class="badge badge-pill badge-danger badge-up badge-glow"
+                >5</span
+              >
+            </a>
+            <ul class="dropdown-menu-media dropdown-menu-right" ngbDropdownMenu>
+              <li class="dropdown-menu-header">
+                <h6 class="dropdown-header m-0">
+                  <span class="grey darken-2">Notificaciones</span>
+                </h6>
+                <span
+                  class="
+                    notification-tag
+                    badge badge-default badge-danger
+                    float-right
+                    m-0
+                  "
+                  >5 nuevas</span
+                >
+              </li>
+              <li
+                class="
+                  scrollable-container
+                  media-list
+                  w-100
+                  ps-container ps-theme-dark ps-active-y
+                "
+                fxFlex="auto"
+                [perfectScrollbar]="config"
+              >
+                <a role="button" (click)="func()">
+                  <div class="media">
+                    <div class="media-left align-self-center">
+                      <i
+                        class="feather ft-plus-square icon-bg-circle bg-cyan"
+                      ></i>
+                    </div>
+                    <div class="media-body">
+                      <h6 class="media-heading">You have new order!</h6>
+                      <p class="notification-text font-small-3 text-muted">
+                        Lorem ipsum dolor sit amet, consectetuer elit.
+                      </p>
+                      <small>
+                        <time
+                          class="media-meta text-muted"
+                          datetime="2015-06-11T18:29:20+08:00"
+                          >30 minutes ago</time
+                        ></small
+                      >
+                    </div>
+                  </div>
+                </a>
+              </li>
+              <li class="dropdown-menu-footer">
+                <a
+                  class="dropdown-item text-muted text-center"
+                  href="javascript:void(0)"
+                  >Read all notifications</a
+                >
+              </li>
+            </ul>
           </li>
         </ul>
       </div>
