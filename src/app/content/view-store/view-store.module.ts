@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { CardModule } from '../partials/general/card/card.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilterPipeModule } from 'src/app/_pipe/filter-pipe.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BlockUIModule } from 'ng-block-ui';
 import { BlockTemplateComponent } from 'src/app/_layout/blockui/block-template.component';
 
@@ -18,6 +18,7 @@ import { BlockTemplateComponent } from 'src/app/_layout/blockui/block-template.c
     CardModule,
     NgbModule,
     FormsModule,
+    ReactiveFormsModule,
     BlockUIModule.forRoot({
       template: BlockTemplateComponent
     }),

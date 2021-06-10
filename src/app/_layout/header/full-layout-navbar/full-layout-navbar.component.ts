@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { NavbarService } from 'src/app/_services/navbar.service';
+import { ProductCart } from 'src/app/_models/productCart';
 
 @Component({
   selector: 'app-full-layout-navbar',
@@ -16,6 +17,8 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
 
   isMobile = false;
   showNavbar = false;
+  public totalProduct = 0;
+  public productCartList: Array<ProductCart> = [];
   public selectedHeaderNavBarClass: string;
   public selectedNavBarHeaderClass: string;
   public notification: any;
@@ -49,6 +52,9 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
         this.refreshView();
       });
     this.notification = this._themeSettingsConfig.headerIcons.notification;
+
+    this.getDataCart();
+    this.getTotalProduct();
   }
 
   refreshView() {
@@ -141,6 +147,18 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
     } else {
       this.showNavbar = true;
     }
+  }
+
+  getDataCart() {
+    if (localStorage.getItem('dataProductCart')) {
+      this.productCartList = JSON.parse(localStorage.getItem('dataProductCart'));
+    }
+  }
+
+  getTotalProduct() {
+    this.productCartList.forEach(element => {
+      this.totalProduct += parseInt(element.quantity, 10);
+    });
   }
 
 }

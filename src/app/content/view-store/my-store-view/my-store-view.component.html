@@ -56,9 +56,25 @@
                 <p class="card-text">
                   Precio: ${{ element.total | number | transform }}
                 </p>
-                <a [routerLink]="" class="btn btn-outline-teal"
-                  ><i class="feather ft-shopping-cart mr-1"></i>Agregar</a
-                >
+                <form [formGroup]="productInfo">
+                  <div class="input-group">
+                    <input
+                      formControlName="quantity"
+                      type="text"
+                      class="form-control"
+                      placeholder="Cantidad"
+                      aria-describedby="button-addon2"
+                    />
+                    <div class="input-group-append">
+                      <a
+                        role="button"
+                        (click)="addCart(element)"
+                        class="btn btn-outline-teal"
+                        ><i class="feather ft-shopping-cart mr-1"></i>Agregar</a
+                      >
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
           </div>

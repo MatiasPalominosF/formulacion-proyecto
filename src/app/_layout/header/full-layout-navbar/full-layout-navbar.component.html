@@ -70,8 +70,10 @@
           >
             <a class="nav-link nav-link-label" ngbDropdownToggle>
               <i class="ficon feather ft-shopping-cart"></i>
-              <span class="badge badge-pill badge-danger badge-up badge-glow"
-                >5</span
+              <span
+                *ngIf="productCartList.length != 0"
+                class="badge badge-pill badge-danger badge-up badge-glow"
+                >{{ totalProduct }}</span
               >
             </a>
             <ul class="dropdown-menu-media dropdown-menu-right" ngbDropdownMenu>
@@ -86,7 +88,7 @@
                     float-right
                     m-0
                   "
-                  >5 productos</span
+                  >{{ totalProduct }} productos</span
                 >
               </li>
               <li
@@ -99,20 +101,20 @@
                 fxFlex="auto"
                 [perfectScrollbar]="config"
               >
-                <div class="media">
+                <div class="media" *ngFor="let element of productCartList">
                   <div class="media-left align-self-center">
                     <i class="la la-cutlery icon-bg-circle bg-cyan"></i>
                   </div>
                   <div class="media-body">
-                    <h6 class="media-heading">You have new order!</h6>
+                    <h6 class="media-heading">{{ element.name }}</h6>
                     <p class="notification-text font-small-3 text-muted">
-                      Lorem ipsum dolor sit amet, consectetuer elit.
+                      Cantidad: {{ element.quantity }}
                     </p>
                     <small>
                       <time
                         class="media-meta text-muted"
                         datetime="2015-06-11T18:29:20+08:00"
-                        >30 minutes ago</time
+                        >$ {{ element.totalPrice }}</time
                       ></small
                     >
                   </div>
