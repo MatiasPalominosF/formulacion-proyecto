@@ -2,8 +2,9 @@ import { Component, OnInit, Inject, HostListener, Renderer2, AfterViewInit } fro
 import { DOCUMENT } from '@angular/common';
 import { AppConstants } from 'src/app/_helpers/app.constants';
 import { ThemeSettingsService } from '../../settings/theme-settings.service';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { multicast, switchMap, takeUntil } from 'rxjs/operators';
+import { ConnectableObservable, interval, Observable, of, Subject } from 'rxjs';
+
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { NavbarService } from 'src/app/_services/navbar.service';
 import { ProductCart } from 'src/app/_models/productCart';
@@ -17,6 +18,7 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
 
   isMobile = false;
   showNavbar = false;
+  public cargar = true;
   public totalProduct = 0;
   public productCartList: Array<ProductCart> = [];
   public selectedHeaderNavBarClass: string;
@@ -53,8 +55,8 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
       });
     this.notification = this._themeSettingsConfig.headerIcons.notification;
 
-    this.getDataCart();
-    this.getTotalProduct();
+    setInterval(() => this.getDataCart(), 1000);
+
   }
 
   refreshView() {
@@ -127,6 +129,8 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
 
   func() {
     console.log("Carrito de compras");
+    localStorage.removeItem('dataProductCart');
+    localStorage.removeItem('totalProductCart');
   }
 
   @HostListener('window:resize', ['$event'])
@@ -152,13 +156,20 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
   getDataCart() {
     if (localStorage.getItem('dataProductCart')) {
       this.productCartList = JSON.parse(localStorage.getItem('dataProductCart'));
+    } else {
+      this.productCartList = [];
     }
+
+    this.getTotalProduct();
+
   }
 
   getTotalProduct() {
-    this.productCartList.forEach(element => {
-      this.totalProduct += parseInt(element.quantity, 10);
-    });
+    if (localStorage.getItem('totalProductCart')) {
+      this.totalProduct = JSON.parse(localStorage.getItem('totalProductCart'));
+    } else {
+      this.totalProduct = 0;
+    }
   }
 
 }

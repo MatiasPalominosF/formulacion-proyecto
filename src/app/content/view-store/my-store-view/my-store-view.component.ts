@@ -33,6 +33,7 @@ export class MyStoreViewComponent implements OnInit {
   public pageSize = 4;
   public nameCake;
   public addressCake;
+  private totalProduct = 0;
 
   constructor(
     private router: ActivatedRoute,
@@ -85,16 +86,21 @@ export class MyStoreViewComponent implements OnInit {
     console.log("this.productCartList.includes(this.productCart)", this.productCartList.some(e => e.id === this.productCart.id));
 
     if (this.productCartList.some(e => e.id === this.productCart.id)) {
+      this.sumTotal(this.productCartList[this.productCartList.length - 1], true, quantiyForm);
       this.verifyProductIsInCart(this.productCartList, this.productCart, quantiyForm, product);
     } else {
       this.productCartList.push(this.productCart);
+      this.sumTotal(this.productCartList[this.productCartList.length - 1], false, 0);
     }
     this.reset();
-    console.log(this.productCartList.length);
+    console.log("this.productCartList.length > 0", this.productCartList.length > 0);
+    console.log("this.productCartList[length - 1]", this.productCartList[this.productCartList.length - 1]);
+
+
+    console.log(this.productCartList);
     localStorage.setItem('dataProductCart', JSON.stringify(this.productCartList));
-    if (localStorage.getItem('dataProductCart')) {
-      console.log(JSON.parse(localStorage.getItem('dataProductCart')));
-    }
+    localStorage.setItem('totalProductCart', JSON.stringify(this.totalProduct));
+
   }
 
   verifyProductIsInCart(productCartList: Array<ProductCart>, productCart: ProductCart, quantity: number, product: ProductInterface) {
@@ -111,6 +117,15 @@ export class MyStoreViewComponent implements OnInit {
         element.totalPrice = totalFinal;
       }
     });
+
+  }
+
+  sumTotal(product: ProductCart, igual: boolean, quantity: number) {
+    if (igual) {
+      this.totalProduct += quantity;
+    } else {
+      this.totalProduct += this.stringToInt(product.quantity);
+    }
 
   }
 
