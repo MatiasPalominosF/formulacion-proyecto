@@ -8,6 +8,8 @@ import { ConnectableObservable, interval, Observable, of, Subject } from 'rxjs';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { NavbarService } from 'src/app/_services/navbar.service';
 import { ProductCart } from 'src/app/_models/productCart';
+import { NotificationService } from 'src/app/_services/notificacion.service';
+import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
 
 @Component({
   selector: 'app-full-layout-navbar',
@@ -34,6 +36,8 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
     private _themeSettingsService: ThemeSettingsService,
     private _renderer: Renderer2,
     private navbarService: NavbarService,
+    private notifyService: NotificationService,
+    private confirmationDialogService: ConfirmationDialogService,
   ) {
     this._unsubscribeAll = new Subject();
     this._unsubscribeAllMenu = new Subject();
@@ -55,7 +59,7 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
       });
     this.notification = this._themeSettingsConfig.headerIcons.notification;
 
-    setInterval(() => this.getDataCart(), 1000);
+    setInterval(() => this.getDataCart(), 300);
 
   }
 
@@ -123,8 +127,32 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
     this.refreshView();
   }
 
-  delete() {
-    console.log("borrar del carrito");
+  delete(element: ProductCart) {
+
+    console.log("borrar del carrito", element);
+
+    this.confirmationDialogService.confirm('Confirmación', '¿Estás seguro de eliminar el producto?')
+      .then(confirmed => {
+        if (!confirmed) {
+        } else {
+          this.productCartList.find((el, index) => {
+            console.log("el", el);
+            if (el != undefined) {
+              if (el.id === element.id) {
+                console.log("index", index);
+                console.log("el", element);
+                this.productCartList.splice(index, 1);
+                this.totalProduct -= this.stringToInt(element.quantity);
+                localStorage.setItem('dataProductCart', JSON.stringify(this.productCartList));
+                localStorage.setItem('totalProductCart', JSON.stringify(this.totalProduct));
+                this.notifyService.showSuccess("Eliminar", "¡El producto se eliminó correctamente!");
+              }
+            }
+          });
+        }
+      }).catch(() => {
+        console.log("Not ok");
+      });
   }
 
   func() {
@@ -170,6 +198,18 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
     } else {
       this.totalProduct = 0;
     }
+  }
+
+  stringToInt(value: string): number {
+    var res = parseInt(value, 10);
+
+    return res;
+  }
+
+  intToString(value: number): string {
+    var res = value + "";
+
+    return res;
   }
 
 }

@@ -76,6 +76,7 @@ import { ArchwizardModule } from 'angular-archwizard';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';;
 import { ServiceWorkerModule } from '@angular/service-worker'
 ;
+import { ConfirmationDialogService } from './_services/confirmation-dialog.service';
 
 
 
@@ -147,6 +148,7 @@ import { ServiceWorkerModule } from '@angular/service-worker'
     AuthService,
     UserService,
     AngularFirestore,
+    ConfirmationDialogService,
     {
       provide: HAMMER_GESTURE_CONFIG,
       useClass: HammerGestureConfig

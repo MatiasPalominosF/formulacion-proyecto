@@ -54,6 +54,26 @@ export class MyStoreViewComponent implements OnInit {
     console.log("this.router.snapshot.paramMap", this.router.snapshot.paramMap);
     this.getFullInfoProduct();
     this.getInfoUser();
+    setInterval(() => this.getDataCart(), 300);
+  }
+
+  getDataCart() {
+    if (localStorage.getItem('dataProductCart')) {
+      this.productCartList = JSON.parse(localStorage.getItem('dataProductCart'));
+    } else {
+      this.productCartList = [];
+    }
+
+    this.getTotalProduct();
+
+  }
+
+  getTotalProduct() {
+    if (localStorage.getItem('totalProductCart')) {
+      this.totalProduct = JSON.parse(localStorage.getItem('totalProductCart'));
+    } else {
+      this.totalProduct = 0;
+    }
   }
 
   get f() {
