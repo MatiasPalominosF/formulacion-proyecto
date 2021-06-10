@@ -1,0 +1,128 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="myModalLabel2">
+    <i class="la la-road2"></i>Ingreso pedido
+  </h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body px-0">
+  <div style="overflow-y: hidden; height: calc(100vh - 15rem)">
+    <div class="px-2" style="overflow-y: auto; height: 100%">
+      <form [formGroup]="projectInfo">
+        <div class="form-body">
+          <h4 class="form-section">
+            <i class="la la-paperclip"></i> Información del pedido
+          </h4>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <input
+                  type="text"
+                  id="projectinput1"
+                  class="form-control"
+                  formControlName="firstname"
+                  placeholder="Acá va la tabla"
+                />
+              </div>
+            </div>
+          </div>
+          <h4 class="form-section">
+            <i class="feather ft-user"></i> Información usuario
+          </h4>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <input
+                  type="text"
+                  id="projectinput2"
+                  class="form-control"
+                  formControlName="firstname"
+                  placeholder="Nombre"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input
+                  type="text"
+                  id="projectinput3"
+                  class="form-control"
+                  formControlName="lastname"
+                  placeholder="Apellido"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <input
+                  type="text"
+                  id="projectinput4"
+                  class="form-control"
+                  formControlName="phone"
+                  placeholder="Celular"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input
+                  type="text"
+                  id="projectinput6"
+                  class="form-control"
+                  formControlName="numberaddres"
+                  placeholder="Número de casa"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <input
+                  type="text"
+                  id="projectinput5"
+                  class="form-control"
+                  formControlName="address"
+                  placeholder="Dirección"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <textarea
+                  id="projectinput7"
+                  rows="5"
+                  class="form-control"
+                  formControlName="comment"
+                  placeholder="Comentario"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn grey btn-outline-secondary"
+    (click)="activeModal.dismiss('click cancel')"
+  >
+    Seguir comprando
+  </button>
+  <button type="button" class="btn btn-outline-primary">
+    Enviar pedido por WhatsApp
+  </button>
+</div>

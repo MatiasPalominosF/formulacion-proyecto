@@ -9,7 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import {
   NgbModule,
   NgbCarouselConfig,
-  NgbModalConfig
+  NgbModalConfig,
+  NgbModalModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { AngularFireModule } from 'angularfire2';
@@ -86,6 +87,7 @@ import { ConfirmationDialogService } from './_services/confirmation-dialog.servi
     PartialsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    NgbModalModule,
     ChartsModule,
     ArchwizardModule, // Wizards
     NgbDatepickerModule, // datePicker

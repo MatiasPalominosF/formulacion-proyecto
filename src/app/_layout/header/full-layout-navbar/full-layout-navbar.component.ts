@@ -10,6 +10,8 @@ import { NavbarService } from 'src/app/_services/navbar.service';
 import { ProductCart } from 'src/app/_models/productCart';
 import { NotificationService } from 'src/app/_services/notificacion.service';
 import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
+import { PayCartModalComponent } from 'src/app/content/view-store/pay-cart-modal/pay-cart-modal.component';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-full-layout-navbar',
@@ -19,6 +21,7 @@ import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog
 export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
 
   isMobile = false;
+  private closeResult = '';
   showNavbar = false;
   public cargar = true;
   public totalProduct = 0;
@@ -38,6 +41,7 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
     private navbarService: NavbarService,
     private notifyService: NotificationService,
     private confirmationDialogService: ConfirmationDialogService,
+    private modalService: NgbModal
   ) {
     this._unsubscribeAll = new Subject();
     this._unsubscribeAllMenu = new Subject();
@@ -157,10 +161,32 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
 
   func() {
     console.log("Carrito de compras");
-    localStorage.removeItem('dataProductCart');
-    localStorage.removeItem('totalProductCart');
+
+    const modalRef = this.modalService.open(PayCartModalComponent, { windowClass: 'animated bounce', backdrop: 'static' });
+    modalRef.componentInstance.dataProductCart = this.productCartList;
+    modalRef.result.then((result) => {
+      console.log("result:", result);
+      if (result) {
+        localStorage.removeItem('dataProductCart');
+        localStorage.removeItem('totalProductCart');
+        this.notifyService.showSuccess("Pagar", "¡Se ha realizado el pago correctamente!");
+      }
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      console.log(this.closeResult);
+    });
   }
 
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     if (event.target.innerWidth < AppConstants.MOBILE_RESPONSIVE_WIDTH) {
