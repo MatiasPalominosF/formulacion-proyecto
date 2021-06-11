@@ -99,6 +99,7 @@ export class MyStoreViewComponent implements OnInit {
     this.productCart.name = product.name;
     this.productCart.measure = product.measure;
     this.productCart.quantity = this.fValue.quantity;
+    this.productCart.unitPrice = product.total;
     var quantiyForm = this.stringToInt(this.fValue.quantity);
     var total = quantiyForm * this.stringToInt(product.total);
     var total2 = this.intToString(total);

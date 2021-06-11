@@ -162,7 +162,7 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
   func() {
     console.log("Carrito de compras");
 
-    const modalRef = this.modalService.open(PayCartModalComponent, { windowClass: 'animated bounce', backdrop: 'static' });
+    const modalRef = this.modalService.open(PayCartModalComponent, { windowClass: 'animated bounce', backdrop: 'static', size: 'lg' });
     modalRef.componentInstance.dataProductCart = this.productCartList;
     modalRef.result.then((result) => {
       console.log("result:", result);
@@ -170,6 +170,7 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
         localStorage.removeItem('dataProductCart');
         localStorage.removeItem('totalProductCart');
         this.notifyService.showSuccess("Pagar", "¡Se ha realizado el pago correctamente!");
+
       }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

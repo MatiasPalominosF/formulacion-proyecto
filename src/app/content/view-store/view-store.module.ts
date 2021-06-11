@@ -22,6 +22,7 @@ import { UiSwitchModule } from 'ngx-ui-switch';
     FormsModule,
     UiSwitchModule,
     ReactiveFormsModule,
+    FilterPipeModule,
     BlockUIModule.forRoot({
       template: BlockTemplateComponent
     }),

@@ -11,6 +11,7 @@ import { ProductCart } from 'src/app/_models/productCart';
 export class PayCartModalComponent implements OnInit {
   @Input() public dataProductCart: Array<ProductCart>;
   public projectInfo: FormGroup;
+  headElements = ['Cantidad', 'Producto', 'Precio unitario ($)', 'Precio total ($)'];
   public pedido: boolean = false;
   constructor(
     public activeModal: NgbActiveModal,
@@ -24,6 +25,7 @@ export class PayCartModalComponent implements OnInit {
       phone: ['', Validators.required],
       address: ['', Validators.required],
       numberaddres: ['', Validators.required],
+      reference: ['', Validators.required],
       comment: ['', Validators.required],
     });
     console.log("dataProductCart", this.dataProductCart);
