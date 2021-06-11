@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BlockUIModule } from 'ng-block-ui';
 import { BlockTemplateComponent } from 'src/app/_layout/blockui/block-template.component';
 import { PayCartModalComponent } from './pay-cart-modal/pay-cart-modal.component';
+import { UiSwitchModule } from 'ngx-ui-switch';
 
 
 
@@ -19,6 +20,7 @@ import { PayCartModalComponent } from './pay-cart-modal/pay-cart-modal.component
     CardModule,
     NgbModule,
     FormsModule,
+    UiSwitchModule,
     ReactiveFormsModule,
     BlockUIModule.forRoot({
       template: BlockTemplateComponent

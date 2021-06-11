@@ -24,7 +24,7 @@
               <div class="form-group">
                 <input
                   type="text"
-                  id="projectinput1"
+                  id="firstname"
                   class="form-control"
                   formControlName="firstname"
                   placeholder="Acá va la tabla"
@@ -38,6 +38,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
+                <label for="firstname">Nombre *</label>
                 <input
                   type="text"
                   id="projectinput2"
@@ -49,9 +50,10 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
+                <label for="lastname">Apellido *</label>
                 <input
                   type="text"
-                  id="projectinput3"
+                  id="lastname"
                   class="form-control"
                   formControlName="lastname"
                   placeholder="Apellido"
@@ -62,45 +64,78 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
+                <label for="phone">Celular *</label>
                 <input
                   type="text"
-                  id="projectinput4"
+                  id="phone"
                   class="form-control"
                   formControlName="phone"
                   placeholder="Celular"
                 />
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 d-flex justify-content-center">
               <div class="form-group">
-                <input
-                  type="text"
-                  id="projectinput6"
-                  class="form-control"
-                  formControlName="numberaddres"
-                  placeholder="Número de casa"
-                />
+                <label for="pedido">¿Despacho a domicilio? *</label>
+                <div class="form-group d-flex justify-content-center">
+                  <label for="pedido" class="mr-1 font-small-4">No</label>
+                  <ui-switch
+                    id="pedido"
+                    class="switchery switch-small"
+                    switchColor="white"
+                    size="small"
+                    color="rgb(55, 188, 155)"
+                    [checked]="false"
+                    (change)="onChange($event)"
+                  >
+                  </ui-switch>
+                  <label for="pedido" class="ml-1 font-small-4">Sí</label>
+                </div>
+                <small
+                  *ngIf="pedido"
+                  class="
+                    d-flex
+                    justify-content-centerfont-small-2
+                    text-bold-600
+                  "
+                >
+                  <div>Se añade un total de $1.500 por envío.</div>
+                </small>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-12">
+          <div *ngIf="pedido" class="row">
+            <div class="col-md-8">
               <div class="form-group">
+                <label for="address">Dirección *</label>
                 <input
                   type="text"
-                  id="projectinput5"
+                  id="address"
                   class="form-control"
                   formControlName="address"
                   placeholder="Dirección"
                 />
               </div>
             </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="numberaddres">N° de casa *</label>
+                <input
+                  type="text"
+                  id="numberaddres"
+                  class="form-control"
+                  formControlName="numberaddres"
+                  placeholder="N° de casa"
+                />
+              </div>
+            </div>
           </div>
           <div class="row">
             <div class="col-md-12">
               <div class="form-group">
+                <label for="comment">Comentario *</label>
                 <textarea
-                  id="projectinput7"
+                  id="comment"
                   rows="5"
                   class="form-control"
                   formControlName="comment"

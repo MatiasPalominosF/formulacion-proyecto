@@ -11,6 +11,7 @@ import { ProductCart } from 'src/app/_models/productCart';
 export class PayCartModalComponent implements OnInit {
   @Input() public dataProductCart: Array<ProductCart>;
   public projectInfo: FormGroup;
+  public pedido: boolean = false;
   constructor(
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -28,4 +29,9 @@ export class PayCartModalComponent implements OnInit {
     console.log("dataProductCart", this.dataProductCart);
   }
 
+
+  onChange(event: any) {
+    console.log("event", event);
+    this.pedido = event;
+  }
 }

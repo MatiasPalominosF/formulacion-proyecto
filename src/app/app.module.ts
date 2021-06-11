@@ -76,7 +76,7 @@ import { TermsConditionComponent } from './login/terms-condition/terms-condition
 import { ArchwizardModule } from 'angular-archwizard';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';;
 import { ServiceWorkerModule } from '@angular/service-worker'
-;
+  ;
 import { ConfirmationDialogService } from './_services/confirmation-dialog.service';
 
 
@@ -111,7 +111,7 @@ import { ConfirmationDialogService } from './_services/confirmation-dialog.servi
     BlockUIModule.forRoot({
       template: BlockTemplateComponent
     })
-,
+    ,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   declarations: [
@@ -137,7 +137,7 @@ import { ConfirmationDialogService } from './_services/confirmation-dialog.servi
     FullLayoutComponent,
     PrivacyPolicyComponent,
     TermsConditionComponent
-,
+    ,
   ],
   providers: [
     AuthGuard,
