@@ -78,6 +78,7 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';;
 import { ServiceWorkerModule } from '@angular/service-worker'
   ;
 import { ConfirmationDialogService } from './_services/confirmation-dialog.service';
+import { FilterPipeModule } from './_pipe/filter-pipe.module';
 
 
 
@@ -86,6 +87,7 @@ import { ConfirmationDialogService } from './_services/confirmation-dialog.servi
     BrowserModule,
     PartialsModule,
     ReactiveFormsModule,
+    FilterPipeModule,
     HttpClientModule,
     NgbModalModule,
     ChartsModule,

@@ -34,6 +34,7 @@ export class MyStoreViewComponent implements OnInit {
   public nameCake;
   public addressCake;
   private totalProduct = 0;
+  private totalPriceProducts = 0;
 
   constructor(
     private router: ActivatedRoute,
@@ -65,6 +66,7 @@ export class MyStoreViewComponent implements OnInit {
     }
 
     this.getTotalProduct();
+    this.getTotalPriceProducts();
 
   }
 
@@ -73,6 +75,14 @@ export class MyStoreViewComponent implements OnInit {
       this.totalProduct = JSON.parse(localStorage.getItem('totalProductCart'));
     } else {
       this.totalProduct = 0;
+    }
+  }
+
+  getTotalPriceProducts() {
+    if (localStorage.getItem('totalPriceProducts')) {
+      this.totalPriceProducts = JSON.parse(localStorage.getItem('totalPriceProducts'));
+    } else {
+      this.totalPriceProducts = 0;
     }
   }
 
@@ -104,44 +114,49 @@ export class MyStoreViewComponent implements OnInit {
     var total = quantiyForm * this.stringToInt(product.total);
     var total2 = this.intToString(total);
     this.productCart.totalPrice = total2;
-    console.log("this.productCartList.includes(this.productCart)", this.productCartList.some(e => e.id === this.productCart.id));
 
     if (this.productCartList.some(e => e.id === this.productCart.id)) {
-      this.sumTotal(this.productCartList[this.productCartList.length - 1], true, quantiyForm);
-      this.verifyProductIsInCart(this.productCartList, this.productCart, quantiyForm, product);
+      this.sumQuantityProducts(this.productCartList[this.productCartList.length - 1], true, quantiyForm);
+      this.sumTotalPrice(this.productCartList, this.productCart, quantiyForm, product, true);
     } else {
+      this.sumTotalPrice(null, this.productCart, null, null, false);
       this.productCartList.push(this.productCart);
-      this.sumTotal(this.productCartList[this.productCartList.length - 1], false, 0);
+      this.sumQuantityProducts(this.productCartList[this.productCartList.length - 1], false, 0);
     }
     this.reset();
-    console.log("this.productCartList.length > 0", this.productCartList.length > 0);
-    console.log("this.productCartList[length - 1]", this.productCartList[this.productCartList.length - 1]);
-
-
     console.log(this.productCartList);
+    console.log("this.totalPriceProducts;", this.totalPriceProducts);
+    localStorage.setItem('totalPriceProducts', JSON.stringify(this.totalPriceProducts));
     localStorage.setItem('dataProductCart', JSON.stringify(this.productCartList));
     localStorage.setItem('totalProductCart', JSON.stringify(this.totalProduct));
 
   }
 
-  verifyProductIsInCart(productCartList: Array<ProductCart>, productCart: ProductCart, quantity: number, product: ProductInterface) {
-    productCartList.forEach(element => {
-      if (element.id === productCart.id) {
-        var quantityFlag = this.stringToInt(element.quantity);
-        var totalQuantityFlag = quantityFlag + quantity;
-        var totalQuantity = this.intToString(totalQuantityFlag);
-        element.quantity = totalQuantity;
+  sumTotalPrice(productCartList: Array<ProductCart>, productCart: ProductCart, quantity: number, product: ProductInterface, igual: boolean) {
 
-        var totalFlag = this.stringToInt(product.total) * quantity;
-        var totalFinalFlag = this.stringToInt(element.totalPrice) + totalFlag;
-        var totalFinal = this.intToString(totalFinalFlag);
-        element.totalPrice = totalFinal;
-      }
-    });
+    if (igual) {
+      productCartList.forEach(element => {
+        if (element.id === productCart.id) {
+          var quantityFlag = this.stringToInt(element.quantity);
+          var totalQuantityFlag = quantityFlag + quantity;
+          var totalQuantity = this.intToString(totalQuantityFlag);
+          element.quantity = totalQuantity;
+
+          var totalFlag = this.stringToInt(product.total) * quantity;
+          this.totalPriceProducts += totalFlag;
+          var totalFinalFlag = this.stringToInt(element.totalPrice) + totalFlag;
+          var totalFinal = this.intToString(totalFinalFlag);
+          element.totalPrice = totalFinal;
+        }
+      });
+    } else {
+      this.totalPriceProducts += this.stringToInt(productCart.totalPrice);
+    }
+
 
   }
 
-  sumTotal(product: ProductCart, igual: boolean, quantity: number) {
+  sumQuantityProducts(product: ProductCart, igual: boolean, quantity: number) {
     if (igual) {
       this.totalProduct += quantity;
     } else {

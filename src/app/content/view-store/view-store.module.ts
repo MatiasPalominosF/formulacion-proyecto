@@ -26,7 +26,6 @@ import { UiSwitchModule } from 'ngx-ui-switch';
     BlockUIModule.forRoot({
       template: BlockTemplateComponent
     }),
-    FilterPipeModule,
     RouterModule.forChild([
       {
         path: 'mi-tienda/:uid',

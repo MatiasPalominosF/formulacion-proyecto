@@ -25,6 +25,7 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
   showNavbar = false;
   public cargar = true;
   public totalProduct = 0;
+  public totalPriceProducts = 0;
   public productCartList: Array<ProductCart> = [];
   public selectedHeaderNavBarClass: string;
   public selectedNavBarHeaderClass: string;
@@ -147,8 +148,10 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
                 console.log("el", element);
                 this.productCartList.splice(index, 1);
                 this.totalProduct -= this.stringToInt(element.quantity);
+                this.totalPriceProducts -= this.stringToInt(element.totalPrice);
                 localStorage.setItem('dataProductCart', JSON.stringify(this.productCartList));
                 localStorage.setItem('totalProductCart', JSON.stringify(this.totalProduct));
+                localStorage.setItem('totalPriceProducts', JSON.stringify(this.totalPriceProducts));
                 this.notifyService.showSuccess("Eliminar", "¡El producto se eliminó correctamente!");
               }
             }
@@ -159,16 +162,18 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
       });
   }
 
-  func() {
+  goPayCart() {
     console.log("Carrito de compras");
 
     const modalRef = this.modalService.open(PayCartModalComponent, { windowClass: 'animated bounce', backdrop: 'static', size: 'lg' });
     modalRef.componentInstance.dataProductCart = this.productCartList;
+    modalRef.componentInstance.totalPriceProducts = this.totalPriceProducts;
     modalRef.result.then((result) => {
       console.log("result:", result);
       if (result) {
         localStorage.removeItem('dataProductCart');
         localStorage.removeItem('totalProductCart');
+        localStorage.removeItem('totalPriceProducts');
         this.notifyService.showSuccess("Pagar", "¡Se ha realizado el pago correctamente!");
 
       }
@@ -216,6 +221,7 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
     }
 
     this.getTotalProduct();
+    this.getTotalPriceProducts();
 
   }
 
@@ -224,6 +230,14 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
       this.totalProduct = JSON.parse(localStorage.getItem('totalProductCart'));
     } else {
       this.totalProduct = 0;
+    }
+  }
+
+  getTotalPriceProducts() {
+    if (localStorage.getItem('totalPriceProducts')) {
+      this.totalPriceProducts = JSON.parse(localStorage.getItem('totalPriceProducts'));
+    } else {
+      this.totalPriceProducts = 0;
     }
   }
 

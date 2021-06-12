@@ -88,7 +88,8 @@
                     float-right
                     m-0
                   "
-                  >{{ totalProduct }} productos</span
+                  >${{ totalPriceProducts | number | transform }} en
+                  productos</span
                 >
               </li>
               <li
@@ -114,7 +115,7 @@
                       <time
                         class="media-meta text-muted"
                         datetime="2015-06-11T18:29:20+08:00"
-                        >$ {{ element.totalPrice }}</time
+                        >$ {{ element.totalPrice | number | transform }}</time
                       ></small
                     >
                   </div>
@@ -135,7 +136,7 @@
               <li class="dropdown-menu-footer">
                 <a
                   role="button"
-                  (click)="func()"
+                  (click)="goPayCart()"
                   class="dropdown-item text-muted text-center"
                   href="javascript:void(0)"
                   data-backdrop="false"

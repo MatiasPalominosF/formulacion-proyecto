@@ -10,6 +10,7 @@ import { ProductCart } from 'src/app/_models/productCart';
 })
 export class PayCartModalComponent implements OnInit {
   @Input() public dataProductCart: Array<ProductCart>;
+  @Input() public totalPriceProducts: number;
   public projectInfo: FormGroup;
   headElements = ['Cantidad', 'Producto', 'Precio unitario ($)', 'Precio total ($)'];
   public pedido: boolean = false;
@@ -29,6 +30,7 @@ export class PayCartModalComponent implements OnInit {
       comment: ['', Validators.required],
     });
     console.log("dataProductCart", this.dataProductCart);
+    console.log("dataProductCart", this.totalPriceProducts);
   }
 
 
