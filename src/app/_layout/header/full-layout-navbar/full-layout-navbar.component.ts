@@ -25,6 +25,7 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
   showNavbar = false;
   public cargar = true;
   public totalProduct = 0;
+  private phoneCakeShop: number;
   public totalPriceProducts = 0;
   public productCartList: Array<ProductCart> = [];
   public selectedHeaderNavBarClass: string;
@@ -168,6 +169,8 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
     const modalRef = this.modalService.open(PayCartModalComponent, { windowClass: 'animated bounce', backdrop: 'static', size: 'lg' });
     modalRef.componentInstance.dataProductCart = this.productCartList;
     modalRef.componentInstance.totalPriceProducts = this.totalPriceProducts;
+    var phoneCakeShopFlag = this.intToString(this.phoneCakeShop);
+    modalRef.componentInstance.phoneCakeShop = phoneCakeShopFlag;
     modalRef.result.then((result) => {
       console.log("result:", result);
       if (result) {
@@ -222,6 +225,7 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
 
     this.getTotalProduct();
     this.getTotalPriceProducts();
+    this.getPhoneCakeShop();
 
   }
 
@@ -238,6 +242,14 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
       this.totalPriceProducts = JSON.parse(localStorage.getItem('totalPriceProducts'));
     } else {
       this.totalPriceProducts = 0;
+    }
+  }
+
+  getPhoneCakeShop() {
+    if (localStorage.getItem('phoneCakeShop')) {
+      this.phoneCakeShop = JSON.parse(localStorage.getItem('phoneCakeShop'));
+    } else {
+      this.phoneCakeShop = 0;
     }
   }
 

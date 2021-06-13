@@ -29,10 +29,11 @@ export class MyStoreViewComponent implements OnInit {
   public productCartList: Array<ProductCart> = [];
   private productCart: ProductCart = {};
   public collectionSize: any;
+  public phone: any;
   public page = 1;
   public pageSize = 4;
-  public nameCake;
-  public addressCake;
+  public nameCake: any;
+  public addressCake: any;
   private totalProduct = 0;
   private totalPriceProducts = 0;
 
@@ -185,9 +186,10 @@ export class MyStoreViewComponent implements OnInit {
   getInfoUser() {
     this.userService.getOneUser(this.uid).subscribe(
       data => {
-
         this.nameCake = data.cakeName;
-        this.addressCake = data.address;
+        this.addressCake = 'Ubicado en ' + data.address;
+        this.phone = 'Contacto +56' + data.phone;
+        localStorage.setItem('phoneCakeShop', JSON.stringify(data.phone));
       }
     );
   }

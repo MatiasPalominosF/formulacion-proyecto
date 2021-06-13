@@ -11,10 +11,10 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body px-0">
-  <div style="overflow-y: hidden; height: calc(100vh - 15rem)">
-    <div class="px-2" style="overflow-y: auto; height: 100%">
-      <form [formGroup]="projectInfo">
+<form [formGroup]="projectInfo" (ngSubmit)="onSubmit()">
+  <div class="modal-body px-0">
+    <div style="overflow-y: hidden; height: calc(100vh - 15rem)">
+      <div class="px-2" style="overflow-y: auto; height: 100%">
         <div class="form-body">
           <h4 class="form-section">
             <i class="la la-paperclip"></i> Información del pedido
@@ -81,11 +81,21 @@
                 <label for="firstname">Nombre *</label>
                 <input
                   type="text"
-                  id="projectinput2"
+                  id="firstname"
                   class="form-control"
                   formControlName="firstname"
                   placeholder="Nombre"
+                  [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }"
                 />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submitted && f.firstname.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('firstname', 'required')">
+                    El nombre es requerido
+                  </div>
+                </small>
               </div>
             </div>
             <div class="col-md-6">
@@ -97,7 +107,17 @@
                   class="form-control"
                   formControlName="lastname"
                   placeholder="Apellido"
+                  [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }"
                 />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submitted && f.lastname.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('lastname', 'required')">
+                    El apellido es requerido
+                  </div>
+                </small>
               </div>
             </div>
           </div>
@@ -110,8 +130,23 @@
                   id="phone"
                   class="form-control"
                   formControlName="phone"
-                  placeholder="Celular"
+                  placeholder="988888888"
+                  maxlength="9"
+                  (keypress)="keyPress($event)"
+                  [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
                 />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submitted && f.phone.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('phone', 'required')">
+                    El celular es requerido
+                  </div>
+                  <div *ngIf="hasError('phone', 'minlength')">
+                    El celular debe tener mínimo 9 dígitos
+                  </div>
+                </small>
               </div>
             </div>
             <div class="col-md-6 d-flex justify-content-center">
@@ -157,7 +192,19 @@
                   class="form-control"
                   formControlName="address"
                   placeholder="Dirección"
+                  [ngClass]="{
+                    'is-invalid': submitted && f.address.errors && pedido
+                  }"
                 />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submitted && f.address.errors && pedido"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('address', 'required')">
+                    La dirección es requerida
+                  </div>
+                </small>
               </div>
             </div>
             <div class="col-md-4">
@@ -169,7 +216,20 @@
                   class="form-control"
                   formControlName="numberaddres"
                   placeholder="N° de casa"
+                  (keypress)="keyPress($event)"
+                  [ngClass]="{
+                    'is-invalid': submitted && f.numberaddres.errors && pedido
+                  }"
                 />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submitted && f.numberaddres.errors && pedido"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('numberaddres', 'required')">
+                    La dirección es requerida
+                  </div>
+                </small>
               </div>
             </div>
           </div>
@@ -183,16 +243,27 @@
                   class="form-control"
                   formControlName="reference"
                   placeholder="Referencia"
+                  [ngClass]="{
+                    'is-invalid': submitted && f.reference.errors && pedido
+                  }"
                 />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submitted && f.reference.errors && pedido"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('reference', 'required')">
+                    La referencia es requerida
+                  </div>
+                </small>
               </div>
               <hr />
             </div>
           </div>
-
           <div class="row">
             <div class="col-md-12">
               <div class="form-group">
-                <label for="comment">Comentario *</label>
+                <label for="comment">Comentario</label>
                 <textarea
                   id="comment"
                   rows="5"
@@ -204,19 +275,20 @@
             </div>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
-</div>
-<div class="modal-footer">
-  <button
-    type="button"
-    class="btn grey btn-outline-secondary"
-    (click)="activeModal.dismiss('click cancel')"
-  >
-    Seguir comprando
-  </button>
-  <button type="button" class="btn btn-outline-primary">
-    Enviar pedido por WhatsApp
-  </button>
-</div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn grey btn-outline-secondary"
+      (click)="activeModal.dismiss('click cancel')"
+      ngbAutofocus
+    >
+      Seguir comprando
+    </button>
+    <button type="submit" class="btn btn-outline-primary">
+      Enviar pedido por WhatsApp
+    </button>
+  </div>
+</form>
