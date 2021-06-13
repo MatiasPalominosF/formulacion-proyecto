@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { Order } from 'src/app/_models/order';
 import { ProductCart } from 'src/app/_models/productCart';
 
@@ -24,7 +24,7 @@ export class PayCartModalComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
-    private router: Router
+    private deviceService: DeviceDetectorService,
   ) { }
 
   ngOnInit(): void {
@@ -40,6 +40,7 @@ export class PayCartModalComponent implements OnInit {
     console.log("dataProductCart", this.dataProductCart);
     console.log("dataProductCart", this.totalPriceProducts);
     console.log("phoneCakeShop", this.phoneCakeShop);
+
   }
 
   get f() {
@@ -48,6 +49,18 @@ export class PayCartModalComponent implements OnInit {
 
   get fValue() {
     return this.projectInfo.value;
+  }
+
+  get isMobile(): boolean {
+    return this.deviceService.isMobile();
+  }
+
+  get isTablet(): boolean {
+    return this.deviceService.isTablet();
+  }
+
+  get isDesktop(): boolean {
+    return this.deviceService.isDesktop();
   }
 
   onChange(event: any) {
@@ -94,10 +107,18 @@ export class PayCartModalComponent implements OnInit {
     }
 
     var url = "";
-    var urlwtsp = "https://web.whatsapp.com/";
+    var urlwtsp = "";
     var mensaje = "";
     var productos = "";
     var flag = false;
+
+    console.log("this.isDesktop", this.isDesktop);
+    console.log("this.isDevice", this.isMobile);
+    if (this.isDesktop) {
+      urlwtsp = "https://web.whatsapp.com/";
+    } else if (this.isMobile || this.isTablet) {
+      urlwtsp = "whatsapp://"
+    }
 
     if (this.fValue.comment != "") {
       this.order.comment = this.fValue.comment;
@@ -151,6 +172,7 @@ export class PayCartModalComponent implements OnInit {
     });
 
     url = urlwtsp + mensaje + productos + total;
+    console.log(url);
     this.passEntry.emit(true);
     this.activeModal.close(true);
     window.open(url, "_blank");
