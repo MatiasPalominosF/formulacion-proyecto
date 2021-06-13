@@ -13,8 +13,9 @@
                   width="190"
                   class="float-left"
                 />
-                <h4 class="card-title mt-3 text-white">{{ nameCake }}</h4>
-                <p class="card-text">Ubicado en {{ addressCake }}</p>
+                <h3 class="card-title mt-3 text-white">{{ nameCake }}</h3>
+                <p class="card-text">{{ phone }}</p>
+                <p class="card-text">{{ addressCake }}</p>
                 <a
                   [routerLink]=""
                   style="background-color: white"
@@ -46,8 +47,9 @@
           <div class="card">
             <div class="card-content">
               <img
+                style="width: 400px; height: 200px"
                 class="card-img-top img-fluid mx-auto"
-                src="../../../assets/images/carousel/06.jpg"
+                [src]="element.img"
                 alt="Sin imagen"
               />
               <div class="card-body">
@@ -55,9 +57,25 @@
                 <p class="card-text">
                   Precio: ${{ element.total | number | transform }}
                 </p>
-                <a [routerLink]="" class="btn btn-outline-teal"
-                  ><i class="feather ft-shopping-cart mr-1"></i>Agregar</a
-                >
+                <form [formGroup]="productInfo">
+                  <div class="input-group">
+                    <input
+                      formControlName="quantity"
+                      type="text"
+                      class="form-control"
+                      placeholder="Cantidad"
+                      aria-describedby="button-addon2"
+                    />
+                    <div class="input-group-append">
+                      <a
+                        role="button"
+                        (click)="addCart(element)"
+                        class="btn btn-outline-teal"
+                        ><i class="feather ft-shopping-cart mr-1"></i>Agregar</a
+                      >
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
           </div>

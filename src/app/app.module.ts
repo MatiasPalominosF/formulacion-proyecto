@@ -9,7 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import {
   NgbModule,
   NgbCarouselConfig,
-  NgbModalConfig
+  NgbModalConfig,
+  NgbModalModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { AngularFireModule } from 'angularfire2';
@@ -75,7 +76,9 @@ import { TermsConditionComponent } from './login/terms-condition/terms-condition
 import { ArchwizardModule } from 'angular-archwizard';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';;
 import { ServiceWorkerModule } from '@angular/service-worker'
-;
+  ;
+import { ConfirmationDialogService } from './_services/confirmation-dialog.service';
+import { FilterPipeModule } from './_pipe/filter-pipe.module';
 
 
 
@@ -84,7 +87,9 @@ import { ServiceWorkerModule } from '@angular/service-worker'
     BrowserModule,
     PartialsModule,
     ReactiveFormsModule,
+    FilterPipeModule,
     HttpClientModule,
+    NgbModalModule,
     ChartsModule,
     ArchwizardModule, // Wizards
     NgbDatepickerModule, // datePicker
@@ -108,7 +113,7 @@ import { ServiceWorkerModule } from '@angular/service-worker'
     BlockUIModule.forRoot({
       template: BlockTemplateComponent
     })
-,
+    ,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   declarations: [
@@ -134,7 +139,7 @@ import { ServiceWorkerModule } from '@angular/service-worker'
     FullLayoutComponent,
     PrivacyPolicyComponent,
     TermsConditionComponent
-,
+    ,
   ],
   providers: [
     AuthGuard,
@@ -147,6 +152,7 @@ import { ServiceWorkerModule } from '@angular/service-worker'
     AuthService,
     UserService,
     AngularFirestore,
+    ConfirmationDialogService,
     {
       provide: HAMMER_GESTURE_CONFIG,
       useClass: HammerGestureConfig

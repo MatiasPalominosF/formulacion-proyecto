@@ -5,23 +5,27 @@ import { RouterModule } from '@angular/router';
 import { CardModule } from '../partials/general/card/card.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilterPipeModule } from 'src/app/_pipe/filter-pipe.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BlockUIModule } from 'ng-block-ui';
 import { BlockTemplateComponent } from 'src/app/_layout/blockui/block-template.component';
+import { PayCartModalComponent } from './pay-cart-modal/pay-cart-modal.component';
+import { UiSwitchModule } from 'ngx-ui-switch';
 
 
 
 @NgModule({
-  declarations: [MyStoreViewComponent],
+  declarations: [MyStoreViewComponent, PayCartModalComponent],
   imports: [
     CommonModule,
     CardModule,
     NgbModule,
     FormsModule,
+    UiSwitchModule,
+    ReactiveFormsModule,
+    FilterPipeModule,
     BlockUIModule.forRoot({
       template: BlockTemplateComponent
     }),
-    FilterPipeModule,
     RouterModule.forChild([
       {
         path: 'mi-tienda/:uid',

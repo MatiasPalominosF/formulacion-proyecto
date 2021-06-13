@@ -5,6 +5,7 @@ export interface ProductInterface {
     name?: string;
     total?: string;
     stock?: string;
+    img?: string;
     neto?: string;
     iva?: string;
     totalPrice?: number;

@@ -87,6 +87,7 @@ export class VerticalComponent implements OnInit, AfterViewInit {
     this._themeSettingsService.config
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((config) => {
+        console.log("config", config);
         this._themeSettingsConfig = config;
         this.refreshView();
       });
@@ -106,6 +107,10 @@ export class VerticalComponent implements OnInit, AfterViewInit {
     this.refreshView();
   }
 
+  func() {
+    console.log("Se presiona notifiación");
+  }
+
   refreshView() {
     const iconElement = document.getElementsByClassName('toggle-icon');
     const menuColorElement = document.getElementsByClassName('main-menu');
@@ -120,6 +125,7 @@ export class VerticalComponent implements OnInit, AfterViewInit {
         this._renderer.addClass(iconElement.item(0), 'blue-grey');
         this._renderer.addClass(iconElement.item(0), 'darken-3');
       } else if (this._themeSettingsConfig.colorTheme === 'semi-dark' || this._themeSettingsConfig.colorTheme === 'dark') {
+        console.log("this._renderer.addClass(iconElement.item(0), 'white')", this._renderer.addClass(iconElement.item(0), 'white'));
         this._renderer.addClass(iconElement.item(0), 'white');
         this._renderer.removeClass(iconElement.item(0), 'blue-grey');
         this._renderer.removeClass(iconElement.item(0), 'darken-3');
@@ -391,6 +397,7 @@ export class VerticalComponent implements OnInit, AfterViewInit {
   }
 
   toggleFixMenu(e) {
+    console.log("toggleFixMenu", e);
     if (this.document.body.classList.contains('menu-expanded')) {
       // show the left aside menu
       this.navbarService.setFixedMenu(false);
@@ -449,6 +456,7 @@ export class VerticalComponent implements OnInit, AfterViewInit {
   }
 
   toggleNavbar(e) {
+    console.log("toggleNavbar", e);
     if (this.showNavbar) {
       this.showNavbar = false;
     } else {

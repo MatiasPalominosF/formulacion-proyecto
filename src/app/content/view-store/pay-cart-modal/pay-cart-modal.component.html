@@ -1,0 +1,294 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="myModalLabel2">
+    <i class="la la-road2"></i>Ingreso pedido
+  </h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="projectInfo" (ngSubmit)="onSubmit()">
+  <div class="modal-body px-0">
+    <div style="overflow-y: hidden; height: calc(100vh - 15rem)">
+      <div class="px-2" style="overflow-y: auto; height: 100%">
+        <div class="form-body">
+          <h4 class="form-section">
+            <i class="la la-paperclip"></i> Información del pedido
+          </h4>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive table-sm">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th *ngFor="let head of headElements" scope="col">
+                        {{ head }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      mdbTableCol
+                      *ngFor="let el of dataProductCart; index as i"
+                    >
+                      <td scope="row">{{ el.quantity }}</td>
+                      <td>{{ el.name }}</td>
+                      <td>{{ el.unitPrice | number | transform }}</td>
+                      <td>{{ el.totalPrice | number | transform }}</td>
+                      <!--td>
+                        <button
+                          (click)="onRemove(i)"
+                          class="
+                            btn btn-xs btn-social-icon
+                            mr-1
+                            mb-1
+                            btn-pinterest
+                          "
+                        >
+                          <span class="la la-trash"></span>
+                        </button>
+                      </td-->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!--input
+                type="text"
+                id="projectinput2"
+                class="form-control"
+                formControlName="firstname"
+                placeholder="Nombre"
+              /-->
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 d-flex justify-content-left">
+              <label class="col-md-6 text-left"
+                ><b>Total:</b> ${{ totalPriceProducts | number | transform }}
+              </label>
+            </div>
+          </div>
+          <h4 class="form-section">
+            <i class="feather ft-user"></i> Información usuario
+          </h4>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="firstname">Nombre *</label>
+                <input
+                  type="text"
+                  id="firstname"
+                  class="form-control"
+                  formControlName="firstname"
+                  placeholder="Nombre"
+                  [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }"
+                />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submitted && f.firstname.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('firstname', 'required')">
+                    El nombre es requerido
+                  </div>
+                </small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="lastname">Apellido *</label>
+                <input
+                  type="text"
+                  id="lastname"
+                  class="form-control"
+                  formControlName="lastname"
+                  placeholder="Apellido"
+                  [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }"
+                />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submitted && f.lastname.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('lastname', 'required')">
+                    El apellido es requerido
+                  </div>
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="phone">Celular *</label>
+                <input
+                  type="text"
+                  id="phone"
+                  class="form-control"
+                  formControlName="phone"
+                  placeholder="988888888"
+                  maxlength="9"
+                  (keypress)="keyPress($event)"
+                  [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
+                />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submitted && f.phone.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('phone', 'required')">
+                    El celular es requerido
+                  </div>
+                  <div *ngIf="hasError('phone', 'minlength')">
+                    El celular debe tener mínimo 9 dígitos
+                  </div>
+                </small>
+              </div>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center">
+              <div class="form-group">
+                <label for="pedido">¿Despacho a domicilio? *</label>
+                <div class="form-group d-flex justify-content-center">
+                  <label for="pedido" class="mr-1 font-small-4">No</label>
+                  <ui-switch
+                    id="pedido"
+                    class="switchery switch-small"
+                    switchColor="white"
+                    size="small"
+                    color="rgb(55, 188, 155)"
+                    [checked]="false"
+                    (change)="onChange($event)"
+                  >
+                  </ui-switch>
+                  <label for="pedido" class="ml-1 font-small-4">Sí</label>
+                </div>
+                <small
+                  *ngIf="pedido"
+                  class="
+                    d-flex
+                    justify-content-centerfont-small-2
+                    text-bold-600
+                  "
+                >
+                  <div>Se añade un total de $1.500 por envío.</div>
+                </small>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="pedido" class="row">
+            <div class="col-md-12">
+              <hr />
+            </div>
+            <div class="col-md-8">
+              <div class="form-group">
+                <label for="address">Dirección *</label>
+                <input
+                  type="text"
+                  id="address"
+                  class="form-control"
+                  formControlName="address"
+                  placeholder="Dirección"
+                  [ngClass]="{
+                    'is-invalid': submitted && f.address.errors && pedido
+                  }"
+                />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submitted && f.address.errors && pedido"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('address', 'required')">
+                    La dirección es requerida
+                  </div>
+                </small>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="numberaddres">N° de casa *</label>
+                <input
+                  type="text"
+                  id="numberaddres"
+                  class="form-control"
+                  formControlName="numberaddres"
+                  placeholder="N° de casa"
+                  (keypress)="keyPress($event)"
+                  [ngClass]="{
+                    'is-invalid': submitted && f.numberaddres.errors && pedido
+                  }"
+                />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submitted && f.numberaddres.errors && pedido"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('numberaddres', 'required')">
+                    La dirección es requerida
+                  </div>
+                </small>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="pedido" class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="reference">Referencia *</label>
+                <input
+                  type="text"
+                  id="reference"
+                  class="form-control"
+                  formControlName="reference"
+                  placeholder="Referencia"
+                  [ngClass]="{
+                    'is-invalid': submitted && f.reference.errors && pedido
+                  }"
+                />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submitted && f.reference.errors && pedido"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('reference', 'required')">
+                    La referencia es requerida
+                  </div>
+                </small>
+              </div>
+              <hr />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="comment">Comentario</label>
+                <textarea
+                  id="comment"
+                  rows="5"
+                  class="form-control"
+                  formControlName="comment"
+                  placeholder="Comentario"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn grey btn-outline-secondary"
+      (click)="activeModal.dismiss('click cancel')"
+      ngbAutofocus
+    >
+      Seguir comprando
+    </button>
+    <button type="submit" class="btn btn-outline-primary">
+      Enviar pedido por WhatsApp
+    </button>
+  </div>
+</form>
