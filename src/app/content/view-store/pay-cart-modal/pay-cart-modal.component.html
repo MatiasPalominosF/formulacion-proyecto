@@ -193,12 +193,12 @@
                   formControlName="address"
                   placeholder="Dirección"
                   [ngClass]="{
-                    'is-invalid': submitted && f.address.errors && pedido
+                    'is-invalid': submitted2 && f.address.errors && pedido
                   }"
                 />
                 <small
                   class="form-text text-muted danger"
-                  *ngIf="submitted && f.address.errors && pedido"
+                  *ngIf="submitted2 && f.address.errors && pedido"
                   class="invalid-feedback"
                 >
                   <div *ngIf="hasError('address', 'required')">
@@ -218,12 +218,12 @@
                   placeholder="N° de casa"
                   (keypress)="keyPress($event)"
                   [ngClass]="{
-                    'is-invalid': submitted && f.numberaddres.errors && pedido
+                    'is-invalid': submitted2 && f.numberaddres.errors && pedido
                   }"
                 />
                 <small
                   class="form-text text-muted danger"
-                  *ngIf="submitted && f.numberaddres.errors && pedido"
+                  *ngIf="submitted2 && f.numberaddres.errors && pedido"
                   class="invalid-feedback"
                 >
                   <div *ngIf="hasError('numberaddres', 'required')">
@@ -244,12 +244,12 @@
                   formControlName="reference"
                   placeholder="Referencia"
                   [ngClass]="{
-                    'is-invalid': submitted && f.reference.errors && pedido
+                    'is-invalid': submitted2 && f.reference.errors && pedido
                   }"
                 />
                 <small
                   class="form-text text-muted danger"
-                  *ngIf="submitted && f.reference.errors && pedido"
+                  *ngIf="submitted2 && f.reference.errors && pedido"
                   class="invalid-feedback"
                 >
                   <div *ngIf="hasError('reference', 'required')">

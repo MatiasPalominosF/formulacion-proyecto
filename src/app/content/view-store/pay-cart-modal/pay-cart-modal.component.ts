@@ -19,6 +19,7 @@ export class PayCartModalComponent implements OnInit {
   public projectInfo: FormGroup;
   private order: Order = {};
   public submitted = false;
+  public submitted2 = false;
   public headElements = ['Cantidad', 'Producto', 'Precio unitario ($)', 'Precio total ($)'];
   public pedido: boolean = false;
   constructor(
@@ -72,6 +73,10 @@ export class PayCartModalComponent implements OnInit {
       this.setValidators('numberaddres');
       this.setValidators('reference');
     } else {
+      this.f['address'].patchValue('');
+      this.f['numberaddres'].patchValue('');
+      this.f['numberaddres'].patchValue('');
+      this.submitted2 = false;
       this.totalPriceProducts -= 1500;
       this.clearValidators('address');
       this.clearValidators('numberaddres');
@@ -99,10 +104,17 @@ export class PayCartModalComponent implements OnInit {
     return this.projectInfo.get(controlName).hasError(errorName);
   };
 
+  private isInvalid = (controlName: string) => {
+    return this.projectInfo.get(controlName).invalid;
+  }
+
   onSubmit() {
     this.submitted = true;
     console.log(this.projectInfo);
-    if (this.projectInfo.invalid) {
+
+    console.log("this.isInvalid('firstname')", this.isInvalid('firstname'));
+
+    if (this.isInvalid('firstname') || this.isInvalid('lastname') || this.isInvalid('phone')) {
       return;
     }
 
@@ -126,6 +138,10 @@ export class PayCartModalComponent implements OnInit {
     }
 
     if (this.pedido) {
+      this.submitted2 = true;
+      if (this.isInvalid('address') || this.isInvalid('numberaddres') || this.isInvalid('reference')) {
+        return;
+      }
       this.order.firstname = this.fValue.firstname;
       this.order.lastname = this.fValue.lastname;
       this.order.phone = this.fValue.phone;
