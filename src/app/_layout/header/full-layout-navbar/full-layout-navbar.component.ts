@@ -134,6 +134,10 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
     this.refreshView();
   }
 
+  newOrder(): void {
+    console.log("new order");
+  }
+
   delete(element: ProductCart) {
 
     console.log("borrar del carrito", element);
