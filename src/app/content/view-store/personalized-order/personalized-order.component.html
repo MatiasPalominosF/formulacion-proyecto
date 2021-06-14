@@ -24,7 +24,19 @@
               *ngFor="let repeatForm of repeatFormGroup.controls; let i = index"
             >
               <div class="row" [formGroupName]="i">
-                <div class="col-md-3">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="quantity">Cantidad *</label>
+                    <input
+                      type="text"
+                      id="quantity"
+                      class="form-control"
+                      formControlName="quantity"
+                      placeholder="Cantidad"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-2">
                   <div class="form-group">
                     <label for="cake">Producto *</label>
                     <select
@@ -60,9 +72,9 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                   <div class="form-group">
-                    <label for="quantitypersons">Para *</label>
+                    <label for="quantitypersons">Personas *</label>
                     <select
                       formControlName="quantitypersons"
                       name="quantitypersons"
@@ -81,7 +93,15 @@
                 <div class="col-md-2">
                   <div class="form-group">
                     <label for="price">Precio *</label>
-                    <select
+                    <input
+                      type="text"
+                      id="price"
+                      class="form-control"
+                      formControlName="price"
+                      placeholder="Precio"
+                      readonly
+                    />
+                    <!--select
                       [attr.disabled]="true"
                       name="price"
                       formControlName="price"
@@ -90,7 +110,7 @@
                       <option *ngFor="let price of prices" [value]="price.id">
                         {{ price.price }}
                       </option>
-                    </select>
+                    </select-->
                   </div>
                 </div>
                 <div class="col-md-1">
