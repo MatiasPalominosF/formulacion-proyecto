@@ -64,7 +64,7 @@ export class PersonalizedOrderComponent implements OnInit {
   public flavors = {};
   public prices = {};
   private cake = { id: 1, name: 'Torta', flavors: [] };
-  private quantityperson = { id: 1, persons: '10 personas', prices: [] };
+  private quantityperson = { id: 1, persons: '10', prices: [] };
 
   get repeatFormGroup() {
     return this.orderInfo.get('repeatArray') as FormArray;
