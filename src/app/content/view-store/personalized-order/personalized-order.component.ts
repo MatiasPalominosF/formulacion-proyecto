@@ -51,14 +51,14 @@ export class PersonalizedOrderComponent implements OnInit {
   ];*/
 
   public quantitypersons = [
-    { id: 1, persons: '10', price: '12000' },
-    { id: 2, persons: '15', price: '14000' },
-    { id: 3, persons: '20', price: '18000' },
-    { id: 4, persons: '25', price: '20000' },
-    { id: 5, persons: '30', price: '24000' },
-    { id: 6, persons: '40', price: '26000' },
-    { id: 7, persons: '60', price: '30000' },
-    { id: 8, persons: '80', price: '45000' },
+    { id: 1, persons: '10', price: 12000 },
+    { id: 2, persons: '15', price: 14000 },
+    { id: 3, persons: '20', price: 18000 },
+    { id: 4, persons: '25', price: 20000 },
+    { id: 5, persons: '30', price: 24000 },
+    { id: 6, persons: '40', price: 26000 },
+    { id: 7, persons: '60', price: 30000 },
+    { id: 8, persons: '80', price: 45000 },
   ];
 
   public flavors = {};
@@ -169,7 +169,9 @@ export class PersonalizedOrderComponent implements OnInit {
     */
     // this.repeatList.controls[index].get('price').patchValue(this.stringToInt(this.prices[0].id))
 
-    this.repeatList.controls[index].get('price').patchValue(this.stringToInt(prices.price))
+    console.log("this.repeatList.controls[index]", this.repeatList.controls[index].get('price').value);
+    console.log("this.repeatFormGroup.controls[index].get('price').value", this.repeatFormGroup.controls[index].get('price').value);
+    this.repeatList.controls[index].get('price').patchValue(prices.price)
 
     console.log(this.repeatFormGroup.controls);
 

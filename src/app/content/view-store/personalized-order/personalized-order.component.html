@@ -94,10 +94,14 @@
                   <div class="form-group">
                     <label for="price">Precio *</label>
                     <input
-                      type="text"
                       id="price"
                       class="form-control"
                       formControlName="price"
+                      [value]="
+                        repeatFormGroup.controls[i].get('price').value
+                          | number
+                          | transform
+                      "
                       placeholder="Precio"
                       readonly
                     />
@@ -124,6 +128,13 @@
                       <i class="feather ft-x"></i>
                     </button>
                   </div>
+                </div>
+              </div>
+            </div>
+            <div class="row d-flex justify-content-end">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label><b>Total: </b>25.000</label>
                 </div>
               </div>
             </div>
