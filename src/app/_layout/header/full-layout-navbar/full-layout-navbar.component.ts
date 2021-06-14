@@ -12,6 +12,7 @@ import { NotificationService } from 'src/app/_services/notificacion.service';
 import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
 import { PayCartModalComponent } from 'src/app/content/view-store/pay-cart-modal/pay-cart-modal.component';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PersonalizedOrderComponent } from 'src/app/content/view-store/personalized-order/personalized-order.component';
 
 @Component({
   selector: 'app-full-layout-navbar',
@@ -136,6 +137,19 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
 
   newOrder(): void {
     console.log("new order");
+    const modalRef = this.modalService.open(PersonalizedOrderComponent, { windowClass: 'animated bounce', backdrop: 'static', size: 'lg' });
+
+    modalRef.result.then((result) => {
+      console.log("result:", result);
+      if (result) {
+
+        this.notifyService.showSuccess("Pedido", "¡El pedido se ha realizado el pago correctamente!");
+
+      }
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      console.log(this.closeResult);
+    });
   }
 
   delete(element: ProductCart) {

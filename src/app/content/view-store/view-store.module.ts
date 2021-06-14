@@ -10,11 +10,12 @@ import { BlockUIModule } from 'ng-block-ui';
 import { BlockTemplateComponent } from 'src/app/_layout/blockui/block-template.component';
 import { PayCartModalComponent } from './pay-cart-modal/pay-cart-modal.component';
 import { UiSwitchModule } from 'ngx-ui-switch';
+import { PersonalizedOrderComponent } from './personalized-order/personalized-order.component';
 
 
 
 @NgModule({
-  declarations: [MyStoreViewComponent, PayCartModalComponent],
+  declarations: [MyStoreViewComponent, PayCartModalComponent, PersonalizedOrderComponent],
   imports: [
     CommonModule,
     CardModule,
