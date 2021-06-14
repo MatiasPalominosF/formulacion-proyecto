@@ -28,12 +28,16 @@
                   <div class="form-group">
                     <label for="cake">Producto *</label>
                     <select
-                      id="cake"
                       name="cake"
+                      formControlName="cake"
                       class="form-control border-primary"
-                      (change)="onSelect($event.target.value)"
+                      (change)="onSelect($event.target.value, i)"
                     >
-                      <option *ngFor="let cake of cakes" [value]="cake.id">
+                      <option
+                        *ngFor="let cake of cakes"
+                        [value]="cake.id"
+                        value="cake.id"
+                      >
                         {{ cake.name }}
                       </option>
                     </select>
@@ -43,12 +47,15 @@
                   <div class="form-group">
                     <label for="flavor">Sabor *</label>
                     <select
-                      id="flavor"
                       name="flavor"
+                      formControlName="flavor"
                       class="form-control border-primary"
                     >
-                      <option *ngFor="let flavor of flavors" [value]="flavor">
-                        {{ flavor }}
+                      <option
+                        *ngFor="let flavor of flavors"
+                        [value]="flavor.id"
+                      >
+                        {{ flavor.name }}
                       </option>
                     </select>
                   </div>
@@ -57,10 +64,10 @@
                   <div class="form-group">
                     <label for="quantitypersons">Para *</label>
                     <select
-                      id="quantitypersons"
+                      formControlName="quantitypersons"
                       name="quantitypersons"
                       class="form-control border-primary"
-                      (change)="onSelect2($event.target.value)"
+                      (change)="onSelect2($event.target.value, i)"
                     >
                       <option
                         *ngFor="let quantity of quantitypersons"
@@ -76,12 +83,12 @@
                     <label for="price">Precio *</label>
                     <select
                       [attr.disabled]="true"
-                      id="price"
                       name="price"
+                      formControlName="price"
                       class="form-control border-primary"
                     >
-                      <option *ngFor="let price of prices" [value]="price">
-                        {{ price }}
+                      <option *ngFor="let price of prices" [value]="price.id">
+                        {{ price.price }}
                       </option>
                     </select>
                   </div>
