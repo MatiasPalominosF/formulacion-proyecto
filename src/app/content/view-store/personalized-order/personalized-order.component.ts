@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Order } from 'src/app/_models/order';
+import { OrderProduct } from 'src/app/_models/order-product';
 
 @Component({
   selector: 'app-personalized-order',
@@ -11,14 +12,14 @@ import { Order } from 'src/app/_models/order';
 })
 export class PersonalizedOrderComponent implements OnInit {
   public orderInfo: FormGroup;
-  public repeatList: FormArray;
   private order: Order = {};
   public submitted = false;
   public submitted2 = false;
   public pedido: boolean = false;
-  private antiguo = 0;
-  private precioantiguo = 0;
-
+  public total: number = 0;
+  private orderProduct: OrderProduct = {};
+  public orderProducts: Array<OrderProduct> = [];
+  public headElements = ['Cantidad', 'Producto', 'Personas', 'Precio unitario ($)', 'Precio total ($)'];
   public cakes = [
     {
       id: 1, name: 'Torta', flavors: [
@@ -52,15 +53,11 @@ export class PersonalizedOrderComponent implements OnInit {
     { id: 8, persons: '80', price: 45000 },
   ];
 
-  public total = 0;
   public flavors = {};
   public prices = {};
   private cake = { id: 1, name: 'Torta', flavors: [] };
   private quantityperson = { id: 1, persons: '10', prices: [] };
 
-  get repeatFormGroup() {
-    return this.orderInfo.get('repeatArray') as FormArray;
-  }
   constructor(
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -69,6 +66,11 @@ export class PersonalizedOrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.orderInfo = this.formBuilder.group({
+      quantity: ['', Validators.required],
+      cake: ['', Validators.required],
+      flavor: ['', Validators.required],
+      quantitypersons: ['', Validators.required],
+      unitprice: ['', Validators.required],
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
       phone: ['', [Validators.required, Validators.minLength(9)]],
@@ -76,34 +78,24 @@ export class PersonalizedOrderComponent implements OnInit {
       numberaddres: [''],
       reference: [''],
       comment: [''],
-      repeatArray: this.formBuilder.array([this.createRepeat(this.quantityperson, this.cake)])
     });
-    this.repeatList = this.orderInfo.get('repeatArray') as FormArray;
 
+    this.setDefaultValues();
   }
 
-  removeRepeat(index) {
-    this.total -= this.repeatList.controls[index].get('price').value;
-    this.repeatList.removeAt(index);
-  }
-  addRepeat() {
-    this.repeatList.push(this.createRepeat(this.quantityperson, this.cake));
-  }
-
-
-  createRepeat(quantityperson: any, cake: any): FormGroup {
-    var flavors = this.cakes.filter(x => x.id == cake.id)[0].flavors;
+  setDefaultValues() {
+    var flavors = this.cakes.filter(x => x.id == this.cake.id)[0].flavors;
     this.flavors = flavors;
 
-    var prices = this.quantitypersons.filter(x => x.id == quantityperson.id)[0];
+    var prices = this.quantitypersons.filter(x => x.id == this.quantityperson.id)[0];
     this.prices = prices;
-    this.total += prices.price;
-    return this.formBuilder.group({
-      quantity: [1],
-      cake: [cake.id, Validators.required],
-      flavor: [flavors[0].id, Validators.required],
-      quantitypersons: [quantityperson.id, Validators.required],
-      price: [prices.price, Validators.required],
+
+    this.orderInfo.patchValue({
+      quantity: 1,
+      cake: this.cake.id,
+      flavor: flavors[0].id,
+      quantitypersons: this.quantityperson.id,
+      unitprice: prices.price
     });
   }
 
@@ -133,57 +125,69 @@ export class PersonalizedOrderComponent implements OnInit {
     }
   }
 
-  onSelect(value: any, index: any): any {
+  onSelect(value: any): any {
     this.flavors = this.cakes.filter(x => x.id == value)[0].flavors;
-    this.repeatList.controls[index].get('flavor').patchValue(this.stringToInt(this.flavors[0].id));
-
-
-    //this.repeatFormGroup.controls['flavor'].patchValue(this.flavors[0], { onlySelf: true })
-    /*this.repeatFormGroup.controls[index]['flavor'] = this.flavors[0].id;
-    this.repeatFormGroup.controls[index].patchValue([{
-      flavor: this.flavors[0].id
-    }])*/
-
-
-    /*this.repeatList[index].patchValue({
-      price: this.flavors[0].id, options: { onlySelf: true }
-    });*/
+    this.orderInfo.get('flavor').patchValue(this.stringToInt(this.flavors[0].id));
   }
-  onSelect2(value: any, index: any): any {
+
+  onSelect2(value: any): any {
     var prices = this.quantitypersons.filter(x => x.id == value)[0];
-    //this.repeatList.controls[index].get('flavor').patchValue(this.stringToInt(this.prices[0].id));
-    //this.repeatFormGroup.controls[index].patchValue(this.prices[0], { onlySelf: true });
-    //this.repeatFormGroup.controls[index]['price'] = this.prices[0].id;
-    /*this.repeatFormGroup.controls[index].patchValue([{
-      price: this.prices[0].id, options: { onlySelf: true }
-    }])
-    this.repeatList[index].patchValue({
-      price: this.prices[0].id, options: { onlySelf: true }
-    });
-    */
-    // this.repeatList.controls[index].get('price').patchValue(this.stringToInt(this.prices[0].id))
+    this.orderInfo.get('unitprice').patchValue(prices.price)
+  }
 
+  addProduct() {
+    var price = 0;
+    var flavor = this.cakes.filter(x => x.id == this.orderInfo.get('cake').value)[0].flavors.filter(x => x.id == this.orderInfo.get('flavor').value)[0].name;
+    price = this.stringToInt(this.orderInfo.get('unitprice').value) * this.stringToInt(this.orderInfo.get('quantity').value);
 
-    this.repeatList.controls[index].get('price').patchValue(prices.price, { emitEvent: true })
+    var quantity = this.stringToInt(this.orderInfo.get('quantity').value);
+    var quantitypersons = this.quantitypersons.filter(x => x.id == this.orderInfo.get('quantitypersons').value)[0].persons;
+    var cake = this.cakes.filter(x => x.id == this.orderInfo.get('cake').value)[0].name;
+    var unitprice = this.orderInfo.get('unitprice').value;
+    if (this.orderProducts.find(x => x.flavor == flavor) && this.orderProducts.find(x => x.quantitypersons == quantitypersons)) {
+      this.orderProduct.quantity = quantity + this.orderProducts.filter(x => x.flavor == flavor && x.quantitypersons == quantitypersons)[0].quantity;
+      this.orderProduct.quantitypersons = quantitypersons;
+      this.orderProduct.cake = cake;
+      this.orderProduct.flavor = flavor;
+      this.orderProduct.totalprice = this.orderProducts.filter(x => x.flavor == flavor && x.quantitypersons == quantitypersons)[0].totalprice + price;
+      this.orderProduct.unitprice = unitprice;
 
-    this.repeatList.controls[index].get('price').valueChanges.subscribe(valor => {
-      var a = valor * this.repeatList.controls[index].get('quantity').value;
-      console.log("a", a);
-      this.total = a;
+      console.log("this.orderProduct", this.orderProduct);
+      let index = this.orderProducts.indexOf(this.orderProducts.filter(x => x.flavor == flavor && x.quantitypersons == quantitypersons)[0]);
 
-    })
+      this.orderProducts[index] = this.orderProduct;
 
+    } else {
+      this.orderProduct.quantity = quantity;
+      this.orderProduct.quantitypersons = quantitypersons;
+      this.orderProduct.cake = cake;
+      this.orderProduct.flavor = flavor;
+      this.orderProduct.unitprice = unitprice;
+      this.orderProduct.totalprice = price;
+      this.orderProducts.push(this.orderProduct);
+    }
+    this.total += price;
 
+    this.reset();
+    console.log("this.orderProduct", this.orderProducts);
+
+  }
+
+  reset() {
+    this.orderProduct = {};
+    this.setDefaultValues();
   }
 
   onChange(event: any) {
     console.log("event", event);
     this.pedido = event;
     if (event) {
+      this.total += 1500;
       this.setValidators('address');
       this.setValidators('numberaddres');
       this.setValidators('reference');
     } else {
+      this.total -= 1500;
       this.f['address'].patchValue('');
       this.f['numberaddres'].patchValue('');
       this.f['numberaddres'].patchValue('');

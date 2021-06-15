@@ -1,3 +1,5 @@
+import { OrderProduct } from "./order-product";
+
 export interface Order {
     id?: string;
     firstname?: string;
@@ -8,4 +10,5 @@ export interface Order {
     reference?: string;
     comment?: string;
     totalprice?: number;
+    products?: Array<OrderProduct>;
 }

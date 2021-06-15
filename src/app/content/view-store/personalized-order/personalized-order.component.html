@@ -19,142 +19,131 @@
           <h4 class="form-section">
             <i class="la la-paperclip"></i> Información del pedido
           </h4>
-          <div formArrayName="repeatArray">
-            <div
-              *ngFor="let repeatForm of repeatFormGroup.controls; let i = index"
-            >
-              <div class="row" [formGroupName]="i">
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label for="quantity">Cantidad *</label>
-                    <input
-                      type="text"
-                      id="quantity"
-                      class="form-control"
-                      formControlName="quantity"
-                      placeholder="Cantidad"
-                    />
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label for="cake">Producto *</label>
-                    <select
-                      name="cake"
-                      formControlName="cake"
-                      class="form-control border-primary"
-                      (change)="onSelect($event.target.value, i)"
-                    >
-                      <option
-                        *ngFor="let cake of cakes"
-                        [value]="cake.id"
-                        value="cake.id"
-                      >
-                        {{ cake.name }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label for="flavor">Sabor *</label>
-                    <select
-                      name="flavor"
-                      formControlName="flavor"
-                      class="form-control border-primary"
-                    >
-                      <option
-                        *ngFor="let flavor of flavors"
-                        [value]="flavor.id"
-                      >
-                        {{ flavor.name }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label for="quantitypersons">Personas *</label>
-                    <select
-                      formControlName="quantitypersons"
-                      name="quantitypersons"
-                      class="form-control border-primary"
-                      (change)="onSelect2($event.target.value, i)"
-                    >
-                      <option
-                        *ngFor="let quantity of quantitypersons"
-                        [value]="quantity.id"
-                      >
-                        {{ quantity.persons }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label for="price">Precio *</label>
-                    <input
-                      id="price"
-                      class="form-control"
-                      formControlName="price"
-                      [value]="
-                        repeatFormGroup.controls[i].get('price').value
-                          | number
-                          | transform
-                      "
-                      placeholder="Precio"
-                      readonly
-                    />
-                    <!--select
-                      [attr.disabled]="true"
-                      name="price"
-                      formControlName="price"
-                      class="form-control border-primary"
-                    >
-                      <option *ngFor="let price of prices" [value]="price.id">
-                        {{ price.price }}
-                      </option>
-                    </select-->
-                  </div>
-                </div>
-                <div class="col-md-1">
-                  <div class="form-group">
-                    <button
-                      id="delete"
-                      type="button"
-                      class="btn btn-danger mt-2"
-                      (click)="removeRepeat(i)"
-                    >
-                      <i class="feather ft-x"></i>
-                    </button>
-                  </div>
-                </div>
+          <div class="row">
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="quantity">Cantidad *</label>
+                <input
+                  type="text"
+                  id="quantity"
+                  class="form-control"
+                  formControlName="quantity"
+                  placeholder="Cantidad"
+                />
               </div>
             </div>
-            <div class="row d-flex justify-content-end">
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label><b>Total: </b>{{ total | number | transform }}</label>
-                </div>
-              </div>
-            </div>
-            <hr />
-            <div class="row d-flex justify-content-start">
-              <div class="col-md-3">
-                <div class="form-group">
-                  <button
-                    id="add"
-                    data-repeater-create
-                    class="btn btn-primary"
-                    (click)="addRepeat()"
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="cake">Producto *</label>
+                <select
+                  name="cake"
+                  formControlName="cake"
+                  class="form-control border-primary"
+                  (change)="onSelect($event.target.value)"
+                >
+                  <option
+                    *ngFor="let cake of cakes"
+                    [value]="cake.id"
+                    value="cake.id"
                   >
-                    <i class="feather ft-plus"></i>Agregar producto
-                  </button>
-                </div>
+                    {{ cake.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="flavor">Sabor *</label>
+                <select
+                  name="flavor"
+                  formControlName="flavor"
+                  class="form-control border-primary"
+                >
+                  <option *ngFor="let flavor of flavors" [value]="flavor.id">
+                    {{ flavor.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="quantitypersons">Personas *</label>
+                <select
+                  formControlName="quantitypersons"
+                  name="quantitypersons"
+                  class="form-control border-primary"
+                  (change)="onSelect2($event.target.value)"
+                >
+                  <option
+                    *ngFor="let quantity of quantitypersons"
+                    [value]="quantity.id"
+                  >
+                    {{ quantity.persons }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="unitprice">$ unidad *</label>
+                <input
+                  id="unitprice"
+                  class="form-control"
+                  formControlName="unitprice"
+                  [value]="f.unitprice.value | number | transform"
+                  placeholder="Precio unitario"
+                  readonly
+                />
+              </div>
+            </div>
+            <div class="col-md-1">
+              <div class="form-group">
+                <button
+                  id="delete"
+                  type="button"
+                  class="btn btn-primary mt-2"
+                  (click)="addProduct()"
+                >
+                  <i class="la la-cart-plus"></i>
+                </button>
               </div>
             </div>
           </div>
-
+          <div class="row d-flex justify-content-center">
+            <div class="col-md-12">
+              <div class="table-responsive table-sm">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th *ngFor="let head of headElements" scope="col">
+                        {{ head }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      mdbTableCol
+                      *ngFor="let el of orderProducts; index as i"
+                    >
+                      <td scope="row">{{ el.quantity }}</td>
+                      <td>{{ el.cake }} {{ el.flavor }}</td>
+                      <td>{{ el.quantitypersons }} personas</td>
+                      <td>{{ el.unitprice | number | transform }}</td>
+                      <td>{{ el.totalprice | number | transform }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-end">
+            <hr />
+            <div class="col-md-3">
+              <div class="form-group">
+                <label><b>Total: </b>{{ total | number | transform }}</label>
+              </div>
+            </div>
+          </div>
           <h4 class="form-section">
             <i class="feather ft-user"></i> Información usuario
           </h4>
