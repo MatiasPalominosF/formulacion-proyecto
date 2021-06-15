@@ -11,12 +11,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaySaleComponent } from './pay-sale/pay-sale.component';
 import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
 import { FilterPipeModule } from 'src/app/_pipe/filter-pipe.module';
-import { LabelControl } from 'src/app/_directives/label-control.directive';
+import { DirectiveModule } from 'src/app/_directives/directive.module';
 
 
 
 @NgModule({
-  declarations: [SaleListComponent, PaySaleComponent, LabelControl],
+  declarations: [SaleListComponent, PaySaleComponent],
   imports: [
     CommonModule,
     BreadcrumbModule,
@@ -25,6 +25,7 @@ import { LabelControl } from 'src/app/_directives/label-control.directive';
     FilterPipeModule,
     NgbPaginationModule,
     ReactiveFormsModule,
+    DirectiveModule,
     FormsModule,
     NgbModalModule,
     BlockUIModule.forRoot({

@@ -16,6 +16,8 @@ export class PersonalizedOrderComponent implements OnInit {
   public submitted = false;
   public submitted2 = false;
   public pedido: boolean = false;
+  private antiguo = 0;
+  private precioantiguo = 0;
 
   public cakes = [
     {
@@ -39,17 +41,6 @@ export class PersonalizedOrderComponent implements OnInit {
     },
   ];
 
-  /*public quantitypersons = [
-    { id: 1, persons: '10 personas', prices: [{ id: 1, price: '12000' }] },
-    { id: 2, persons: '15 personas', prices: [{ id: 2, price: '14000' }] },
-    { id: 3, persons: '20 personas', prices: [{ id: 3, price: '18000' }] },
-    { id: 4, persons: '25 personas', prices: [{ id: 4, price: '20000' }] },
-    { id: 5, persons: '30 personas', prices: [{ id: 5, price: '24000' }] },
-    { id: 6, persons: '40 personas', prices: [{ id: 6, price: '26000' }] },
-    { id: 7, persons: '60 personas', prices: [{ id: 7, price: '30000' }] },
-    { id: 8, persons: '80 personas', prices: [{ id: 8, price: '45000' }] },
-  ];*/
-
   public quantitypersons = [
     { id: 1, persons: '10', price: 12000 },
     { id: 2, persons: '15', price: 14000 },
@@ -61,6 +52,7 @@ export class PersonalizedOrderComponent implements OnInit {
     { id: 8, persons: '80', price: 45000 },
   ];
 
+  public total = 0;
   public flavors = {};
   public prices = {};
   private cake = { id: 1, name: 'Torta', flavors: [] };
@@ -87,24 +79,27 @@ export class PersonalizedOrderComponent implements OnInit {
       repeatArray: this.formBuilder.array([this.createRepeat(this.quantityperson, this.cake)])
     });
     this.repeatList = this.orderInfo.get('repeatArray') as FormArray;
+
   }
 
   removeRepeat(index) {
+    this.total -= this.repeatList.controls[index].get('price').value;
     this.repeatList.removeAt(index);
   }
   addRepeat() {
     this.repeatList.push(this.createRepeat(this.quantityperson, this.cake));
   }
 
+
   createRepeat(quantityperson: any, cake: any): FormGroup {
     var flavors = this.cakes.filter(x => x.id == cake.id)[0].flavors;
     this.flavors = flavors;
 
     var prices = this.quantitypersons.filter(x => x.id == quantityperson.id)[0];
-    console.log("añsljdñlasjdas", prices);
     this.prices = prices;
+    this.total += prices.price;
     return this.formBuilder.group({
-      quantity: [''],
+      quantity: [1],
       cake: [cake.id, Validators.required],
       flavor: [flavors[0].id, Validators.required],
       quantitypersons: [quantityperson.id, Validators.required],
@@ -155,7 +150,6 @@ export class PersonalizedOrderComponent implements OnInit {
     });*/
   }
   onSelect2(value: any, index: any): any {
-
     var prices = this.quantitypersons.filter(x => x.id == value)[0];
     //this.repeatList.controls[index].get('flavor').patchValue(this.stringToInt(this.prices[0].id));
     //this.repeatFormGroup.controls[index].patchValue(this.prices[0], { onlySelf: true });
@@ -169,11 +163,16 @@ export class PersonalizedOrderComponent implements OnInit {
     */
     // this.repeatList.controls[index].get('price').patchValue(this.stringToInt(this.prices[0].id))
 
-    console.log("this.repeatList.controls[index]", this.repeatList.controls[index].get('price').value);
-    console.log("this.repeatFormGroup.controls[index].get('price').value", this.repeatFormGroup.controls[index].get('price').value);
-    this.repeatList.controls[index].get('price').patchValue(prices.price)
 
-    console.log(this.repeatFormGroup.controls);
+    this.repeatList.controls[index].get('price').patchValue(prices.price, { emitEvent: true })
+
+    this.repeatList.controls[index].get('price').valueChanges.subscribe(valor => {
+      var a = valor * this.repeatList.controls[index].get('quantity').value;
+      console.log("a", a);
+      this.total = a;
+
+    })
+
 
   }
 

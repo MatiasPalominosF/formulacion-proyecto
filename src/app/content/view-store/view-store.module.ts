@@ -11,6 +11,7 @@ import { BlockTemplateComponent } from 'src/app/_layout/blockui/block-template.c
 import { PayCartModalComponent } from './pay-cart-modal/pay-cart-modal.component';
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { PersonalizedOrderComponent } from './personalized-order/personalized-order.component';
+import { DirectiveModule } from 'src/app/_directives/directive.module';
 
 
 
@@ -22,6 +23,7 @@ import { PersonalizedOrderComponent } from './personalized-order/personalized-or
     NgbModule,
     FormsModule,
     UiSwitchModule,
+    DirectiveModule,
     ReactiveFormsModule,
     FilterPipeModule,
     BlockUIModule.forRoot({
