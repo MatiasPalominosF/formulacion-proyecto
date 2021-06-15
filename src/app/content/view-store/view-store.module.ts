@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import { MyStoreViewComponent } from './my-store-view/my-store-view.component';
 import { RouterModule } from '@angular/router';
 import { CardModule } from '../partials/general/card/card.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilterPipeModule } from 'src/app/_pipe/filter-pipe.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BlockUIModule } from 'ng-block-ui';
 import { BlockTemplateComponent } from 'src/app/_layout/blockui/block-template.component';
 import { PayCartModalComponent } from './pay-cart-modal/pay-cart-modal.component';
 import { UiSwitchModule } from 'ngx-ui-switch';
-import { PersonalizedOrderComponent } from './personalized-order/personalized-order.component';
+import { NgbDateCustomParserFormatter, PersonalizedOrderComponent } from './personalized-order/personalized-order.component';
 import { DirectiveModule } from 'src/app/_directives/directive.module';
 
 
@@ -35,6 +35,6 @@ import { DirectiveModule } from 'src/app/_directives/directive.module';
         component: MyStoreViewComponent
       },
     ]),
-  ]
+  ],
 })
 export class ViewStoreModule { }

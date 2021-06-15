@@ -143,7 +143,6 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
     modalRef.result.then((result) => {
       console.log("result:", result);
       if (result) {
-
         this.notifyService.showSuccess("Pedido", "¡El pedido se ha realizado correctamente!");
 
       }
@@ -208,7 +207,7 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
           localStorage.removeItem('dataProductCart');
           localStorage.removeItem('totalProductCart');
           localStorage.removeItem('totalPriceProducts');
-          this.notifyService.showSuccess("Pedido", "¡El pedido se ha realizado el pago correctamente!");
+          this.notifyService.showSuccess("Pedido", "¡El pedido se ha realizado correctamente!");
 
         }
       }, (reason) => {

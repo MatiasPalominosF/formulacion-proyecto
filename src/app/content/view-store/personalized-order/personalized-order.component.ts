@@ -1,10 +1,47 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbDate, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Order } from 'src/app/_models/order';
 import { OrderProduct } from 'src/app/_models/order-product';
 import { NotificationService } from 'src/app/_services/notificacion.service';
+import { DateValidator } from 'src/app/_shared/date.validator';
+
+
+function padNumber(value: number | null) {
+  if (!isNaN(value) && value !== null) {
+    return `0${value}`.slice(-2);
+  }
+  return '';
+}
+
+@Injectable()
+export class NgbDateCustomParserFormatter extends NgbDateParserFormatter {
+  parse(value: string): NgbDateStruct | null {
+    if (value) {
+      const dateParts = value.trim().split('/');
+
+      let dateObj: NgbDateStruct = { day: <any>null, month: <any>null, year: <any>null }
+      const dateLabels = Object.keys(dateObj);
+
+      dateParts.forEach((datePart, idx) => {
+        dateObj[dateLabels[idx]] = parseInt(datePart, 10) || <any>null;
+      });
+      return dateObj;
+    }
+    return null;
+  }
+
+  static formatDate(date: NgbDateStruct | NgbDate | null): string {
+    return date ?
+      `${padNumber(date.day)}/${padNumber(date.month)}/${date.year || ''}` :
+      '';
+  }
+
+  format(date: NgbDateStruct | null): string {
+    return NgbDateCustomParserFormatter.formatDate(date);
+  }
+}
 
 @Component({
   selector: 'app-personalized-order',
@@ -13,10 +50,12 @@ import { NotificationService } from 'src/app/_services/notificacion.service';
 })
 export class PersonalizedOrderComponent implements OnInit {
   @Input() public phoneCakeShop: string;
+  @Output() passEntry: EventEmitter<any> = new EventEmitter();
   public orderInfo: FormGroup;
   private order: Order = {};
   public submitted = false;
   public submitted2 = false;
+  public model: NgbDateStruct;
   public submittedPreOrder = false;
   public pedido: boolean = false;
   public total: number = 0;
@@ -73,6 +112,7 @@ export class PersonalizedOrderComponent implements OnInit {
       quantity: ['', [Validators.required, Validators.min(1)]],
       cake: ['', Validators.required],
       flavor: ['', Validators.required],
+      date: ['', Validators.required],
       quantitypersons: ['', Validators.required],
       unitprice: ['', Validators.required],
       firstname: ['', Validators.required],
@@ -85,6 +125,10 @@ export class PersonalizedOrderComponent implements OnInit {
     });
 
     this.setDefaultValues();
+  }
+
+  onDateSelection(date: NgbDate) {
+    let selectedDate = NgbDateCustomParserFormatter.formatDate(date);
   }
 
   setDefaultValues() {
@@ -108,6 +152,13 @@ export class PersonalizedOrderComponent implements OnInit {
 
     return res;
   }
+
+  intToString(value: number): string {
+    var res = value + "";
+
+    return res;
+  }
+
 
   get f() {
     return this.orderInfo.controls;
@@ -234,20 +285,24 @@ export class PersonalizedOrderComponent implements OnInit {
     this.submitted = true;
 
 
-    console.log("this.fValue", this.fValue);
+    console.log("this.isInvalid('date')", this.isInvalid('date'));
     if (this.orderProducts.length == 0) {
       this.notifyService.showError("Productos", "¡Es necesario añadir un producto para continuar!");
       return;
     }
-    else if (this.isInvalid('firstname') || this.isInvalid('lastname') || this.isInvalid('phone')) {
+    else if (this.isInvalid('firstname') || this.isInvalid('lastname') || this.isInvalid('phone') || this.isInvalid('date')) {
       return;
     }
 
+    var fechaentrega = this.intToString(this.fValue.date.day) + "/" + this.intToString(this.fValue.date.month) + "/" + this.intToString(this.fValue.date.year);
+    console.log("fechaentrega", fechaentrega);
 
     var url = "";
     var urlwtsp = "";
     var mensaje = "";
     var productos = "";
+    var total = "";
+    var fecha = "";
     var flag = false;
 
     if (this.isDesktop) {
@@ -280,7 +335,9 @@ export class PersonalizedOrderComponent implements OnInit {
         mensaje = "send?phone=56" + this.phoneCakeShop + "&text=*Nuevo pedido personalizado*%0A```Información del usuario```%0A-_Nombre:_ " + this.order.firstname + " " + this.order.lastname + "%0A-_Dirección:_ " + this.order.address + "," + this.order.numberaddres + "%0A-_Contacto:_ " + this.order.phone + "%0A-_Referencia:_ " + this.order.reference + "%0A";
       }
 
-      var total = "%0A*_---- Total: " + "$" + this.total + " ----_*" + "%0A*_ENVÍO A DOMICILIO_*";
+
+      fecha = "%0A*_Fecha despacho:_* " + fechaentrega;
+      total = "%0A*_---- Total: " + "$" + this.total + " ----_*" + "%0A*_ENVÍO A DOMICILIO_*";
     } else {
       this.order.firstname = this.fValue.firstname;
       this.order.lastname = this.fValue.lastname;
@@ -292,24 +349,28 @@ export class PersonalizedOrderComponent implements OnInit {
         mensaje = "send?phone=56" + this.phoneCakeShop + "&text=*Nuevo pedido personalizado*%0A```Información del usuario```%0A-_Nombre:_ " + this.order.firstname + " " + this.order.lastname + "%0A-_Contacto:_ " + this.order.phone + "%0A";
       }
 
-      var total = "%0A*_---- Total: " + "$" + this.total + " ----_*" + "%0A*_RETIRO EN TIENDA_*";
+      fecha = "%0A*_Fecha retiro:_* " + fechaentrega;
+      total = "%0A*_---- Total: " + "$" + this.total + " ----_*" + "%0A*_RETIRO EN TIENDA_*";
     }
 
     var i = 1;
     this.orderProducts.forEach(element => {
       if (i == 1) {
-        productos += "```Información del pedido```%0A-_Productos:_ " + element.quantity + "x " + element.cake + " " + element.flavor + " " + "para " + element.quantitypersons + " personas " + element.unitprice + "$" + " c/u ";
+        productos += "```Información del pedido```%0A-_Productos:_ " + element.quantity + "x " + element.cake + " " + element.flavor + " " + "para " + element.quantitypersons + " personas " + "$" + element.unitprice + " c/u ";
       }
       else if (i == this.orderProducts.length) {
-        productos += "- " + element.quantity + "x " + element.cake + " " + element.flavor + " " + "para " + element.quantitypersons + " personas " + element.unitprice + "$" + " c/u";
+        productos += "- " + element.quantity + "x " + element.cake + " " + element.flavor + " " + "para " + element.quantitypersons + " personas " + "$" + element.unitprice + " c/u";
 
       } else {
-        productos += "- " + element.quantity + "x " + element.cake + " " + element.flavor + " " + "para " + element.quantitypersons + " personas " + element.unitprice + "$" + " c/u ";
+        productos += "- " + element.quantity + "x " + element.cake + " " + element.flavor + " " + "para " + element.quantitypersons + " personas " + "$" + element.unitprice + " c/u ";
       }
       i += 1;
     });
 
-    url = urlwtsp + mensaje + productos + total;
+    url = urlwtsp + mensaje + productos + fecha + total;
+    this.passEntry.emit(true);
+    this.activeModal.close(true);
+    window.open(url, "_blank");
     console.log("url", url);
   }
 

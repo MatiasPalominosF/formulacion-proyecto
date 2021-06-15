@@ -10,7 +10,8 @@ import {
   NgbModule,
   NgbCarouselConfig,
   NgbModalConfig,
-  NgbModalModule
+  NgbModalModule,
+  NgbDateParserFormatter
 } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { AngularFireModule } from 'angularfire2';
@@ -79,6 +80,7 @@ import { ServiceWorkerModule } from '@angular/service-worker'
   ;
 import { ConfirmationDialogService } from './_services/confirmation-dialog.service';
 import { FilterPipeModule } from './_pipe/filter-pipe.module';
+import { NgbDateCustomParserFormatter } from './content/view-store/personalized-order/personalized-order.component';
 
 
 
@@ -156,6 +158,10 @@ import { FilterPipeModule } from './_pipe/filter-pipe.module';
     {
       provide: HAMMER_GESTURE_CONFIG,
       useClass: HammerGestureConfig
+    },
+    {
+      provide: NgbDateParserFormatter,
+      useClass: NgbDateCustomParserFormatter
     },
     NgbCarouselConfig,
     NgbModalConfig,
