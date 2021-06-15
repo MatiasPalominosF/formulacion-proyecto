@@ -29,7 +29,23 @@
                   class="form-control"
                   formControlName="quantity"
                   placeholder="Cantidad"
+                  (keypress)="keyPress($event)"
+                  [ngClass]="{
+                    'is-invalid': submittedPreOrder && f.quantity.errors
+                  }"
                 />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submittedPreOrder && f.quantity.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('quantity', 'required')">
+                    La cantidad es requerida
+                  </div>
+                  <div *ngIf="hasError('quantity', 'min')">
+                    La cantidad debe ser mayor a 0
+                  </div>
+                </small>
               </div>
             </div>
             <div class="col-md-2">
@@ -140,7 +156,7 @@
             <hr />
             <div class="col-md-3">
               <div class="form-group">
-                <label><b>Total: </b>{{ total | number | transform }}</label>
+                <label><b>Total: </b>${{ total | number | transform }}</label>
               </div>
             </div>
           </div>

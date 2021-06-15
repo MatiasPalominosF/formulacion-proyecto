@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Order } from 'src/app/_models/order';
 import { OrderProduct } from 'src/app/_models/order-product';
+import { NotificationService } from 'src/app/_services/notificacion.service';
 
 @Component({
   selector: 'app-personalized-order',
@@ -11,10 +12,12 @@ import { OrderProduct } from 'src/app/_models/order-product';
   styleUrls: ['./personalized-order.component.css']
 })
 export class PersonalizedOrderComponent implements OnInit {
+  @Input() public phoneCakeShop: string;
   public orderInfo: FormGroup;
   private order: Order = {};
   public submitted = false;
   public submitted2 = false;
+  public submittedPreOrder = false;
   public pedido: boolean = false;
   public total: number = 0;
   private orderProduct: OrderProduct = {};
@@ -62,11 +65,12 @@ export class PersonalizedOrderComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private deviceService: DeviceDetectorService,
+    private notifyService: NotificationService,
   ) { }
 
   ngOnInit(): void {
     this.orderInfo = this.formBuilder.group({
-      quantity: ['', Validators.required],
+      quantity: ['', [Validators.required, Validators.min(1)]],
       cake: ['', Validators.required],
       flavor: ['', Validators.required],
       quantitypersons: ['', Validators.required],
@@ -136,6 +140,10 @@ export class PersonalizedOrderComponent implements OnInit {
   }
 
   addProduct() {
+    this.submittedPreOrder = true;
+    if (this.isInvalid('quantity')) {
+      return;
+    }
     var price = 0;
     var flavor = this.cakes.filter(x => x.id == this.orderInfo.get('cake').value)[0].flavors.filter(x => x.id == this.orderInfo.get('flavor').value)[0].name;
     price = this.stringToInt(this.orderInfo.get('unitprice').value) * this.stringToInt(this.orderInfo.get('quantity').value);
@@ -225,10 +233,16 @@ export class PersonalizedOrderComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
 
+
     console.log("this.fValue", this.fValue);
-    if (this.isInvalid('firstname') || this.isInvalid('lastname') || this.isInvalid('phone')) {
+    if (this.orderProducts.length == 0) {
+      this.notifyService.showError("Productos", "¡Es necesario añadir un producto para continuar!");
       return;
     }
+    else if (this.isInvalid('firstname') || this.isInvalid('lastname') || this.isInvalid('phone')) {
+      return;
+    }
+
 
     var url = "";
     var urlwtsp = "";
@@ -260,13 +274,43 @@ export class PersonalizedOrderComponent implements OnInit {
       this.order.numberaddres = this.fValue.numberaddres;
       this.order.reference = this.fValue.reference;
 
+      if (flag) {
+        mensaje = "send?phone=56" + this.phoneCakeShop + "&text=*Nuevo pedido personalizado*%0A```Información del usuario```%0A-_Nombre:_ " + this.order.firstname + " " + this.order.lastname + "%0A-_Dirección:_ " + this.order.address + "," + this.order.numberaddres + "%0A-_Contacto:_ " + this.order.phone + "%0A-_Referencia:_ " + this.order.reference + "%0A-_Comentario:_ " + this.order.comment + "%0A";
+      } else {
+        mensaje = "send?phone=56" + this.phoneCakeShop + "&text=*Nuevo pedido personalizado*%0A```Información del usuario```%0A-_Nombre:_ " + this.order.firstname + " " + this.order.lastname + "%0A-_Dirección:_ " + this.order.address + "," + this.order.numberaddres + "%0A-_Contacto:_ " + this.order.phone + "%0A-_Referencia:_ " + this.order.reference + "%0A";
+      }
+
+      var total = "%0A*_---- Total: " + "$" + this.total + " ----_*" + "%0A*_ENVÍO A DOMICILIO_*";
     } else {
       this.order.firstname = this.fValue.firstname;
       this.order.lastname = this.fValue.lastname;
       this.order.phone = this.fValue.phone;
 
+      if (flag) {
+        mensaje = "send?phone=56" + this.phoneCakeShop + "&text=*Nuevo pedido personalizado*%0A```Información del usuario```%0A-_Nombre:_ " + this.order.firstname + " " + this.order.lastname + "%0A-_Contacto:_ " + this.order.phone + "%0A-_Comentario:_ " + this.order.comment + "%0A";
+      } else {
+        mensaje = "send?phone=56" + this.phoneCakeShop + "&text=*Nuevo pedido personalizado*%0A```Información del usuario```%0A-_Nombre:_ " + this.order.firstname + " " + this.order.lastname + "%0A-_Contacto:_ " + this.order.phone + "%0A";
+      }
+
+      var total = "%0A*_---- Total: " + "$" + this.total + " ----_*" + "%0A*_RETIRO EN TIENDA_*";
     }
 
+    var i = 1;
+    this.orderProducts.forEach(element => {
+      if (i == 1) {
+        productos += "```Información del pedido```%0A-_Productos:_ " + element.quantity + "x " + element.cake + " " + element.flavor + " " + "para " + element.quantitypersons + " personas " + element.unitprice + "$" + " c/u ";
+      }
+      else if (i == this.orderProducts.length) {
+        productos += "- " + element.quantity + "x " + element.cake + " " + element.flavor + " " + "para " + element.quantitypersons + " personas " + element.unitprice + "$" + " c/u";
+
+      } else {
+        productos += "- " + element.quantity + "x " + element.cake + " " + element.flavor + " " + "para " + element.quantitypersons + " personas " + element.unitprice + "$" + " c/u ";
+      }
+      i += 1;
+    });
+
+    url = urlwtsp + mensaje + productos + total;
+    console.log("url", url);
   }
 
 }

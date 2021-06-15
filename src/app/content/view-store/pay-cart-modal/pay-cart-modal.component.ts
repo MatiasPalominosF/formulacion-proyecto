@@ -157,7 +157,7 @@ export class PayCartModalComponent implements OnInit {
 
       var total = "%0A*_---- Total: " + "$" + this.totalPriceProducts + " ----_*" + "%0A*_ENVÍO A DOMICILIO_*";
 
-      url = urlwtsp + mensaje + productos + total;
+      //url = urlwtsp + mensaje + productos + total;
     } else {
       this.order.firstname = this.fValue.firstname;
       this.order.lastname = this.fValue.lastname;

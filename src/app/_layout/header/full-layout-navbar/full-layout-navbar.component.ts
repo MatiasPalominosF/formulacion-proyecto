@@ -138,12 +138,13 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
   newOrder(): void {
     console.log("new order");
     const modalRef = this.modalService.open(PersonalizedOrderComponent, { windowClass: 'animated bounce', backdrop: 'static', size: 'lg' });
-
+    var phoneCakeShopFlag = this.intToString(this.phoneCakeShop);
+    modalRef.componentInstance.phoneCakeShop = phoneCakeShopFlag;
     modalRef.result.then((result) => {
       console.log("result:", result);
       if (result) {
 
-        this.notifyService.showSuccess("Pedido", "¡El pedido se ha realizado el pago correctamente!");
+        this.notifyService.showSuccess("Pedido", "¡El pedido se ha realizado correctamente!");
 
       }
     }, (reason) => {
