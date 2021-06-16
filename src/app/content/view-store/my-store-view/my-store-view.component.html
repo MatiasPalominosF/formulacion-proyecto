@@ -4,28 +4,29 @@
     <div class="content-body" *blockUI="'allInfo'; message: 'Loading'">
       <div class="row">
         <div class="col-md-12 col-sm-12">
-          <div class="card text-white bg-primary text-center">
+          <div
+            class="card text-white text-center"
+            style="background-color: #b6869c"
+          >
             <div class="card-content">
               <div class="card-body pt-3">
                 <img
-                  src="../../../assets/images/elements/01.png"
+                  src="../../../assets/images/elements/17.png"
                   alt="element 01"
                   width="190"
                   class="float-left"
                 />
-                <h3 class="card-title mt-3 text-white">{{ nameCake }}</h3>
+                <h1 class="mt-1 mb-2 text-white">{{ nameCake }}</h1>
                 <p class="card-text">{{ phone }}</p>
                 <p class="card-text">{{ addressCake }}</p>
                 <a
                   [routerLink]=""
-                  style="background-color: white"
                   class="btn btn-social-icon mr-1 mb-1 btn-outline-facebook"
                   ><span class="la la-facebook"></span
                 ></a>
                 <a
                   [routerLink]=""
-                  style="background-color: white"
-                  class="btn btn-social-icon mr-1 mb-1 btn-outline-instagram"
+                  class="btn btn-social-icon mr-1 mb-1 btn-outline-facebook"
                   ><span class="la la-instagram font-medium-4"></span
                 ></a>
               </div>
@@ -64,6 +65,7 @@
                       type="text"
                       class="form-control"
                       placeholder="Cantidad"
+                      (keypress)="keyPress($event)"
                       aria-describedby="button-addon2"
                     />
                     <div class="input-group-append">

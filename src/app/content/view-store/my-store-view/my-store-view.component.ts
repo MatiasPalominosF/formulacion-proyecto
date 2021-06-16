@@ -56,13 +56,14 @@ export class MyStoreViewComponent implements OnInit {
     console.log("this.router.snapshot.paramMap", this.router.snapshot.paramMap);
     this.getFullInfoProduct();
     this.getInfoUser();
+
     setInterval(() => this.getDataCart(), 300);
   }
 
   getDataCart() {
     if (localStorage.getItem('dataProductCart')) {
       this.productCartList = JSON.parse(localStorage.getItem('dataProductCart'));
-    } else {
+    } else if (localStorage.getItem('dataProductCart') == null) {
       this.productCartList = [];
     }
 
@@ -74,7 +75,7 @@ export class MyStoreViewComponent implements OnInit {
   getTotalProduct() {
     if (localStorage.getItem('totalProductCart')) {
       this.totalProduct = JSON.parse(localStorage.getItem('totalProductCart'));
-    } else {
+    } else if (localStorage.getItem('dataProductCart') == null) {
       this.totalProduct = 0;
     }
   }
@@ -82,7 +83,7 @@ export class MyStoreViewComponent implements OnInit {
   getTotalPriceProducts() {
     if (localStorage.getItem('totalPriceProducts')) {
       this.totalPriceProducts = JSON.parse(localStorage.getItem('totalPriceProducts'));
-    } else {
+    } else if (localStorage.getItem('dataProductCart') == null) {
       this.totalPriceProducts = 0;
     }
   }
@@ -131,6 +132,14 @@ export class MyStoreViewComponent implements OnInit {
     localStorage.setItem('dataProductCart', JSON.stringify(this.productCartList));
     localStorage.setItem('totalProductCart', JSON.stringify(this.totalProduct));
 
+  }
+
+  keyPress(event: any) {
+    const pattern = /[0-9\+\-\ ]/;
+    const inputChar = String.fromCharCode(event.charCode);
+    if (event.keyCode !== 8 && !pattern.test(inputChar)) {
+      event.preventDefault();
+    }
   }
 
   sumTotalPrice(productCartList: Array<ProductCart>, productCart: ProductCart, quantity: number, product: ProductInterface, igual: boolean) {

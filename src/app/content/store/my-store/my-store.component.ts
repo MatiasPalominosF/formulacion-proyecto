@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NotificationService } from 'src/app/_services/notificacion.service';
 
 @Component({
   selector: 'app-my-store',
@@ -11,8 +12,10 @@ export class MyStoreComponent implements OnInit {
   public breadcrumb: any;
   public currentUser: any;
   public uid: any;
+  private url: string;
   constructor(
-    private router: Router
+    private router: Router,
+    private notifyService: NotificationService,
   ) { }
 
   ngOnInit(): void {
@@ -33,17 +36,41 @@ export class MyStoreComponent implements OnInit {
     };
     this.getUserLogged();
     this.setUid();
+    this.getCurrentRoute();
+  }
+
+
+  getCurrentRoute(): void {
+    const parsedUrl = new URL(window.location.href);
+    const baseUrl = parsedUrl.origin;
+    this.url = baseUrl + "/mi-tienda/" + this.uid;
+    console.log("this.url", this.url);
   }
 
   getUserLogged(): void {
     if (localStorage.getItem('currentUser')) {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      console.log("curren:", this.currentUser);
     }
   }
 
   setUid(): void {
     this.uid = this.currentUser.uid;
+  }
+
+  copyRoute(): void {
+    this.getCurrentRoute();
+    let selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = this.url;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+    this.notifyService.showInfo("Copiar", "¡El link de su tienda ha sido copiado correctamente!");
   }
 
   showMyStore(): void {

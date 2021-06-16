@@ -12,6 +12,7 @@ import { NotificationService } from 'src/app/_services/notificacion.service';
 import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
 import { PayCartModalComponent } from 'src/app/content/view-store/pay-cart-modal/pay-cart-modal.component';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PersonalizedOrderComponent } from 'src/app/content/view-store/personalized-order/personalized-order.component';
 
 @Component({
   selector: 'app-full-layout-navbar',
@@ -66,6 +67,7 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
     this.notification = this._themeSettingsConfig.headerIcons.notification;
 
     setInterval(() => this.getDataCart(), 300);
+
 
   }
 
@@ -133,6 +135,23 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
     this.refreshView();
   }
 
+  newOrder(): void {
+    console.log("new order");
+    const modalRef = this.modalService.open(PersonalizedOrderComponent, { windowClass: 'animated bounce', backdrop: 'static', size: 'lg' });
+    var phoneCakeShopFlag = this.intToString(this.phoneCakeShop);
+    modalRef.componentInstance.phoneCakeShop = phoneCakeShopFlag;
+    modalRef.result.then((result) => {
+      console.log("result:", result);
+      if (result) {
+        this.notifyService.showSuccess("Pedido", "¡El pedido se ha realizado correctamente!");
+
+      }
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      console.log(this.closeResult);
+    });
+  }
+
   delete(element: ProductCart) {
 
     console.log("borrar del carrito", element);
@@ -144,9 +163,18 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
           this.productCartList.find((el, index) => {
             console.log("el", el);
             if (el != undefined) {
-              if (el.id === element.id) {
-                console.log("index", index);
-                console.log("el", element);
+              if (this.productCartList.length == 1) {
+                if (el.id === element.id) {
+                  this.productCartList.splice(index, 1);
+                  this.totalProduct -= this.stringToInt(element.quantity);
+                  this.totalPriceProducts -= this.stringToInt(element.totalPrice);
+                  localStorage.removeItem('dataProductCart');
+                  localStorage.removeItem('totalProductCart');
+                  localStorage.removeItem('totalPriceProducts');
+                  this.notifyService.showSuccess("Eliminar", "¡El producto se eliminó correctamente!");
+                }
+              }
+              else if (el.id === element.id) {
                 this.productCartList.splice(index, 1);
                 this.totalProduct -= this.stringToInt(element.quantity);
                 this.totalPriceProducts -= this.stringToInt(element.totalPrice);
@@ -166,24 +194,30 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
   goPayCart() {
     console.log("Carrito de compras");
 
-    const modalRef = this.modalService.open(PayCartModalComponent, { windowClass: 'animated bounce', backdrop: 'static', size: 'lg' });
-    modalRef.componentInstance.dataProductCart = this.productCartList;
-    modalRef.componentInstance.totalPriceProducts = this.totalPriceProducts;
-    var phoneCakeShopFlag = this.intToString(this.phoneCakeShop);
-    modalRef.componentInstance.phoneCakeShop = phoneCakeShopFlag;
-    modalRef.result.then((result) => {
-      console.log("result:", result);
-      if (result) {
-        localStorage.removeItem('dataProductCart');
-        localStorage.removeItem('totalProductCart');
-        localStorage.removeItem('totalPriceProducts');
-        this.notifyService.showSuccess("Pagar", "¡Se ha realizado el pago correctamente!");
+    console.log("localStorage.getItem('dataProductCart')", localStorage.getItem('dataProductCart') == '[]')
+    if (localStorage.getItem('dataProductCart')) {
+      const modalRef = this.modalService.open(PayCartModalComponent, { windowClass: 'animated bounce', backdrop: 'static', size: 'lg' });
+      modalRef.componentInstance.dataProductCart = this.productCartList;
+      modalRef.componentInstance.totalPriceProducts = this.totalPriceProducts;
+      var phoneCakeShopFlag = this.intToString(this.phoneCakeShop);
+      modalRef.componentInstance.phoneCakeShop = phoneCakeShopFlag;
+      modalRef.result.then((result) => {
+        console.log("result:", result);
+        if (result) {
+          localStorage.removeItem('dataProductCart');
+          localStorage.removeItem('totalProductCart');
+          localStorage.removeItem('totalPriceProducts');
+          this.notifyService.showSuccess("Pedido", "¡El pedido se ha realizado correctamente!");
 
-      }
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      console.log(this.closeResult);
-    });
+        }
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        console.log(this.closeResult);
+      });
+    } else {
+      this.notifyService.showWarning("Aviso", "¡Debe agregar algún producto!");
+    }
+
   }
 
 
@@ -219,7 +253,7 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
   getDataCart() {
     if (localStorage.getItem('dataProductCart')) {
       this.productCartList = JSON.parse(localStorage.getItem('dataProductCart'));
-    } else {
+    } else if (localStorage.getItem('dataProductCart') == null) {
       this.productCartList = [];
     }
 
@@ -232,7 +266,7 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
   getTotalProduct() {
     if (localStorage.getItem('totalProductCart')) {
       this.totalProduct = JSON.parse(localStorage.getItem('totalProductCart'));
-    } else {
+    } else if (localStorage.getItem('dataProductCart') == null) {
       this.totalProduct = 0;
     }
   }
@@ -240,7 +274,7 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
   getTotalPriceProducts() {
     if (localStorage.getItem('totalPriceProducts')) {
       this.totalPriceProducts = JSON.parse(localStorage.getItem('totalPriceProducts'));
-    } else {
+    } else if (localStorage.getItem('dataProductCart') == null) {
       this.totalPriceProducts = 0;
     }
   }
@@ -248,8 +282,6 @@ export class FullLayoutNavbarComponent implements OnInit, AfterViewInit {
   getPhoneCakeShop() {
     if (localStorage.getItem('phoneCakeShop')) {
       this.phoneCakeShop = JSON.parse(localStorage.getItem('phoneCakeShop'));
-    } else {
-      this.phoneCakeShop = 0;
     }
   }
 

@@ -63,6 +63,16 @@
         id="navbar-mobile"
       >
         <ul class="nav navbar-nav float-right">
+          <li (click)="newOrder()" class="nav-item">
+            <a class="navbar-brand">
+              <h5 *ngIf="isMobile" class="ficon mt-2" style="color: #2c343b">
+                Pedido personalizado
+              </h5>
+              <h5 *ngIf="!isMobile" class="brand-text mt-2">
+                Pedido personalizado
+              </h5>
+            </a>
+          </li>
           <li
             class="dropdown-notification nav-item dropdown"
             ngbDropdown

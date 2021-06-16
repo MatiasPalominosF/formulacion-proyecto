@@ -39,30 +39,10 @@
                       <td>{{ el.name }}</td>
                       <td>{{ el.unitPrice | number | transform }}</td>
                       <td>{{ el.totalPrice | number | transform }}</td>
-                      <!--td>
-                        <button
-                          (click)="onRemove(i)"
-                          class="
-                            btn btn-xs btn-social-icon
-                            mr-1
-                            mb-1
-                            btn-pinterest
-                          "
-                        >
-                          <span class="la la-trash"></span>
-                        </button>
-                      </td-->
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <!--input
-                type="text"
-                id="projectinput2"
-                class="form-control"
-                formControlName="firstname"
-                placeholder="Nombre"
-              /-->
             </div>
           </div>
           <div class="row">
@@ -193,12 +173,12 @@
                   formControlName="address"
                   placeholder="Dirección"
                   [ngClass]="{
-                    'is-invalid': submitted && f.address.errors && pedido
+                    'is-invalid': submitted2 && f.address.errors && pedido
                   }"
                 />
                 <small
                   class="form-text text-muted danger"
-                  *ngIf="submitted && f.address.errors && pedido"
+                  *ngIf="submitted2 && f.address.errors && pedido"
                   class="invalid-feedback"
                 >
                   <div *ngIf="hasError('address', 'required')">
@@ -218,12 +198,12 @@
                   placeholder="N° de casa"
                   (keypress)="keyPress($event)"
                   [ngClass]="{
-                    'is-invalid': submitted && f.numberaddres.errors && pedido
+                    'is-invalid': submitted2 && f.numberaddres.errors && pedido
                   }"
                 />
                 <small
                   class="form-text text-muted danger"
-                  *ngIf="submitted && f.numberaddres.errors && pedido"
+                  *ngIf="submitted2 && f.numberaddres.errors && pedido"
                   class="invalid-feedback"
                 >
                   <div *ngIf="hasError('numberaddres', 'required')">
@@ -244,12 +224,12 @@
                   formControlName="reference"
                   placeholder="Referencia"
                   [ngClass]="{
-                    'is-invalid': submitted && f.reference.errors && pedido
+                    'is-invalid': submitted2 && f.reference.errors && pedido
                   }"
                 />
                 <small
                   class="form-text text-muted danger"
-                  *ngIf="submitted && f.reference.errors && pedido"
+                  *ngIf="submitted2 && f.reference.errors && pedido"
                   class="invalid-feedback"
                 >
                   <div *ngIf="hasError('reference', 'required')">

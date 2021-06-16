@@ -1,0 +1,414 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="myModalLabel2">
+    <i class="la la-road2"></i>Ingreso pedido personalizado
+  </h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="orderInfo">
+  <div class="modal-body px-0">
+    <div style="overflow-y: hidden; height: calc(100vh - 15rem)">
+      <div class="px-2" style="overflow-y: auto; height: 100%">
+        <div class="form-body">
+          <h4 class="form-section">
+            <i class="la la-paperclip"></i> Información del pedido
+          </h4>
+          <div class="row">
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="quantity">Cantidad *</label>
+                <input
+                  type="text"
+                  id="quantity"
+                  class="form-control"
+                  formControlName="quantity"
+                  placeholder="Cantidad"
+                  (keypress)="keyPress($event)"
+                  [ngClass]="{
+                    'is-invalid': submittedPreOrder && f.quantity.errors
+                  }"
+                />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submittedPreOrder && f.quantity.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('quantity', 'required')">
+                    La cantidad es requerida
+                  </div>
+                  <div *ngIf="hasError('quantity', 'min')">
+                    La cantidad debe ser mayor a 0
+                  </div>
+                </small>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="cake">Producto *</label>
+                <select
+                  name="cake"
+                  formControlName="cake"
+                  class="form-control border-primary"
+                  (change)="onSelect($event.target.value)"
+                >
+                  <option
+                    *ngFor="let cake of cakes"
+                    [value]="cake.id"
+                    value="cake.id"
+                  >
+                    {{ cake.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="flavor">Sabor *</label>
+                <select
+                  name="flavor"
+                  formControlName="flavor"
+                  class="form-control border-primary"
+                >
+                  <option *ngFor="let flavor of flavors" [value]="flavor.id">
+                    {{ flavor.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="quantitypersons">Personas *</label>
+                <select
+                  formControlName="quantitypersons"
+                  name="quantitypersons"
+                  class="form-control border-primary"
+                  (change)="onSelect2($event.target.value)"
+                >
+                  <option
+                    *ngFor="let quantity of quantitypersons"
+                    [value]="quantity.id"
+                  >
+                    {{ quantity.persons }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="unitprice">$ unidad *</label>
+                <input
+                  id="unitprice"
+                  class="form-control"
+                  formControlName="unitprice"
+                  [value]="f.unitprice.value | number | transform"
+                  placeholder="Precio unitario"
+                  readonly
+                />
+              </div>
+            </div>
+            <div class="col-md-1">
+              <div class="form-group">
+                <button
+                  id="delete"
+                  type="button"
+                  class="btn btn-primary mt-2"
+                  (click)="addProduct()"
+                >
+                  <i class="la la-cart-plus"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <div class="col-md-12">
+              <div class="table-responsive table-sm">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th *ngFor="let head of headElements" scope="col">
+                        {{ head }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      mdbTableCol
+                      *ngFor="let el of orderProducts; index as i"
+                    >
+                      <td scope="row">{{ el.quantity }}</td>
+                      <td>{{ el.cake }} {{ el.flavor }}</td>
+                      <td>{{ el.quantitypersons }} personas</td>
+                      <td>{{ el.unitprice | number | transform }}</td>
+                      <td>{{ el.totalprice | number | transform }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-end">
+            <hr />
+            <div class="col-md-3">
+              <div class="form-group">
+                <label><b>Total: </b>${{ total | number | transform }}</label>
+              </div>
+            </div>
+          </div>
+          <h4 class="form-section">
+            <i class="feather ft-user"></i> Información usuario
+          </h4>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="firstname">Nombre *</label>
+                <input
+                  type="text"
+                  id="firstname"
+                  class="form-control"
+                  formControlName="firstname"
+                  placeholder="Nombre"
+                  [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }"
+                />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submitted && f.firstname.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('firstname', 'required')">
+                    El nombre es requerido
+                  </div>
+                </small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="lastname">Apellido *</label>
+                <input
+                  type="text"
+                  id="lastname"
+                  class="form-control"
+                  formControlName="lastname"
+                  placeholder="Apellido"
+                  [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }"
+                />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submitted && f.lastname.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('lastname', 'required')">
+                    El apellido es requerido
+                  </div>
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="phone">Celular *</label>
+                <input
+                  type="text"
+                  id="phone"
+                  class="form-control"
+                  formControlName="phone"
+                  placeholder="988888888"
+                  maxlength="9"
+                  (keypress)="keyPress($event)"
+                  [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
+                />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submitted && f.phone.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('phone', 'required')">
+                    El celular es requerido
+                  </div>
+                  <div *ngIf="hasError('phone', 'minlength')">
+                    El celular debe tener mínimo 9 dígitos
+                  </div>
+                </small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="issueinput3">Fecha entrega *</label>
+                <div class="input-group">
+                  <input
+                    class="form-control"
+                    placeholder="dd-mm-yyyy"
+                    name="dp"
+                    formControlName="date"
+                    ngbDatepicker
+                    #d1="ngbDatepicker"
+                    [ngClass]="{ 'is-invalid': submitted && f.date.errors }"
+                  />
+                  <div class="input-group-append">
+                    <div class="input-group-text" (click)="d1.toggle()">
+                      <i class="fa fa-calendar" style="cursor: pointer"></i>
+                    </div>
+                  </div>
+                  <small
+                    class="form-text text-muted danger"
+                    *ngIf="submitted && f.date.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="hasError('date', 'required')">
+                      La fecha es requerida
+                    </div>
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-md-4">
+              <div class="form-group ml-2">
+                <label for="pedido">¿Despacho a domicilio? *</label>
+                <div class="form-group ml-2">
+                  <label for="pedido" class="mr-1 font-small-4">No</label>
+                  <ui-switch
+                    id="pedido"
+                    class="switchery switch-small"
+                    switchColor="white"
+                    size="small"
+                    color="rgb(55, 188, 155)"
+                    [checked]="false"
+                    (change)="onChange($event)"
+                  >
+                  </ui-switch>
+                  <label for="pedido" class="ml-1 font-small-4">Sí</label>
+                </div>
+                <small
+                  *ngIf="pedido"
+                  class="
+                    d-flex
+                    justify-content-centerfont-small-2
+                    text-bold-600
+                  "
+                >
+                  <div>Se añade un total de $1.500 por envío.</div>
+                </small>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="pedido" class="row">
+            <div class="col-md-12">
+              <hr />
+            </div>
+            <div class="col-md-8">
+              <div class="form-group">
+                <label for="address">Dirección *</label>
+                <input
+                  type="text"
+                  id="address"
+                  class="form-control"
+                  formControlName="address"
+                  placeholder="Dirección"
+                  [ngClass]="{
+                    'is-invalid': submitted2 && f.address.errors && pedido
+                  }"
+                />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submitted2 && f.address.errors && pedido"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('address', 'required')">
+                    La dirección es requerida
+                  </div>
+                </small>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="numberaddres">N° de casa *</label>
+                <input
+                  type="text"
+                  id="numberaddres"
+                  class="form-control"
+                  formControlName="numberaddres"
+                  placeholder="N° de casa"
+                  (keypress)="keyPress($event)"
+                  [ngClass]="{
+                    'is-invalid': submitted2 && f.numberaddres.errors && pedido
+                  }"
+                />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submitted2 && f.numberaddres.errors && pedido"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('numberaddres', 'required')">
+                    La dirección es requerida
+                  </div>
+                </small>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="pedido" class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="reference">Referencia *</label>
+                <input
+                  type="text"
+                  id="reference"
+                  class="form-control"
+                  formControlName="reference"
+                  placeholder="Referencia"
+                  [ngClass]="{
+                    'is-invalid': submitted2 && f.reference.errors && pedido
+                  }"
+                />
+                <small
+                  class="form-text text-muted danger"
+                  *ngIf="submitted2 && f.reference.errors && pedido"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="hasError('reference', 'required')">
+                    La referencia es requerida
+                  </div>
+                </small>
+              </div>
+              <hr />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="comment">Comentario</label>
+                <textarea
+                  id="comment"
+                  rows="5"
+                  class="form-control"
+                  formControlName="comment"
+                  placeholder="Comentario"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn grey btn-outline-secondary"
+      (click)="activeModal.dismiss('click cancel')"
+      ngbAutofocus
+    >
+      Cancelar
+    </button>
+    <button (click)="onSubmit()" class="btn btn-outline-primary">
+      Enviar pedido por WhatsApp
+    </button>
+  </div>
+</form>
