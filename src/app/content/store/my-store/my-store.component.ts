@@ -44,6 +44,7 @@ export class MyStoreComponent implements OnInit {
     const parsedUrl = new URL(window.location.href);
     const baseUrl = parsedUrl.origin;
     this.url = baseUrl + "/mi-tienda/" + this.uid;
+    console.log("this.url", this.url);
   }
 
   getUserLogged(): void {
