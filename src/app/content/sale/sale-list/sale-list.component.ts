@@ -3,6 +3,7 @@ import { Component, OnInit, PipeTransform } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { element } from 'protractor';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ProductService } from 'src/app/_api/product/product.service';
@@ -108,6 +109,7 @@ export class SaleListComponent implements OnInit {
       this.searchData(this.pipe);
       this.productSortable = this.PRODUCT;
       this.blockUIProductsInfo.stop();
+      this.verifyMinimunStock(this.PRODUCT);
     });
   }
 
@@ -281,7 +283,6 @@ export class SaleListComponent implements OnInit {
   }
 
   onPay() {
-
     if (this.productList.length == 0 || this.productList.length < 0) {
       this.notifyService.showWarning("Aviso", "¡Debe seleccionar un producto!");
     } else {
@@ -301,6 +302,22 @@ export class SaleListComponent implements OnInit {
       });
     }
 
+  }
+
+  verifyMinimunStock(products: ProductInterface[]) {
+    products.forEach(element => {
+      var mensaje;
+      //console.log(element.stock, " => ", element.minimun, " = ", element.name, "--- stock: ", element.stock, " min: ", element.minimun);
+      if (parseInt(element.stock) == parseInt(element.minimun)) {
+
+        mensaje = "Stock mínimo alcanzado en: " + element.name;
+        this.notifyService.showInfo("Stock mínimo", mensaje);
+      } else if (parseInt(element.stock) < parseInt(element.minimun)) {
+        mensaje = "El producto: " + element.name + ", está debajo del stock mínimo";
+        this.notifyService.showError("Stock crítico", mensaje);
+      }
+      mensaje = "";
+    });
   }
 
   emptyListProducts() {

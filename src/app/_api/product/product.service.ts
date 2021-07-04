@@ -62,6 +62,12 @@ export class ProductService {
     }));
   }
 
+  getProductById2(uidBoss: string, idProduct: string) {
+    return this.afs.firestore.collection('product').doc(`${uidBoss}`).collection('productInfo').where("id", "==", idProduct).get();
+
+    //return this.afs.collection('product').doc(`${uidBoss}`).collection<ProductInterface>('productInfo', ref => ref.where('id', '==', idProduct)).get();
+  }
+
   addProduct(producto: ProductInterface, idBoss: string): void {
     var tempId = this.afs.createId();
     producto.id = tempId;

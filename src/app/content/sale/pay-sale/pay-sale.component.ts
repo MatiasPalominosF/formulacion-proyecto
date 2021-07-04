@@ -7,6 +7,7 @@ import { ClientService } from 'src/app/_api/client/client.service';
 import { ProductService } from 'src/app/_api/product/product.service';
 import { SaleService } from 'src/app/_api/sale/sale.service';
 import { Client } from 'src/app/_models/client';
+import { ProductInterface } from 'src/app/_models/product';
 import { Product } from 'src/app/_models/product2';
 import { NotificationService } from 'src/app/_services/notificacion.service';
 
@@ -28,6 +29,8 @@ export class PaySaleComponent implements OnInit {
   public submittedSearch = false;
   public submitted = false;
   public showData = false;
+  private product2: ProductInterface;
+  private product: ProductInterface;
   private client: Client = {};
 
   constructor(
@@ -90,12 +93,19 @@ export class PaySaleComponent implements OnInit {
         }
       });
       this.updateStock(this.productService.productListSelected, this.currentUser.uid);
+      this.productService.productListSelected.forEach(product => {
+        this.updateStockIngredients(product, this.currentUser.uid);
+      })
+
       this.addSale(this.productService.productListSelected, this.currentUser.uid);
       this.saldoTotal = 0;
       this.passEntry.emit(true);
       this.activeModal.close(true);
     } else {
       this.updateStock(this.productService.productListSelected, this.currentUser.uid);
+      this.productService.productListSelected.forEach(product => {
+        this.updateStockIngredients(product, this.currentUser.uid);
+      })
       this.addSale(this.productService.productListSelected, this.currentUser.uid);
       this.saldoTotal = 0;
       this.passEntry.emit(true);
@@ -172,8 +182,30 @@ export class PaySaleComponent implements OnInit {
 
       var stockRestante = this.intToString((stockFint - stockR));
 
+
       this.productService.updateFieldOnProduct(element.id, uidBoss, stockRestante);
+
     });
+  }
+
+  updateStockIngredients(element: Product, uidBoss: string) {
+    if (element.ingredients.length > 0) {
+      var stockF1 = 0;
+      var stockRestante2 = '';
+      element.ingredients.forEach(product => {
+        this.productService.getProductById2(uidBoss, product.id).then(producto => {
+          producto.forEach(element => {
+            this.product = element.data();
+          });
+        }).finally(() => {
+
+          stockF1 = this.stringToInt(this.product.stock);
+          stockRestante2 = this.intToString((stockF1 - (product.quantity * element.quantity)));
+          console.log(stockRestante2, " ID: ", this.product.id, " Nombre: ", this.product.name);
+          this.productService.updateFieldOnProduct(this.product.id, uidBoss, stockRestante2);
+        });
+      });
+    }
   }
 
 
